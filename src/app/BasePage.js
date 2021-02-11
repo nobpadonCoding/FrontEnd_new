@@ -16,6 +16,8 @@ import WithDatePicker from "./modules/_FormikDemo/pages/WithDatePicker";
 import NewEmployee from './modules/_EmployeeDemo/pages/NewEmployee'
 import EmployeeList from './modules/_EmployeeDemo/pages/EmployeeList'
 
+import ProductList from './modules/POS/SmileShop/Product/pages/ProductList';
+
 export default function BasePage(props) {
   // useEffect(() => {
   //   console.log('Base page');
@@ -39,6 +41,9 @@ export default function BasePage(props) {
         <ContentRoute exact path="/employee/new" component={NewEmployee} />
         <ContentRoute exact path="/employee/edit/:id" component={NewEmployee} />
         <PrivateRoute exact path="/test" roles={[ROLES.admin,ROLES.developer]} component={Test} />
+
+        <ContentRoute exact path="/product/" component={ProductList} />
+        {/* <ContentRoute exact path="/productgroup/" component={ProductGroupList} /> */}
         {/* End Demo part สามารถ comment ได้ */}
 
         <Route
