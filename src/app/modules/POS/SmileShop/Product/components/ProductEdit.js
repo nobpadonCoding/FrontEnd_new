@@ -88,11 +88,11 @@ function ProductEdit(props) {
         productAxios.editProduct(objPayload, values.Id)
             .then((res) => {
                 if (res.data.isSuccess) {
-
+                    setSubmitting(false);
                     //reload
                     handleClose();
                     props.submit(true);
-                    swal.swalSuccess("Success", `Add ${res.data.data.id} success.`)
+                    swal.swalSuccess("Success", `Add ${res.data.data.name} success.`)
                     dispatch(productRedux.actions.resetProduct());
                     dispatch(productRedux.actions.resetOpenModal());
                     console.log("handleSave Success productToAdd: ", productReducer.productToAdd)

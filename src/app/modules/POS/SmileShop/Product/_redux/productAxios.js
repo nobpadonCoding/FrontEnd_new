@@ -5,9 +5,9 @@ import { encodeURLWithParams } from '../../../../Common/components/ParamsEncode'
 
 const SMILESHOP_URL = `${CONST.API_URL}/SmileShop`
 
-// export const deleteProduct = (id) => {
-//     return axios.delete(`${SMILESHOP_URL}/Product/${id}`);
-// };
+export const deleteProduct = (id) => {
+    return axios.delete(`${SMILESHOP_URL}/Product/${id}`);
+};
 
 export const addProduct = (payload) => {
     return axios.post(`${SMILESHOP_URL}/Products`, payload);

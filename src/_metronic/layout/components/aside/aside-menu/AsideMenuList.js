@@ -54,21 +54,32 @@ export function AsideMenuList({ layoutProps }) {
             "/google-material",
             true
           )}`}
-          aria-haspopup="true"
-          data-menu-toggle="hover"
+          // aria-haspopup="true"
+          // data-menu-toggle="hover"
         >
-          <NavLink className="menu-link menu-toggle" to="/google-material">
+          {/* <NavLink className="menu-link menu-toggle" to="/google-material">
             <span className="svg-icon menu-icon">
               <SVG src={toAbsoluteUrl("/media/svg/icons/Design/Cap-2.svg")} />
             </span>
             <span className="menu-text">Smile Shop</span>
             <i className="menu-arrow" />
-          </NavLink>
+          </NavLink> */}
+          <NavLink
+                    className="menu-link menu-toggle"
+                    to="/google-material/inputs"
+                  >
+                    <i className="menu-bullet menu-bullet-dot">
+                      <span />
+                    </i>
+                    <span className="menu-text">Smile Shop</span>
+                    <i className="menu-arrow" />
+                  </NavLink>
           <div className="menu-submenu ">
             <ul className="menu-subnav">
               <li
                 className={`menu-item ${getMenuItemActive("/product/", false)}`}
-                aria-haspopup="true"
+                // aria-haspopup="true"
+                // data-menu-toggle="hover"
               >
                 <NavLink className="menu-link" to="/product/">
                   <span className="svg-icon menu-icon">
@@ -106,16 +117,16 @@ export function AsideMenuList({ layoutProps }) {
           {/* Custom roles */}
           {/* {isShowMenu([ROLES.developer, ROLES.Manager]) && (
             <Hoc> */}
-              {/* begin::section */}
-              {/* <li className="menu-section ">
+          {/* begin::section */}
+          {/* <li className="menu-section ">
                 <h4 className="menu-text">Demo Custom roles</h4>
                 <i className="menu-icon flaticon-more-v2"></i>
               </li> */}
 
-              {/* end:: section */}
+          {/* end:: section */}
 
-              {/*begin::1 Level*/}
-              {/* <li
+          {/*begin::1 Level*/}
+          {/* <li
                 className={`menu-item ${getMenuItemActive("/test", false)}`}
                 aria-haspopup="true"
               >
@@ -128,8 +139,8 @@ export function AsideMenuList({ layoutProps }) {
                   <span className="menu-text">test</span>
                 </NavLink>
               </li> */}
-              {/*end::1 Level*/}
-            {/* </Hoc>
+          {/*end::1 Level*/}
+          {/* </Hoc>
           )} */}
 
           {/* Menu Example */}
@@ -168,9 +179,9 @@ export function AsideMenuList({ layoutProps }) {
                   </span>
                 </li> */}
 
-                {/* Inputs */}
-                {/*begin::2 Level*/}
-                {/* <li
+          {/* Inputs */}
+          {/*begin::2 Level*/}
+          {/* <li
                   className={`menu-item menu-item-submenu ${getMenuItemActive(
                     "/google-material/inputs",
                     true
@@ -191,8 +202,8 @@ export function AsideMenuList({ layoutProps }) {
                   <div className="menu-submenu ">
                     <i className="menu-arrow" />
                     <ul className="menu-subnav"> */}
-                      {/*begin::3 Level*/}
-                      {/* <li
+          {/*begin::3 Level*/}
+          {/* <li
                         className={`menu-item  ${getMenuItemActive(
                           "/google-material/inputs/autocomplete"
                         )}`}
@@ -208,10 +219,10 @@ export function AsideMenuList({ layoutProps }) {
                           <span className="menu-text">Level 3</span>
                         </NavLink>
                       </li> */}
-                      {/*end::3 Level*/}
+          {/*end::3 Level*/}
 
-                      {/*begin::3 Level*/}
-                      {/* <li
+          {/*begin::3 Level*/}
+          {/* <li
                         className={`menu-item  ${getMenuItemActive("/alert")}`}
                         aria-haspopup="true"
                       >
@@ -222,12 +233,12 @@ export function AsideMenuList({ layoutProps }) {
                           <span className="menu-text">alert</span>
                         </NavLink>
                       </li> */}
-                      {/*end::3 Level*/}
-                    {/* </ul>
+          {/*end::3 Level*/}
+          {/* </ul>
                   </div>
                 </li> */}
-                {/*end::2 Level*/}
-              {/* </ul>
+          {/*end::2 Level*/}
+          {/* </ul>
             </div>
           </li> */}
           {/*end::1 Level*/}
@@ -344,7 +355,7 @@ export function AsideMenuList({ layoutProps }) {
           {/*End::1 Employee List*/}
         </>
         {/* End Demo สามารถ comment ทิ้งได้ */}
-        
+
       </ul>
       {/* end::Menu Nav */}
     </Hoc>

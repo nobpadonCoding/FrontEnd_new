@@ -1,18 +1,41 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react'
 import * as productAxios from "../../Product/_redux/productAxios";
 import * as productRedux from "../../Product/_redux/productRedux";
 import { useSelector, useDispatch } from "react-redux";
-import { Button, Dialog, DialogContent, DialogTitle, DialogActions, DialogContentText, Grid, Card, CardContent } from "@material-ui/core";
+import { Button, Dialog, DialogContent, DialogTitle, DialogActions, DialogContentText, InputLabel, MenuItem } from "@material-ui/core";
 import SaveIcon from '@material-ui/icons/Save';
 import { Formik, Form, Field } from "formik";
+import { Select } from "formik-material-ui";
 import { TextField } from "formik-material-ui";
 import * as swal from "../../../../Common/components/SweetAlert";
+import * as CONST from '../../../../../../Constants';
+import Axios from "axios";
 
 function ProductAdd(props) {
 	debugger
+	const PRODUCTGROUP_API_URL = `${CONST.API_URL}/SmileShop/ProductGroups`
 	const dispatch = useDispatch();
 	const productReducer = useSelector(({ product }) => product);
 	const [open, setOpen] = React.useState(false);
+
+	const [productGroup, setProductGroup] = React.useState([])
+
+	React.useEffect(() => {
+		Axios.get(PRODUCTGROUP_API_URL)
+			.then((res) => {
+				//bind data
+				if (res.data.isSuccess) {
+					setProductGroup(res.data.data)
+				} else {
+					//internal error
+					swal.swalError("Error", res.data.message);
+				}
+			}).catch((err) => {
+				//physical error
+				swal.swalError("Error", err.message);
+			})
+	}, [])
 
 	React.useEffect(() => {
 		debugger
@@ -27,7 +50,41 @@ function ProductAdd(props) {
 		setOpen(true);
 	};
 
-	const handleClose = () => {
+	const handleSave = ({ resetForm, setSubmitting }, values) => {
+		setSubmitting(false);
+		let objPayload = {
+			...productReducer.addProduct,
+			//Id: values.Id,
+			ProductName: values.ProductName,
+			price: parseFloat(values.Price),
+			StockCount: parseInt(values.StockCount),
+			ProductGroupId: parseInt(values.ProductGroupId)
+		}
+		console.log(objPayload);
+		dispatch(productRedux.actions.updateProduct(objPayload));
+		productAxios.addProduct(objPayload)
+			.then((res) => {
+				if (res.data.isSuccess) {
+
+					handleClose({ resetForm });
+					swal.swalSuccess("Success", `Add ${res.data.data.name} success.`)
+					props.submit(true);
+				} else {
+					handleClose({ resetForm });
+					swal.swalError("Error", res.data.message);
+				}
+			})
+			.catch((err) => {
+				//network error
+				handleClose({ resetForm });
+				swal.swalError("Error", err.message);
+
+			});
+	}
+
+	const handleClose = ({ resetForm }) => {
+
+		resetForm();
 		setOpen(false);
 	};
 	return (
@@ -50,44 +107,13 @@ function ProductAdd(props) {
 				}}
 				//Form Submission
 				// ต้องผ่าน Validate ก่อน ถึงจะถูกเรียก
-				onSubmit={(values, { setSubmitting }) => {
-					let objPayload = {
-						...productReducer.addProduct,
-						//Id: values.Id,
-						ProductName: values.ProductName,
-						price: parseFloat(values.Price),
-						StockCount: parseInt(values.StockCount),
-						ProductGroupId: parseInt(values.ProductGroupId)
-					}
-					console.log(objPayload);
-					dispatch(productRedux.actions.updateProduct(objPayload));
-					productAxios.addProduct(objPayload)
-						.then((res) => {
-							if (res.data.isSuccess) {
-								//reload
-								// loadData();
-								handleClose();
-								swal.swalSuccess("Success", `Add ${res.data.data.Id} success.`)
-								props.submit(true);
-								//     handleClose();
-								// });
-							} else {
-								handleClose();
-								swal.swalError("Error", res.data.message);
-							}
-						})
-						.catch((err) => {
-							//network error
-							handleClose();
-							swal.swalError("Error", err.message);
-
-						});
-
+				onSubmit={(values, { setSubmitting, resetForm }) => {
+					handleSave({ setSubmitting, resetForm }, values);
 				}}
 			>
-				{({ submitForm, isSubmitting, values, errors, setFieldValue }) => (
+				{({ submitForm, isSubmitting, values, errors, setFieldValue, resetForm }) => (
 					<Form>
-						<Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+						<Dialog open={open} aria-labelledby="form-dialog-title">
 							<DialogTitle id="form-dialog-title">Add Product</DialogTitle>
 							<DialogContent>
 								<DialogContentText>
@@ -114,18 +140,37 @@ function ProductAdd(props) {
 										type="text"
 										fullWidth
 									/>
-									<Field
+									{/* <Field
 										margin="dense"
 										component={TextField}
 										name="ProductGroupId"
 										label="Group Id"
 										type="text"
 										fullWidth
-									/>
+									/> */}
+									<InputLabel htmlFor="ProductGroup">ProductGroup</InputLabel>
+									<Field
+										fullWidth
+										component={Select}
+										name="ProductGroupId"
+										value={values.ProductGroupId}
+										onChange={(event) => {
+											setFieldValue("ProductGroupId", event.target.value);
+										}}
+									>
+										<MenuItem disabled value={0}>
+											กรุณาเลือก
+        								</MenuItem>
+										{productGroup.map((item) => (
+											<MenuItem key={`ProductGroupId_${item.id}`} value={item.id}>
+												{item.name}
+											</MenuItem>
+										))}
+									</Field>
 								</DialogContentText>
 							</DialogContent>
 							<DialogActions>
-								<Button variant="contained" onClick={handleClose} color="secondary">
+								<Button variant="contained" onClick={() => { handleClose({ resetForm }) }} color="secondary">
 									Cancel
                                 </Button>
 								<Button variant="contained"

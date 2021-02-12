@@ -4,12 +4,15 @@ import MUIDataTable from "mui-datatables";
 import * as productAxios from "../../Product/_redux/productAxios";
 import * as productRedux from '../../Product/_redux/productRedux';
 import EditButton from "../../../../Common/components/Buttons/EditButton";
+import DeleteButton from "../../../../Common/components/Buttons/DeleteButton";
 import ProductEdit from "../../Product/components/ProductEdit";
+import ProductSearch from "../../Product/components/ProductSearch";
 import ProductAdd from "../../Product/components/ProductAdd";
 import { Grid, Chip, Typography, CircularProgress, Card, CardContent } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
-
+import * as swal from "../../../../Common/components/SweetAlert";
 import AddButton from "../../../../Common/components/Buttons/AddButton";
+import { name } from 'dayjs/locale/th';
 
 var flatten = require("flat");
 require("dayjs/locale/th");
@@ -60,6 +63,14 @@ function ProductTable(props) {
         });
     }
 
+    const handleSearchProduct = (values) => {
+        setDataFilter({
+            ...dataFilter,
+            page: 1,
+            searchValues: values
+        });
+    }
+
     const handleOpen = (id) => {
         debugger
         if (id !== 0) {
@@ -80,6 +91,45 @@ function ProductTable(props) {
             console.log('setOpenModal add : ', productReducer.openModal);
         }
 
+    };
+
+    const handleDelete = (id) => {
+
+        productAxios
+            .getProduct(id)
+            .then((res) => {
+                if (res.data.isSuccess) {
+                    swal.swalConfirm("Confirm delete?", `Confirm delete ${res.data.data.name}?`).then((res) => {
+                        if (res.isConfirmed) {
+                            //delete
+                            productAxios
+                                .deleteProduct(id)
+                                .then((res) => {
+                                    if (res.data.isSuccess) {
+                                        //reload
+                                        swal.swalSuccess("Success", `Delete ${res.data.data.name} success.`).then(() => {
+                                            loadData();
+                                        });
+                                    }
+                                })
+                                .catch((err) => {
+                                    //network error
+                                    swal.swalError("Error", err.message);
+                                });
+                        }
+                    });
+
+                } else {
+                    loadData();
+                    swal.swalError("Error", res.data.message);
+                }
+            })
+            .catch((err) => {
+                swal.swalError("Error", err.message);
+            });
+        // .finally(() => {
+        //     handleOpen(true);
+        // });
     };
 
     const loadData = () => {
@@ -123,6 +173,7 @@ function ProductTable(props) {
         search: false,
         selectableRows: "none",
         serverSide: true,
+        // resizableColumns: true,
         count: totalRecords,
         page: dataFilter.page - 1,
         rowsPerPage: dataFilter.recordsPerPage,
@@ -239,23 +290,32 @@ function ProductTable(props) {
                 filter: false,
                 sort: false,
                 empty: true,
+                hight: 2,
                 customBodyRenderLite: (dataIndex, rowIndex) => {
                     return (
                         <Grid
-                            style={{ padding: 0, margin: 0 }}
                             container
                             direction="row"
-                            justify="flex-end"
+                            justify="center"
                             alignItems="center"
                         >
                             <EditButton
-                                style={{ marginRight: 5 }}
+                                style={{ marginRight: 20 }}
                                 onClick={() => {
                                     handleOpen(data[dataIndex].id);
                                 }}
                             >
                                 Edit
-                            </EditButton>
+                          </EditButton>
+                            <DeleteButton
+                                style={{ marginRight: 20 }}
+                                disabled={data[dataIndex].status === true ? false : true}
+                                onClick={() => {
+                                    handleDelete(data[dataIndex].id);
+                                }}
+                            >
+                                Delete
+                          </DeleteButton>
                         </Grid>
                     );
                 },
@@ -274,9 +334,10 @@ function ProductTable(props) {
                         <Grid
                             container
                             direction="row"
-                            justify="flex-end"
-                            alignItems="flex-end"
+                            justify="flex-start"
+                            alignItems="center"
                         >
+                            <ProductSearch submit={handleSearchProduct.bind(this)}></ProductSearch>
                             <Grid item xs={12} lg={2}>
                                 <AddButton
                                     fullWidth
