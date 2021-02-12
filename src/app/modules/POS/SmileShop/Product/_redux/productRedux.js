@@ -11,6 +11,7 @@ export const actionTypes = {
   RESET_PRODUCT: '[RESET_PRODUCT] Action',
   SET_OPENMODAL: "[SET_OPENMODAL] Action",
   RESET_OPENMODAL: "[RESET_OPENMODAL] Action",
+  SET_OPENMODAL_ADD: "[SET_OPENMODAL_ADD] Action"
 };
 
 // state ค่าที่ถูกเก็บไว้
@@ -23,10 +24,19 @@ const initialState = {
     productGroupId: 0,
     productStatus: true
   },
+
   openModal: {
     productId: 0,
-    openModal: false,
+    modalOpen: false
   },
+
+  paginated: {
+    page: 1,
+    recordsPerPage: 10,
+    orderingField: "",
+    ascendingOrder: true,
+  },
+
 
 
 };
@@ -43,16 +53,15 @@ export const reducer = (state = initialState, action) => {
     }
 
     case actionTypes.SET_OPENMODAL: {
-      return { ...state, openmodal: action.payload };
+      return { ...state, openModal: action.payload };
     }
 
     case actionTypes.RESET_OPENMODAL: {
       return {
         ...state,
-        openmodal: initialState.openmodal,
+        openModal: initialState.openModal,
       };
     }
-
 
     default:
       return state;
@@ -62,16 +71,8 @@ export const reducer = (state = initialState, action) => {
 //action เอาไว้เรียกจากข้างนอก เพื่อเปลี่ยน state
 export const actions = {
 
-  resetOpenModal: () => ({
-    type: actionTypes.RESET_OPENMODAL,
-  }),
-
-
-  setOpenModal: (payload) => ({
-    type: actionTypes.SET_OPENMODAL,
-    payload,
-  }),
-
+  resetOpenModal: () => ({ type: actionTypes.RESET_OPENMODAL, }),
+  setOpenModal: (payload) => ({ type: actionTypes.SET_OPENMODAL, payload, }),
   updateProduct: (payload) => ({ type: actionTypes.UPDATE_PRODUCT, payload }),
-  editProduct: () => ({ type: actionTypes.RESET_PRODUCT }),
+  resetProduct: () => ({ type: actionTypes.RESET_PRODUCT }),
 };
