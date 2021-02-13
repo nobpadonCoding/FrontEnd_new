@@ -83,8 +83,8 @@ function ProductAdd(props) {
 	}
 
 	const handleClose = ({ resetForm }) => {
-
 		resetForm();
+		dispatch(productRedux.actions.resetOpenModal());
 		setOpen(false);
 	};
 	return (
@@ -102,6 +102,19 @@ function ProductAdd(props) {
 				//Validation section
 				validate={(values) => {
 					const errors = {};
+
+					if (!values.ProductName) {
+                        errors.ProductName = "Required";
+                    }
+					if (!values.Price) {
+                        errors.Price = "Required";
+                    }
+					if (!values.StockCount) {
+                        errors.StockCount = "Required";
+                    }
+					if (!values.ProductGroupId) {
+                        errors.ProductGroupId = "Required";
+                    }
 
 					return errors;
 				}}
@@ -123,6 +136,7 @@ function ProductAdd(props) {
 										type="text"
 										label="ProductName"
 										name="ProductName"
+										errors={errors}
 									/>
 									<Field
 										margin="dense"
@@ -130,6 +144,7 @@ function ProductAdd(props) {
 										name="Price"
 										label="Price"
 										type="text"
+										errors={errors}
 										fullWidth
 									/>
 									<Field
@@ -138,19 +153,13 @@ function ProductAdd(props) {
 										name="StockCount"
 										label="stock Count"
 										type="text"
+										errors={errors}
 										fullWidth
 									/>
-									{/* <Field
-										margin="dense"
-										component={TextField}
-										name="ProductGroupId"
-										label="Group Id"
-										type="text"
-										fullWidth
-									/> */}
 									<InputLabel htmlFor="ProductGroup">ProductGroup</InputLabel>
 									<Field
 										fullWidth
+										errors={errors}
 										component={Select}
 										name="ProductGroupId"
 										value={values.ProductGroupId}
@@ -158,7 +167,7 @@ function ProductAdd(props) {
 											setFieldValue("ProductGroupId", event.target.value);
 										}}
 									>
-										<MenuItem disabled value={0}>
+										<MenuItem disabled value={0} selected>
 											กรุณาเลือก
         								</MenuItem>
 										{productGroup.map((item) => (
@@ -170,7 +179,10 @@ function ProductAdd(props) {
 								</DialogContentText>
 							</DialogContent>
 							<DialogActions>
-								<Button variant="contained" onClick={() => { handleClose({ resetForm }) }} color="secondary">
+								<Button variant="contained" onClick={() => {
+									handleClose({ resetForm })
+								}}
+								color="secondary">
 									Cancel
                                 </Button>
 								<Button variant="contained"

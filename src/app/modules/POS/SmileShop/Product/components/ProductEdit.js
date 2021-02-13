@@ -7,13 +7,33 @@ import { Button, Dialog, DialogContent, DialogTitle, DialogActions, FormControl,
 import { Formik, Form, Field } from "formik";
 import { TextField } from "formik-material-ui";
 import * as swal from "../../../../Common/components/SweetAlert";
+import * as CONST from '../../../../../../Constants';
+import Axios from "axios";
 
 function ProductEdit(props) {
     debugger
 
+    const PRODUCTGROUP_API_URL = `${CONST.API_URL}/SmileShop/ProductGroups`
     const dispatch = useDispatch()
     const productReducer = useSelector(({ product }) => product);
     const [open, setOpen] = React.useState(false);
+    const [productGroup, setProductGroup] = React.useState([])
+
+    React.useEffect(() => {
+        Axios.get(PRODUCTGROUP_API_URL)
+            .then((res) => {
+                //bind data
+                if (res.data.isSuccess) {
+                    setProductGroup(res.data.data)
+                } else {
+                    //internal error
+                    swal.swalError("Error", res.data.message);
+                }
+            }).catch((err) => {
+                //physical error
+                swal.swalError("Error", err.message);
+            })
+    }, [])
 
     // React.useEffect(() => {
     //     if (props.productid !== 0) {
@@ -150,13 +170,12 @@ function ProductEdit(props) {
                                 >
                                     <Grid item xs={12} lg={12}>
                                         <Field
+                                        required
                                             fullWidth
                                             component={TextField}
                                             type="text"
                                             label="ProductName"
                                             name="ProductName"
-                                        // values={values.ProductName}
-                                        // onChange={(e) => setFieldValue('ProductName', e)}
                                         />
                                     </Grid>
                                     <Field
@@ -168,20 +187,33 @@ function ProductEdit(props) {
                                         fullWidth
                                     />
                                     <Grid item xs={12} lg={12}>
+                                        <InputLabel htmlFor="ProductGroup">ProductGroup</InputLabel>
                                         <Field
-                                            margin="dense"
-                                            component={TextField}
-                                            name="ProductGroupId"
-                                            label="Group Id"
-                                            type="text"
                                             fullWidth
-                                        />
+                                            required
+                                            component={Select}
+                                            name="ProductGroupId"
+                                            value={values.ProductGroupId}
+                                            onChange={(event) => {
+                                                setFieldValue("ProductGroupId", event.target.value);
+                                            }}
+                                        >
+                                            <MenuItem disabled value={0} selected>
+                                                กรุณาเลือก
+        								</MenuItem>
+                                            {productGroup.map((item) => (
+                                                <MenuItem key={`ProductGroupId_${item.id}`} value={item.id}>
+                                                    {item.name}
+                                                </MenuItem>
+                                            ))}
+                                        </Field>
                                     </Grid>
                                     <Grid item xs={12} lg={12}>
                                         <FormControl fullWidth>
                                             <InputLabel>Status</InputLabel>
                                             <Field
                                                 component={Select}
+                                                required
                                                 name="productStatus"
                                                 value={values.productStatus}
                                                 onChange={(event) => {

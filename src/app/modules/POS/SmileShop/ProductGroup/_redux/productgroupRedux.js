@@ -7,26 +7,22 @@ dayjs.locale("th");
 // action type บอกว่า Redux ตัวนี้ สามารถทำอะไรได้บ้าง
 export const actionTypes = {
   // ADD_PLAYER: '[Add player] Action',
-  UPDATE_PRODUCT: '[UPDATE_PRODUCT] Action',
-  RESET_PRODUCT: '[RESET_PRODUCT] Action',
+  UPDATE_PRODUCT_GROUP: '[UPDATE_PRODUCT_GROUP] Action',
+  RESET_PRODUCT_GROUP: '[RESET_PRODUCT_GROUP] Action',
   SET_OPENMODAL: "[SET_OPENMODAL] Action",
   RESET_OPENMODAL: "[RESET_OPENMODAL] Action",
-  SET_OPENMODAL_ADD: "[SET_OPENMODAL_ADD] Action"
 };
 
 // state ค่าที่ถูกเก็บไว้
 const initialState = {
-  productToAdd: {
+  productGroupToAdd: {
     //Id:0,
-    productName: "",
-    productPrice: 0,
-    stockCount: 0,
-    productGroupId: 0,
-    productStatus: true
+    productGroupName: "",
+    productGroupStatus: true
   },
 
-  openModal: {
-    productId: 0,
+  openModalProductGroup: {
+    productGroupId: 0,
     modalOpen: false
   },
 
@@ -44,22 +40,22 @@ const initialState = {
 // reducer แต่ละ Action จะไป update State อย่างไร
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.UPDATE_PRODUCT: {
-      return { ...state, productToAdd: action.payload };
+    case actionTypes.UPDATE_PRODUCT_GROUP: {
+      return { ...state, productGroupToAdd: action.payload };
     }
 
-    case actionTypes.RESET_PRODUCT: {
-      return { ...state, productToAdd: initialState.productToAdd, currentPage: 0 };
+    case actionTypes.RESET_PRODUCT_GROUP: {
+      return { ...state, productGroupToAdd: initialState.productGroupToAdd, currentPage: 0 };
     }
 
     case actionTypes.SET_OPENMODAL: {
-      return { ...state, openModal: action.payload };
+      return { ...state, openModalProductGroup: action.payload };
     }
 
     case actionTypes.RESET_OPENMODAL: {
       return {
         ...state,
-        openModal: initialState.openModal,
+        openModalProductGroup: initialState.openModalProductGroup,
       };
     }
 
@@ -71,8 +67,8 @@ export const reducer = (state = initialState, action) => {
 //action เอาไว้เรียกจากข้างนอก เพื่อเปลี่ยน state
 export const actions = {
 
-  resetOpenModal: () => ({ type: actionTypes.RESET_OPENMODAL }),
-  setOpenModal: (payload) => ({ type: actionTypes.SET_OPENMODAL, payload, }),
-  updateProduct: (payload) => ({ type: actionTypes.UPDATE_PRODUCT, payload }),
-  resetProduct: () => ({ type: actionTypes.RESET_PRODUCT }),
+  resetOpenModalProductGroup: () => ({ type: actionTypes.RESET_OPENMODAL, }),
+  setOpenModalProductGroup: (payload) => ({ type: actionTypes.SET_OPENMODAL, payload, }),
+  updateProductGroup: (payload) => ({ type: actionTypes.UPDATE_PRODUCT_GROUP, payload }),
+  resetProductGroup: () => ({ type: actionTypes.RESET_PRODUCT_GROUP }),
 };

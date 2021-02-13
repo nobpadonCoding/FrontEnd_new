@@ -17,6 +17,8 @@ import NewEmployee from './modules/_EmployeeDemo/pages/NewEmployee'
 import EmployeeList from './modules/_EmployeeDemo/pages/EmployeeList'
 
 import ProductList from './modules/POS/SmileShop/Product/pages/ProductList';
+import ProductGroupList from './modules/POS/SmileShop/ProductGroup/pages/ProductGroupList';
+import EditStock from './modules/POS/SmileShop/Product/pages/editstock';
 
 export default function BasePage(props) {
   // useEffect(() => {
@@ -43,7 +45,8 @@ export default function BasePage(props) {
         <PrivateRoute exact path="/test" roles={[ROLES.admin,ROLES.developer]} component={Test} />
 
         <ContentRoute exact path="/product/" component={ProductList} />
-        {/* <ContentRoute exact path="/productgroup/" component={ProductGroupList} /> */}
+        <ContentRoute exact path="/productgroup/" component={ProductGroupList} />
+        <ContentRoute exact path="/editstock/" component={EditStock} />
         {/* End Demo part สามารถ comment ได้ */}
 
         <Route

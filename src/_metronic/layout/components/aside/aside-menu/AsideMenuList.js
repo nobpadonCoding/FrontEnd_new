@@ -93,6 +93,12 @@ export function AsideMenuList({ layoutProps }) {
                   </span>
                   <span className="menu-text">Product Group</span>
                 </NavLink>
+                <NavLink className="menu-link" to="/editstock/">
+                  <span className="svg-icon menu-icon">
+                    <FreeBreakfastIcon></FreeBreakfastIcon>
+                  </span>
+                  <span className="menu-text">Edit Stock</span>
+                </NavLink>
               </li>
               {/*end::2 Level*/}
             </ul>

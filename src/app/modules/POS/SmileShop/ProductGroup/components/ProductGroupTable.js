@@ -1,72 +1,55 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react'
+import React from 'react';
 import MUIDataTable from "mui-datatables";
-import * as productAxios from "../../Product/_redux/productAxios";
-import * as productRedux from '../../Product/_redux/productRedux';
+import * as productgrouptAxios from "../../ProductGroup/_redux/productgroupAxios";
+import * as productgroupRedux from "../../ProductGroup/_redux/productgroupRedux";
+import { Grid, Chip, Typography, CircularProgress, Card, CardContent } from "@material-ui/core";
+import AddButton from "../../../../Common/components/Buttons/AddButton";
 import EditButton from "../../../../Common/components/Buttons/EditButton";
 import DeleteButton from "../../../../Common/components/Buttons/DeleteButton";
-import ProductEdit from "../../Product/components/ProductEdit";
-import ProductSearch from "../../Product/components/ProductSearch";
-import ProductAdd from "../../Product/components/ProductAdd";
-import { Grid, Chip, Typography, CircularProgress, Card, CardContent } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
+import ProductGroupEdit from "../../ProductGroup/components/ProductGroupEdit";
+import ProductGroupAdd from "../../ProductGroup/components/ProductGroupAdd";
 import * as swal from "../../../../Common/components/SweetAlert";
-import AddButton from "../../../../Common/components/Buttons/AddButton";
+
 
 var flatten = require("flat");
 require("dayjs/locale/th");
 var dayjs = require("dayjs");
 dayjs.locale("th");
 
-function ProductTable(props) {
-
+function ProductGroupTable() {
     const dispatch = useDispatch()
-    const productReducer = useSelector(({ product }) => product);
+    const productGroupReducer = useSelector(({ productGroup }) => productGroup);
     const [dataFilter, setDataFilter] = React.useState({
         page: 1,
         recordsPerPage: 10,
         orderingField: "",
         ascendingOrder: true,
         searchValues: {
-            productName: "",
             productGroupName: ""
         }
     });
 
     const [isLoading, setIsLoading] = React.useState(true);
-    const [totalRecords, setTotalRecords] = React.useState(0);
     const [data, setData] = React.useState([]);
-    // const [productId, setProductId] = React.useState({
-    //     add: 0,
-    //     edit: 0,
-    //     delete: 0,
-    // });
-
+    const [totalRecords, setTotalRecords] = React.useState(0);
 
     React.useEffect(() => {
         //load data from api
         loadData();
     }, [dataFilter]);
 
-    const handleEditProduct = () => {
+    const handleEditProductGroup = () => {
         setDataFilter({
             ...dataFilter,
             page: 1
         });
     }
 
-    const handleAddProduct = () => {
+    const handleAddProductGroup = () => {
         setDataFilter({
             ...dataFilter,
             page: 1
-        });
-    }
-
-    const handleSearchProduct = (values) => {
-        setDataFilter({
-            ...dataFilter,
-            page: 1,
-            searchValues: values
         });
     }
 
@@ -74,43 +57,43 @@ function ProductTable(props) {
         debugger
         if (id !== 0) {
             let objPayloadEdit = {
-                ...productReducer.openModal,
-                productId: id,
+                ...productGroupReducer.openModalProductGroup,
+                productGroupId: id,
                 modalOpen: true,
             };
-            dispatch(productRedux.actions.setOpenModal(objPayloadEdit));
-            console.log('setOpenModal edit : ', productReducer.openModal);
+            dispatch(productgroupRedux.actions.setOpenModalProductGroup(objPayloadEdit));
+            console.log('setOpenModal edit : ', productGroupReducer.openModalProductGroup);
         } else {
             let objPayloadAdd = {
-                ...productReducer.openModal,
-                productId: 0,
+                ...productGroupReducer.openModalProductGroup,
+                productGroupId: 0,
                 modalOpen: true,
             };
-            dispatch(productRedux.actions.setOpenModal(objPayloadAdd));
-            console.log('setOpenModal add : ', productReducer.openModal);
+            dispatch(productgroupRedux.actions.setOpenModalProductGroup(objPayloadAdd));
+            console.log('setOpenModal add : ', productGroupReducer.openModalProductGroup);
         }
 
     };
 
     const handleDelete = (id) => {
 
-        productAxios
-            .getProduct(id)
+        productgrouptAxios
+            .getProductGroup(id)
             .then((res) => {
                 if (res.data.isSuccess) {
                     swal.swalConfirm("Confirm delete?", `Confirm delete ${res.data.data.name}?`).then((res) => {
                         if (res.isConfirmed) {
                             //delete
-                            productAxios
-                                .deleteProduct(id)
+                            productgrouptAxios
+                                .deleteProductGroup(id)
                                 .then((res) => {
                                     if (res.data.isSuccess) {
                                         //reload
                                         swal.swalSuccess("Success", `Delete ${res.data.data.name} success.`).then(() => {
                                             loadData();
                                         });
-                                    }else{
-                                        swal.swalError("Error",  res.data.message);
+                                    } else {
+                                        swal.swalError("Error", res.data.message);
                                     }
                                 })
                                 .catch((err) => {
@@ -135,13 +118,13 @@ function ProductTable(props) {
 
     const loadData = () => {
         setIsLoading(true);
-        productAxios
-            .getProductsFilter(
+        productgrouptAxios
+            .getProductsGroupFilter(
                 dataFilter.orderingField,
                 dataFilter.ascendingOrder,
                 dataFilter.page,
                 dataFilter.recordsPerPage,
-                dataFilter.searchValues.productName,
+                dataFilter.searchValues.productGroupName,
             )
             .then((res) => {
                 if (res.data.isSuccess) {
@@ -210,19 +193,13 @@ function ProductTable(props) {
         },
         {
             name: "name",
-            label: "name",
+            label: "Name",
             option: {
                 sort: false,
             },
         },
         {
-            name: "productGroup.name",
-            label: "ProductGroup"
-        },
-        "price",
-        "stockCount",
-        {
-            name: "createdBy",
+            name: "CreatedBy",
             options: {
                 customBodyRenderLite: (dataIndex, rowIndex) => {
                     return (
@@ -235,7 +212,7 @@ function ProductTable(props) {
         },
 
         {
-            name: "createdDate",
+            name: "CreatedDate",
             options: {
                 customBodyRenderLite: (dataIndex, rowIndex) => {
                     return (
@@ -323,7 +300,6 @@ function ProductTable(props) {
             },
         },
     ];
-
     return (
         <div>
             <Grid container
@@ -338,7 +314,7 @@ function ProductTable(props) {
                             justify="flex-start"
                             alignItems="center"
                         >
-                            <ProductSearch submit={handleSearchProduct.bind(this)}></ProductSearch>
+                            {/* <ProductSearch submit={handleSearchProduct.bind(this)}></ProductSearch> */}
                             <Grid item xs={12} lg={2}>
                                 <AddButton
                                     fullWidth
@@ -348,17 +324,16 @@ function ProductTable(props) {
                                         handleOpen(0);
                                     }}
                                 >
-                                    Add Product
+                                    Add Product Group
                     		</AddButton>
                             </Grid>
                         </Grid>
                     </CardContent>
                 </Card>
-
                 <MUIDataTable
                     title={
                         <Typography variant="h6">
-                            Product
+                            Product Group
                                 {isLoading && (
                                 <CircularProgress
                                     size={24}
@@ -372,10 +347,10 @@ function ProductTable(props) {
                     options={options}
                 />
             </Grid>
-            <ProductAdd submit={handleAddProduct.bind(this)}></ProductAdd>
-            <ProductEdit submit={handleEditProduct.bind(this)}></ProductEdit>
+            <ProductGroupEdit submit={handleEditProductGroup.bind(this)}></ProductGroupEdit>
+            <ProductGroupAdd submit={handleAddProductGroup.bind(this)}></ProductGroupAdd>
         </div>
     )
 }
 
-export default ProductTable
+export default ProductGroupTable
