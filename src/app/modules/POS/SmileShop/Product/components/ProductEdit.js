@@ -43,7 +43,7 @@ function ProductEdit(props) {
 
     React.useEffect(() => {
         debugger
-        console.log('useEffect openModal: ', productReducer.openModal);
+        // console.log('useEffect openModal: ', productReducer.openModal);
         if (productReducer.openModal.modalOpen === true && productReducer.openModal.productId !== 0) {
             handleGet();
         }
@@ -54,7 +54,7 @@ function ProductEdit(props) {
             .getProduct(productReducer.openModal.productId)
             .then((res) => {
                 if (res.data.isSuccess) {
-                    console.log(res.data);
+                    // console.log(res.data);
                     let apiData = res.data.data;
                     let objPayload = {
                         ...productReducer.productToAdd,
@@ -82,15 +82,15 @@ function ProductEdit(props) {
 
     const handleOpen = () => {
         setOpen(true);
-        console.log("handleOpen productToAdd: ", productReducer.productToAdd)
+        // console.log("handleOpen productToAdd: ", productReducer.productToAdd)
     };
 
     const handleClose = () => {
         setOpen(false);
         dispatch(productRedux.actions.resetProduct());
         dispatch(productRedux.actions.resetOpenModal());
-        console.log("handleClose productToAdd: ", productReducer.productToAdd)
-        console.log("handleClose openModal: ", productReducer.openModal)
+        // console.log("handleClose productToAdd: ", productReducer.productToAdd)
+        // console.log("handleClose openModal: ", productReducer.openModal)
     };
     const handleSave = ({ setSubmitting }, values) => {
 
@@ -115,8 +115,8 @@ function ProductEdit(props) {
                     swal.swalSuccess("Success", `Add ${res.data.data.name} success.`)
                     dispatch(productRedux.actions.resetProduct());
                     dispatch(productRedux.actions.resetOpenModal());
-                    console.log("handleSave Success productToAdd: ", productReducer.productToAdd)
-                    console.log("handleSave Success openModal: ", productReducer.openModal)
+                    // console.log("handleSave Success productToAdd: ", productReducer.productToAdd)
+                    // console.log("handleSave Success openModal: ", productReducer.openModal)
                 } else {
                     handleClose();
                     swal.swalError("Error", res.data.message);

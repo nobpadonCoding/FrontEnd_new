@@ -22,7 +22,7 @@ function ProductEdit(props) {
 
     React.useEffect(() => {
         debugger
-        console.log('useEffect openModal: ', productGroupReducer.openModalProductGroup);
+        // console.log('useEffect openModal: ', productGroupReducer.openModalProductGroup);
         if (productGroupReducer.openModalProductGroup.modalOpen === true && productGroupReducer.openModalProductGroup.productGroupId !== 0) {
             handleGet();
         }
@@ -33,7 +33,7 @@ function ProductEdit(props) {
             .getProductGroup(productGroupReducer.openModalProductGroup.productGroupId)
             .then((res) => {
                 if (res.data.isSuccess) {
-                    console.log(res.data);
+                    // console.log(res.data);
                     let apiData = res.data.data;
                     let objPayload = {
                         ...productGroupReducer.productGroupToAdd,
@@ -58,15 +58,15 @@ function ProductEdit(props) {
 
     const handleOpen = () => {
         setOpen(true);
-        console.log("handleOpen productgroupToAdd: ", productGroupReducer.productGroupToAdd)
+        // console.log("handleOpen productgroupToAdd: ", productGroupReducer.productGroupToAdd)
     };
 
     const handleClose = () => {
         setOpen(false);
         dispatch(productgroupRedux.actions.resetProductGroup());
         dispatch(productgroupRedux.actions.resetOpenModalProductGroup());
-        console.log("handleClose productgroup ToAdd: ", productGroupReducer.productGroupToAdd)
-        console.log("handleClose openModal Edit: ", productGroupReducer.openModalProductGroup)
+        // console.log("handleClose productgroup ToAdd: ", productGroupReducer.productGroupToAdd)
+        // console.log("handleClose openModal Edit: ", productGroupReducer.openModalProductGroup)
     };
     const handleSave = ({ setSubmitting }, values) => {
 
@@ -88,8 +88,8 @@ function ProductEdit(props) {
                     swal.swalSuccess("Success", `Edit ${res.data.data.name} success.`)
                     dispatch(productgroupRedux.actions.resetProductGroup());
                     dispatch(productgroupRedux.actions.resetOpenModalProductGroup());
-                    console.log("handleSave Success productToAdd: ", productGroupReducer.productGroupToAdd)
-                    console.log("handleSave Success openModal: ", productGroupReducer.openModal)
+                    // console.log("handleSave Success productToAdd: ", productGroupReducer.productGroupToAdd)
+                    // console.log("handleSave Success openModal: ", productGroupReducer.openModal)
                 } else {
                     handleClose();
                     swal.swalError("Error", res.data.message);

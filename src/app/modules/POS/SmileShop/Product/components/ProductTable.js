@@ -79,7 +79,7 @@ function ProductTable(props) {
                 modalOpen: true,
             };
             dispatch(productRedux.actions.setOpenModal(objPayloadEdit));
-            console.log('setOpenModal edit : ', productReducer.openModal);
+            // console.log('setOpenModal edit : ', productReducer.openModal);
         } else {
             let objPayloadAdd = {
                 ...productReducer.openModal,
@@ -87,7 +87,7 @@ function ProductTable(props) {
                 modalOpen: true,
             };
             dispatch(productRedux.actions.setOpenModal(objPayloadAdd));
-            console.log('setOpenModal add : ', productReducer.openModal);
+            // console.log('setOpenModal add : ', productReducer.openModal);
         }
 
     };

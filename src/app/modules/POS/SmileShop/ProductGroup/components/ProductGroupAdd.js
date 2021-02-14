@@ -17,7 +17,7 @@ function ProductAdd(props) {
 
 	React.useEffect(() => {
 		debugger
-		console.log('useEffect openModal add: ', productGroupReducer.openModalProductGroup);
+		// console.log('useEffect openModal add: ', productGroupReducer.openModalProductGroup);
 		if (productGroupReducer.openModalProductGroup.modalOpen === true && productGroupReducer.openModalProductGroup.productGroupId === 0) {
 			handleOpen();
 		}
@@ -35,7 +35,7 @@ function ProductAdd(props) {
 			//Id: values.Id,
 			productGroupName: values.productGroupName,
 		}
-		console.log(objPayload);
+		// console.log(objPayload);
 		dispatch(productgroupRedux.actions.updateProductGroup(objPayload));
 		productgroupAxios.addProductGroup(objPayload)
 			.then((res) => {
@@ -61,7 +61,7 @@ function ProductAdd(props) {
 		resetForm();
 		setOpen(false);
 		dispatch(productgroupRedux.actions.resetOpenModalProductGroup());
-		console.log("handleClose: ", productGroupReducer.openModalProductGroup)
+		// console.log("handleClose: ", productGroupReducer.openModalProductGroup)
 	};
 	return (
 		<div>

@@ -62,7 +62,7 @@ function ProductGroupTable() {
                 modalOpen: true,
             };
             dispatch(productgroupRedux.actions.setOpenModalProductGroup(objPayloadEdit));
-            console.log('setOpenModal edit : ', productGroupReducer.openModalProductGroup);
+            // console.log('setOpenModal edit : ', productGroupReducer.openModalProductGroup);
         } else {
             let objPayloadAdd = {
                 ...productGroupReducer.openModalProductGroup,
@@ -70,7 +70,7 @@ function ProductGroupTable() {
                 modalOpen: true,
             };
             dispatch(productgroupRedux.actions.setOpenModalProductGroup(objPayloadAdd));
-            console.log('setOpenModal add : ', productGroupReducer.openModalProductGroup);
+            // console.log('setOpenModal add : ', productGroupReducer.openModalProductGroup);
         }
 
     };

@@ -39,7 +39,7 @@ function ProductAdd(props) {
 
 	React.useEffect(() => {
 		debugger
-		console.log('useEffect openModal add: ', productReducer.openModal);
+		// console.log('useEffect openModal add: ', productReducer.openModal);
 		if (productReducer.openModal.modalOpen === true && productReducer.openModal.productId === 0) {
 			handleOpen();
 		}
@@ -60,7 +60,7 @@ function ProductAdd(props) {
 			StockCount: parseInt(values.StockCount),
 			ProductGroupId: parseInt(values.ProductGroupId)
 		}
-		console.log(objPayload);
+		// console.log(objPayload);
 		dispatch(productRedux.actions.updateProduct(objPayload));
 		productAxios.addProduct(objPayload)
 			.then((res) => {

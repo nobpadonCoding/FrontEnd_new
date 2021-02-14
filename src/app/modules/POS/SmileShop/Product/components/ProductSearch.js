@@ -37,7 +37,7 @@ function ProductSearch(props) {
 			// ต้องผ่าน Validate ก่อน ถึงจะถูกเรียก
 			onSubmit={(values, { setSubmitting }) => {
 				setSubmitting(false);
-				console.log(values);
+				// console.log(values);
 				props.submit(values);
 			}}
 		>
