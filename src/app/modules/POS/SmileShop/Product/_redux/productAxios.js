@@ -30,4 +30,19 @@ export const getProductsFilter = (orderingField, ascendingOrder, page, recordsPe
         productGroupName
     }
     return axios.get(encodeURLWithParams(`${SMILESHOP_URL}/Products/filter`, payload))
+
+
+};
+
+export const getStockFilter = (orderingField, ascendingOrder, page, recordsPerPage, productName) => {
+    let payload = {
+        page,
+        recordsPerPage,
+        orderingField,
+        ascendingOrder,
+        productName
+    }
+    return axios.get(encodeURLWithParams(`${SMILESHOP_URL}/Stock/filter`, payload))
+
+
 }

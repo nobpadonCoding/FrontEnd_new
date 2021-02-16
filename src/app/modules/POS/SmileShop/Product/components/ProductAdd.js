@@ -69,6 +69,7 @@ function ProductAdd(props) {
 					handleClose({ resetForm });
 					swal.swalSuccess("Success", `Add ${res.data.data.name} success.`)
 					props.submit(true);
+					dispatch(productRedux.actions.resetProduct());
 				} else {
 					handleClose({ resetForm });
 					swal.swalError("Error", res.data.message);
@@ -97,7 +98,7 @@ function ProductAdd(props) {
 					ProductName: productReducer.productToAdd.ProductName,
 					price: productReducer.productToAdd.Price,
 					StockCount: productReducer.productToAdd.StockCount,
-					ProductGroupId: productReducer.productToAdd.ProductGroupId
+					ProductGroupId: 0
 				}}
 				//Validation section
 				validate={(values) => {

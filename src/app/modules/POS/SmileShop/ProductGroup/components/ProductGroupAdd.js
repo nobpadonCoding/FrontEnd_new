@@ -3,7 +3,7 @@ import React from 'react'
 import * as productgroupAxios from "../../ProductGroup/_redux/productgroupAxios";
 import * as productgroupRedux from "../../ProductGroup/_redux/productgroupRedux";
 import { useSelector, useDispatch } from "react-redux";
-import { Button, Dialog, DialogContent, DialogTitle, DialogActions, DialogContentText, Grid } from "@material-ui/core";
+import { Button, Dialog, DialogContent, DialogTitle, DialogActions, DialogContentText} from "@material-ui/core";
 import SaveIcon from '@material-ui/icons/Save';
 import { Formik, Form, Field } from "formik";
 import { TextField } from "formik-material-ui";
@@ -44,6 +44,7 @@ function ProductAdd(props) {
 					handleClose({ resetForm });
 					swal.swalSuccess("Success", `Add ${res.data.data.name} success.`)
 					props.submit(true);
+					dispatch(productgroupRedux.actions.resetProductGroup());
 				} else {
 					handleClose({ resetForm });
 					swal.swalError("Error", res.data.message);
@@ -75,6 +76,10 @@ function ProductAdd(props) {
 				validate={(values) => {
 					const errors = {};
 
+					if (!values.productGroupName) {
+                        errors.productGroupName = "Required";
+                    }
+
 					return errors;
 				}}
 				//Form Submission
@@ -95,6 +100,7 @@ function ProductAdd(props) {
 										type="text"
 										label="productGroupName"
 										name="productGroupName"
+										errors={errors}
 									/>
 								</DialogContentText>
 
