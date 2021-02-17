@@ -126,17 +126,23 @@ function ProductStockEdit() {
 			},
 		},
 		{
-			name: "productGroupName",
+			name: "product.productGroup.name",
 			label: "productGroupName",
 		},
-		"productName",
-		"productStockCount",
+		{
+			name:"product.name",
+			label:"productName"
+		},
+		{
+			name: "stockAfter",
+			label: "stockAfter"
+		},
 		{
 			name: "qty",
 			label: "Edit"
 		},
 		{
-			name:"stockAfter",
+			name:"product.stockCount",
 			label: "StockAfter"
 		},
 		{
