@@ -1,9 +1,13 @@
 import React from 'react'
 import * as productAxios from "../../Product/_redux/productAxios";
+import * as productRedux from '../../Product/_redux/productRedux';
 import EditButton from "../../../../Common/components/Buttons/EditButton";
+import AddButton from "../../../../Common/components/Buttons/AddButton";
 import DeleteButton from "../../../../Common/components/Buttons/DeleteButton";
-import { Grid, Typography, CircularProgress } from "@material-ui/core";
-import MUIDataTable from "mui-datatables";
+import { Grid, Chip, Typography, CircularProgress, Card, CardContent } from "@material-ui/core";
+import StockDataTable from "mui-datatables";
+import { useSelector, useDispatch } from "react-redux";
+import ProductStockAdd from '../../Product/components/ProductStockAdd';
 // import * as swal from "../../../../Common/components/SweetAlert";
 
 var flatten = require("flat");
@@ -11,8 +15,10 @@ require("dayjs/locale/th");
 var dayjs = require("dayjs");
 dayjs.locale("th");
 
-function ProductStockEdit() {
+function ProductStockTable() {
 
+	const dispatch = useDispatch()
+	const productReducer = useSelector(({ product }) => product);
 	const [isLoading, setIsLoading] = React.useState(true);
 	const [data, setData] = React.useState([]);
 	const [dataFilter, setDataFilter] = React.useState({
@@ -26,11 +32,31 @@ function ProductStockEdit() {
 	});
 
 	React.useEffect(() => {
-        //load data from api
-        loadData();
-    }, [dataFilter]);
+		//load data from api
+		loadData();
+	}, [dataFilter]);
 
 	const [totalRecords, setTotalRecords] = React.useState(0);
+
+	const handleOpen = (id) => {
+        debugger
+        if (id !== 0) {
+            let objPayloadEdit = {
+                ...productReducer.openModalStock,
+                stockId: id,
+                stockModalOpen: true,
+            };
+            dispatch(productRedux.actions.setOpenModalStock(objPayloadEdit));
+        } else {
+            let objPayloadAdd = {
+                ...productReducer.openModalStock,
+                stockId: 0,
+                stockModalOpen: true,
+            };
+            dispatch(productRedux.actions.setOpenModalStock(objPayloadAdd));
+        }
+
+    };
 
 	const loadData = () => {
 		setIsLoading(true);
@@ -127,22 +153,22 @@ function ProductStockEdit() {
 		},
 		{
 			name: "product.productGroup.name",
-			label: "productGroupName",
+			label: "GroupName",
 		},
 		{
-			name:"product.name",
-			label:"productName"
+			name: "product.name",
+			label: "ProductName"
 		},
 		{
-			name: "stockAfter",
-			label: "stockAfter"
+			name: "productStockCount",
+			label: "StockCount"
 		},
 		{
 			name: "qty",
 			label: "Edit"
 		},
 		{
-			name:"product.stockCount",
+			name: "stockAfter",
 			label: "StockAfter"
 		},
 		{
@@ -158,7 +184,7 @@ function ProductStockEdit() {
 			},
 		},
 		{
-			name:"remark",
+			name: "remark",
 			label: "remark"
 		},
 		{
@@ -201,26 +227,55 @@ function ProductStockEdit() {
 	];
 	return (
 		<div>
+			<Grid container
+				direction="column"
+				justify="center"
+				alignItems="stretch">
+				<Card elevation={3} style={{ marginBottom: 5 }}>
+					<CardContent>
+						<Grid
+							container
+							direction="row"
+							justify="flex-start"
+							alignItems="center"
+						>
+							{/* <ProductSearch submit={handleSearchProduct.bind(this)}></ProductSearch> */}
+							<Grid item xs={12} lg={2}>
+								<AddButton
+									fullWidth
+									color="primary"
+									// disabled={isSubmitting}
+									onClick={() => {
+										handleOpen(0);
+									}}
+								>
+									New RECORD
+                    		</AddButton>
+							</Grid>
+						</Grid>
+					</CardContent>
+				</Card>
 
-			<MUIDataTable
-				title={
-					<Typography variant="h6">
-						Product
+				<StockDataTable
+					title={
+						<Typography variant="h6">
+							Product
                                 {isLoading && (
-							<CircularProgress
-								size={24}
-								style={{ marginLeft: 15, position: "relative", top: 4 }}
-							/>
-						)}
-					</Typography>
-				}
-				data={data}
-				columns={columns}
-				options={options}
-			/>
-
+								<CircularProgress
+									size={24}
+									style={{ marginLeft: 15, position: "relative", top: 4 }}
+								/>
+							)}
+						</Typography>
+					}
+					data={data}
+					columns={columns}
+					options={options}
+				/>
+			</Grid>
+			<ProductStockAdd></ProductStockAdd>
 		</div>
 	)
 }
 
-export default ProductStockEdit
+export default ProductStockTable

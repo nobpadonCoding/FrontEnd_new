@@ -1,10 +1,10 @@
 import React from 'react'
-import ProductStockEdit from '../../Product/components/ProductStockEdit'
+import ProductStockTable from '../../Product/components/ProductStockTable'
 
 function ProductStockList() {
 	return (
 		<div>
-			<ProductStockEdit></ProductStockEdit>
+			<ProductStockTable></ProductStockTable>
 		</div>
 	)
 }
