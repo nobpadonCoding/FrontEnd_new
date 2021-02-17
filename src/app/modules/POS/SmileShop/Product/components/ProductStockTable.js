@@ -1,10 +1,8 @@
 import React from 'react'
 import * as productAxios from "../../Product/_redux/productAxios";
 import * as productRedux from '../../Product/_redux/productRedux';
-import EditButton from "../../../../Common/components/Buttons/EditButton";
 import AddButton from "../../../../Common/components/Buttons/AddButton";
-import DeleteButton from "../../../../Common/components/Buttons/DeleteButton";
-import { Grid, Chip, Typography, CircularProgress, Card, CardContent } from "@material-ui/core";
+import { Grid, Typography, CircularProgress, Card, CardContent } from "@material-ui/core";
 import StockDataTable from "mui-datatables";
 import { useSelector, useDispatch } from "react-redux";
 import ProductStockAdd from '../../Product/components/ProductStockAdd';
@@ -39,24 +37,24 @@ function ProductStockTable() {
 	const [totalRecords, setTotalRecords] = React.useState(0);
 
 	const handleOpen = (id) => {
-        debugger
-        if (id !== 0) {
-            let objPayloadEdit = {
-                ...productReducer.openModalStock,
-                stockId: id,
-                stockModalOpen: true,
-            };
-            dispatch(productRedux.actions.setOpenModalStock(objPayloadEdit));
-        } else {
-            let objPayloadAdd = {
-                ...productReducer.openModalStock,
-                stockId: 0,
-                stockModalOpen: true,
-            };
-            dispatch(productRedux.actions.setOpenModalStock(objPayloadAdd));
-        }
+		debugger
+		if (id !== 0) {
+			let objPayloadEdit = {
+				...productReducer.openModalStock,
+				stockId: id,
+				stockModalOpen: true,
+			};
+			dispatch(productRedux.actions.setOpenModalStock(objPayloadEdit));
+		} else {
+			let objPayloadAdd = {
+				...productReducer.openModalStock,
+				stockId: 0,
+				stockModalOpen: true,
+			};
+			dispatch(productRedux.actions.setOpenModalStock(objPayloadAdd));
+		}
 
-    };
+	};
 
 	const loadData = () => {
 		setIsLoading(true);
@@ -186,44 +184,7 @@ function ProductStockTable() {
 		{
 			name: "remark",
 			label: "remark"
-		},
-		{
-			name: "",
-			options: {
-				filter: false,
-				sort: false,
-				empty: true,
-				hight: 2,
-				customBodyRenderLite: (dataIndex, rowIndex) => {
-					return (
-						<Grid
-							container
-							direction="row"
-							justify="center"
-							alignItems="center"
-						>
-							<EditButton
-								style={{ marginRight: 20 }}
-								onClick={() => {
-									// handleOpen(data[dataIndex].id);
-								}}
-							>
-								Edit
-                          </EditButton>
-							<DeleteButton
-								style={{ marginRight: 20 }}
-								disabled={data[dataIndex].status === true ? false : true}
-								onClick={() => {
-									// handleDelete(data[dataIndex].id);
-								}}
-							>
-								Delete
-                          </DeleteButton>
-						</Grid>
-					);
-				},
-			},
-		},
+		}
 	];
 	return (
 		<div>

@@ -1,7 +1,8 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react'
 import { useSelector, useDispatch } from "react-redux";
-import { Button, Dialog, DialogContent, DialogTitle, DialogActions, DialogContentText, } from "@material-ui/core";
+import { Button, Dialog, DialogContent, DialogTitle, DialogActions, DialogContentText, Hidden, } from "@material-ui/core";
 import { TextField, Grid } from "@material-ui/core/";
 import FormikDropdown from "../../../../_FormikUseFormik/components/FormikDropdown";
 import SaveIcon from '@material-ui/icons/Save';
@@ -20,6 +21,17 @@ function ProductStockAdd(props) {
 	const [open, setOpen] = React.useState(false);
 	const [productGroup, setProductGroup] = React.useState([])
 	const [product, setProduct] = React.useState([])
+	const [stock, setStock] = React.useState([])
+	const [storeType, setStoreType] = React.useState([
+		{
+			id: 1,
+			name: "Add"
+		},
+		{
+			id: 2,
+			name: "Remove"
+		}
+	])
 
 	const formik = useFormik({
 		enableReinitialize: true,
@@ -30,18 +42,21 @@ function ProductStockAdd(props) {
 		},
 		initialValues: {
 			productGroupId: 0,
-			productId: 0
+			productId: 0,
+			storeTypeId: 0,
+			quantity: "",
+			productStockCount: "",
+			stockAfter: ""
 		},
 		onSubmit: (values) => {
-			alert(JSON.stringify(values, null, 2));
+			// console.log(values);
 		},
 	});
 
 	const loadProductGroup = () => {
-		debugger
 		Axios.get(PRODUCTGROUP_API_URL)
 			.then((res) => {
-				console.log(res);
+				// console.log(res);
 				//bind data
 				if (res.data.isSuccess) {
 					setProductGroup(res.data.data)
@@ -58,7 +73,6 @@ function ProductStockAdd(props) {
 	const loadProduct = () => {
 		Axios.get(PRODUCT_API_URL)
 			.then((res) => {
-				console.log(res);
 				//bind data
 				if (res.data.isSuccess) {
 					setProduct(res.data.data)
@@ -73,29 +87,44 @@ function ProductStockAdd(props) {
 	};
 
 	const loadProductFromProductGroup = () => {
-		debugger
-		let obj = productGroup.find(obj => obj.id === formik.values.productGroupId)
-		setProduct(obj.products)
+
+		let objProduct = productGroup.find(obj => obj.id === formik.values.productGroupId);
+		setProduct(objProduct.products)
 	};
 
+	const loadStockFromProduct = () => {
+		debugger
+		let objStock = product.find(obj => obj.id === formik.values.productId);
 
+		setStock(objStock.stockCount);
+		console.log("objStock", objStock.stockCount);
+		console.log("productId", formik.values.productId);
+	};
 
 	React.useEffect(() => {
 		loadProductGroup();
 	}, []);
 
 	React.useEffect(() => {
-		debugger
-		if(formik.values.productGroupId !== 0){
-				loadProductFromProductGroup();
+		if (formik.values.productGroupId !== 0) {
+			loadProductFromProductGroup();
 		}
 
 	}, [formik.values.productGroupId]);
 
+	React.useEffect(() => {
+		
+		if (formik.values.productId === 0) {
+			formik.setFieldValue("storeTypeId", 0);
+		}
 
+		if (formik.values.productId !== 0) {
+			loadStockFromProduct();
+		}
+
+	}, [formik.values.productId]);
 
 	React.useEffect(() => {
-		debugger
 		// console.log('useEffect openModal add: ', productReducer.openModal);
 		if (productReducer.openModalStock.stockModalOpen === true && productReducer.openModalStock.stockId === 0) {
 			handleOpen();
@@ -103,7 +132,6 @@ function ProductStockAdd(props) {
 	}, [productReducer.openModalStock]);
 
 	const handleOpen = () => {
-		debugger
 		setOpen(true);
 	};
 
@@ -131,6 +159,7 @@ function ProductStockAdd(props) {
 									selectedCallback={() => {
 										formik.setFieldValue("id", 0).then(() => {
 											formik.setFieldValue("productId", 0);
+											// formik.setFieldValue("productStockCount", "");
 										});
 									}}
 								/>
@@ -145,19 +174,21 @@ function ProductStockAdd(props) {
 									valueFieldName="id"
 									displayFieldName="name"
 									selectedCallback={() => {
+										// console.log(product);
+										formik.setFieldValue("productStockCount", stock);
 										formik.setFieldValue("id", 0).then(() => {
-											// formik.setFieldValue("productGroupId", 0);
+											formik.setFieldValue("storeTypeId", 0);
 										});
 									}}
 								/>
 							</Grid>
-							{/* <Grid item xs={12} lg={6}>
+							<Grid item xs={12} lg={6}>
 								<FormikDropdown
 									formik={formik}
-									name="productId"
-									label="Product"
-									data={product}
-									firstItemText="Select Product"
+									name="storeTypeId"
+									label="Store Type"
+									data={storeType}
+									firstItemText="Select StoreType"
 									valueFieldName="id"
 									displayFieldName="name"
 									selectedCallback={() => {
@@ -166,18 +197,45 @@ function ProductStockAdd(props) {
 										});
 									}}
 								/>
-							</Grid> */}
+							</Grid>
 							<Grid item xs={12} lg={6}>
 								<TextField
-									name="test"
-									label="Test"
+									name="quantity"
+									label="Quantity"
 									required
 									fullWidth
 									onBlur={formik.handleBlur}
 									onChange={formik.handleChange}
-									value={formik.values.test}
-									error={(formik.errors.test && formik.touched.test)}
-									helperText={(formik.errors.test && formik.touched.test) && formik.errors.test}
+									value={formik.values.quantity}
+									error={(formik.errors.quantity && formik.touched.quantity)}
+									helperText={(formik.errors.quantity && formik.touched.quantity) && formik.errors.quantity}
+								/>
+							</Grid>
+							<Grid item xs={12} lg={6}>
+								<TextField
+									name="productStockCount"
+									label="Product Stock"
+									required
+									fullWidth
+									disabled={true}
+									onBlur={formik.handleBlur}
+									onChange={formik.handleChange}
+									value={formik.values.productStockCount}
+									error={(formik.errors.test && formik.touched.productStockCount)}
+									helperText={(formik.errors.productStockCount && formik.touched.productStockCount) && formik.errors.productStockCount}
+								/>
+							</Grid>
+							<Grid item xs={12} lg={6}>
+								<TextField
+									name="stockAfter"
+									label="Stock After"
+									required
+									fullWidth
+									onBlur={formik.handleBlur}
+									onChange={formik.handleChange}
+									value={formik.values.stockAfter}
+									error={(formik.errors.stockAfter && formik.touched.stockAfter)}
+									helperText={(formik.errors.stockAfter && formik.touched.stockAfter) && formik.errors.stockAfter}
 								/>
 							</Grid>
 						</Grid>
@@ -191,12 +249,13 @@ function ProductStockAdd(props) {
 						Cancel
                                 </Button>
 					<Button variant="contained"
-						// onClick={submitForm}
+						type="submit"
+						onClick={formik.handleSubmit}
 						// disabled={isSubmitting}
 						color="primary"
 						startIcon={<SaveIcon color="action" />}>
 						Save
-                                </Button>
+                    </Button>
 				</DialogActions>
 			</Dialog>
 		</form>
