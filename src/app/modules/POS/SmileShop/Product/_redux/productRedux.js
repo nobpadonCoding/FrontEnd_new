@@ -11,8 +11,11 @@ export const actionTypes = {
   RESET_PRODUCT: '[RESET_PRODUCT] Action',
   SET_OPENMODAL: "[SET_OPENMODAL] Action",
   RESET_OPENMODAL: "[RESET_OPENMODAL] Action",
+
   SET_OPENMODAL_STOCK: "[SET_OPENMODAL_STOCK] Action",
   RESET_OPENMODAL_STOCK: "[RESET_OPENMODAL_STOCK] Action",
+  RESET_PRODUCT_STOCK: "[RESET_PRODUCT_STOCK] Action",
+  UPDATE_STOCK: '[UPDATE_STOCK] Action'
 };
 
 // state ค่าที่ถูกเก็บไว้
@@ -36,15 +39,13 @@ const initialState = {
     stockModalOpen: false
   },
 
-  paginated: {
-    page: 1,
-    recordsPerPage: 10,
-    orderingField: "",
-    ascendingOrder: true,
-  },
-
-
-
+  stockToAdd: {
+    productId: 0,
+    storeTypeId: 0,
+    quantity: 0,
+    productStockCount: "",
+    stockAfter: ""
+  }
 };
 
 // reducer แต่ละ Action จะไป update State อย่างไร
@@ -80,6 +81,16 @@ export const reducer = (state = initialState, action) => {
       };
     }
 
+    case actionTypes.RESET_PRODUCT_STOCK: {
+      return {
+        ...state, stockToAdd: initialState.stockToAdd,
+      };
+    }
+
+    case actionTypes.UPDATE_STOCK: {
+      return { ...state, stockToAdd: action.payload };
+    }
+
     default:
       return state;
   }
@@ -94,6 +105,7 @@ export const actions = {
   resetProduct: () => ({ type: actionTypes.RESET_PRODUCT }),
 
   setOpenModalStock: (payload) => ({ type: actionTypes.SET_OPENMODAL_STOCK, payload, }),
-  updateStockProduct: (payload) => ({ type: actionTypes.UPDATE_PRODUCT, payload }),
+  updateStockProduct: (payload) => ({ type: actionTypes.UPDATE_STOCK, payload }),
   resetOpenModalStock: () => ({ type: actionTypes.RESET_OPENMODAL_STOCK }),
+  resetProductStock: () => ({ type: actionTypes.RESET_PRODUCT_STOCK }),
 };

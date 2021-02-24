@@ -33,3 +33,15 @@ export const validatePhoneNumber = (id) => {
     return false;
   }
 };
+
+export const validationOnlyNumeric = (val) => {
+
+  debugger
+  if (val === null || val === '') return false;
+
+  if (!val.toString().match(/^[0-9]+(\.?[0-9]+)?$/)) {
+    return false;
+  }
+    return true;
+
+}

@@ -12,6 +12,7 @@ import * as productAxios from "../../Product/_redux/productAxios";
 import * as productRedux from "../../Product/_redux/productRedux";
 import * as CONST from '../../../../../../Constants';
 import Axios from "axios";
+import * as commonValidators from '../../../../Common/functions/CommonValidators';
 
 function ProductStockAdd(props) {
 	const dispatch = useDispatch()
@@ -38,20 +39,71 @@ function ProductStockAdd(props) {
 		validate: (values) => {
 			const errors = {};
 
+			if (formik.values.storeTypeId === 2) {
+				if (values.quantity > stock) {
+					errors.quantity = "Quantity Over ProductStockCount"
+				}
+			}
+
+
+
+			if (!commonValidators.validationOnlyNumeric(values.quantity)) {
+				errors.quantity = "number only"
+			}
+
 			return errors;
 		},
 		initialValues: {
 			productGroupId: 0,
 			productId: 0,
 			storeTypeId: 0,
-			quantity: "",
-			productStockCount: "",
+			quantity: 0,
+			productStockCount: 0,
 			stockAfter: ""
 		},
-		onSubmit: (values) => {
-			// console.log(values);
+		onSubmit: (values, { setSubmitting, resetForm }) => {
+			console.log("add stock", values);
+			handleSave({ setSubmitting, resetForm }, values);
 		},
 	});
+
+	const handleSave = ({ resetForm, setSubmitting }) => {
+		debugger
+		setSubmitting(false);
+		let objPayload =
+		{
+			...productReducer.addStockProduct,
+			productId: formik.values.productId,
+			storeTypeId: formik.values.storeTypeId,
+			quantity: formik.values.quantity,
+			productStockCount: formik.values.productStockCount,
+			stockAfter: formik.values.stockAfter
+		}
+		console.log("updateStockProduct", objPayload);
+		dispatch(productRedux.actions.updateStockProduct(objPayload));
+		productAxios.addStockProduct(objPayload)
+			.then((res) => {
+				if (res.data.isSuccess) {
+
+					handleClose({ resetForm });
+					swal.swalSuccess("Success", `Edit ${res.data.data.id} success.`)
+					props.submit(true);
+					dispatch(productRedux.actions.resetOpenModalStock());
+					dispatch(productRedux.actions.resetProductStock());
+				} else {
+					handleClose({ resetForm });
+					dispatch(productRedux.actions.resetOpenModalStock());
+					dispatch(productRedux.actions.resetProductStock());
+					swal.swalError("Error", res.data.message);
+				}
+			})
+			.catch((err) => {
+				//network error
+				handleClose({ resetForm });
+				swal.swalError("Error", err.message);
+
+			});
+	}
 
 	const loadProductGroup = () => {
 		Axios.get(PRODUCTGROUP_API_URL)
@@ -106,14 +158,36 @@ function ProductStockAdd(props) {
 	}, []);
 
 	React.useEffect(() => {
+		if (formik.values.storeTypeId === 1) {
+			if (formik.values.quantity >= 0) {
+				formik.setFieldValue("stockAfter", parseInt(formik.values.productStockCount) + parseInt(formik.values.quantity));
+			}
+		} else if (formik.values.storeTypeId === 2) {
+			if (formik.values.quantity >= 0) {
+				if (formik.values.productStockCount >= formik.values.quantity) {
+					formik.setFieldValue("stockAfter", formik.values.productStockCount - formik.values.quantity);
+				} else {
+					formik.setFieldValue("stockAfter", "")
+				}
+			}
+		}
+
+	}, [formik.values.quantity]);
+
+	React.useEffect(() => {
+		formik.setFieldValue("productStockCount", stock);
+	}, [stock]);
+
+	React.useEffect(() => {
 		if (formik.values.productGroupId !== 0) {
 			loadProductFromProductGroup();
+			formik.setFieldValue("productStockCount", 0);
 		}
 
 	}, [formik.values.productGroupId]);
 
 	React.useEffect(() => {
-		
+
 		if (formik.values.productId === 0) {
 			formik.setFieldValue("storeTypeId", 0);
 		}
@@ -156,11 +230,8 @@ function ProductStockAdd(props) {
 									firstItemText="Select ProductGroup"
 									valueFieldName="id"
 									displayFieldName="name"
-									selectedCallback={() => {
-										formik.setFieldValue("id", 0).then(() => {
-											formik.setFieldValue("productId", 0);
-											// formik.setFieldValue("productStockCount", "");
-										});
+									selectedCallback={(e) => {
+										formik.setFieldValue("productId", 0);
 									}}
 								/>
 							</Grid>
@@ -173,12 +244,9 @@ function ProductStockAdd(props) {
 									firstItemText="Select Product"
 									valueFieldName="id"
 									displayFieldName="name"
-									selectedCallback={() => {
+									selectedCallback={(e) => {
 										// console.log(product);
-										formik.setFieldValue("productStockCount", stock);
-										formik.setFieldValue("id", 0).then(() => {
-											formik.setFieldValue("storeTypeId", 0);
-										});
+										formik.setFieldValue("storeTypeId", 0);
 									}}
 								/>
 							</Grid>
@@ -191,10 +259,8 @@ function ProductStockAdd(props) {
 									firstItemText="Select StoreType"
 									valueFieldName="id"
 									displayFieldName="name"
-									selectedCallback={() => {
-										formik.setFieldValue("id", 0).then(() => {
-											// formik.setFieldValue("productGroupId", 0);
-										});
+									selectedCallback={(e) => {
+										//something
 									}}
 								/>
 							</Grid>
@@ -233,7 +299,7 @@ function ProductStockAdd(props) {
 									fullWidth
 									onBlur={formik.handleBlur}
 									onChange={formik.handleChange}
-									value={formik.values.stockAfter}
+									value={(isNaN(formik.values.stockAfter) ? formik.values.productStockCount : formik.values.stockAfter)}
 									error={(formik.errors.stockAfter && formik.touched.stockAfter)}
 									helperText={(formik.errors.stockAfter && formik.touched.stockAfter) && formik.errors.stockAfter}
 								/>

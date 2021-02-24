@@ -36,6 +36,13 @@ function ProductStockTable() {
 
 	const [totalRecords, setTotalRecords] = React.useState(0);
 
+	const handleAddStockProduct = () => {
+		setDataFilter({
+			...dataFilter,
+			page: 1
+		});
+	}
+
 	const handleOpen = (id) => {
 		debugger
 		if (id !== 0) {
@@ -162,8 +169,21 @@ function ProductStockTable() {
 			label: "StockCount"
 		},
 		{
-			name: "qty",
-			label: "Edit"
+			name: "",
+			label: "Edit",
+			options: {
+				customBodyRenderLite: (dataIndex, rowIndex) => {
+					return (
+						<Grid>
+							{data[dataIndex].storeType === "2" ? (
+								<Grid>-{data[dataIndex].qty}</Grid>
+							) : (
+								<Grid>+{data[dataIndex].qty}</Grid>
+								)}
+						</Grid>
+					);
+				},
+			},
 		},
 		{
 			name: "stockAfter",
@@ -220,7 +240,7 @@ function ProductStockTable() {
 				<StockDataTable
 					title={
 						<Typography variant="h6">
-							Product
+							Stock
                                 {isLoading && (
 								<CircularProgress
 									size={24}
@@ -234,7 +254,7 @@ function ProductStockTable() {
 					options={options}
 				/>
 			</Grid>
-			<ProductStockAdd></ProductStockAdd>
+			<ProductStockAdd submit={handleAddStockProduct.bind(this)}></ProductStockAdd>
 		</div>
 	)
 }

@@ -9,7 +9,8 @@ import { ROLES } from "../Constants";
 import Alert from "./modules/_Demo/Alert";
 import Test from  './pages/Test'
 import ReduxDemo from './modules/_Demo/pages/ReduxDemo'
-import WithTextField from './modules/_FormikDemo/pages/WithTextField'
+// import WithTextField from './modules/_FormikDemo/pages/WithTextField'
+import WithTextField from './modules/_FormikUseFormik/pages/WithTextField'
 import WithCheckboxAndRadio from "./modules/_FormikDemo/pages/WithCheckboxAndRadio";
 import WithDropdown from "./modules/_FormikDemo/pages/WithDropdown";
 import WithDatePicker from "./modules/_FormikDemo/pages/WithDatePicker";
@@ -44,7 +45,7 @@ export default function BasePage(props) {
         <ContentRoute exact path="/employee/edit/:id" component={NewEmployee} />
         <PrivateRoute exact path="/test" roles={[ROLES.admin,ROLES.developer]} component={Test} />
 
-        <ContentRoute exact path="/product/" component={ProductList} />
+        <ContentRoute exact path="/product/" component={WithTextField} />
         <ContentRoute exact path="/productgroup/" component={ProductGroupList} />
         <ContentRoute exact path="/editstock/" component={ProductStockList} />
         {/* End Demo part สามารถ comment ได้ */}
