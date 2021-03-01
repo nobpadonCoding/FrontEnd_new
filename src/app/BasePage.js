@@ -45,7 +45,7 @@ export default function BasePage(props) {
         <ContentRoute exact path="/employee/edit/:id" component={NewEmployee} />
         <PrivateRoute exact path="/test" roles={[ROLES.admin,ROLES.developer]} component={Test} />
 
-        <ContentRoute exact path="/product/" component={WithTextField} />
+        <ContentRoute exact path="/product/" component={ProductList} />
         <ContentRoute exact path="/productgroup/" component={ProductGroupList} />
         <ContentRoute exact path="/editstock/" component={ProductStockList} />
         {/* End Demo part สามารถ comment ได้ */}

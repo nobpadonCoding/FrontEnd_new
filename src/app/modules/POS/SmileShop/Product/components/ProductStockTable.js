@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react'
 import * as productAxios from "../../Product/_redux/productAxios";
 import * as productRedux from '../../Product/_redux/productRedux';
@@ -6,6 +7,7 @@ import { Grid, Typography, CircularProgress, Card, CardContent } from "@material
 import StockDataTable from "mui-datatables";
 import { useSelector, useDispatch } from "react-redux";
 import ProductStockAdd from '../../Product/components/ProductStockAdd';
+import ProductStockSearch from '../../Product/components/ProductStockSearch'
 // import * as swal from "../../../../Common/components/SweetAlert";
 
 var flatten = require("flat");
@@ -13,7 +15,7 @@ require("dayjs/locale/th");
 var dayjs = require("dayjs");
 dayjs.locale("th");
 
-function ProductStockTable() {
+function ProductStockTable(props) {
 
 	const dispatch = useDispatch()
 	const productReducer = useSelector(({ product }) => product);
@@ -25,7 +27,7 @@ function ProductStockTable() {
 		orderingField: "",
 		ascendingOrder: true,
 		searchValues: {
-			productName: ""
+			StoreType:""
 		}
 	});
 
@@ -42,6 +44,15 @@ function ProductStockTable() {
 			page: 1
 		});
 	}
+
+	const handleSearchProduct = (values) => {
+		alert(values.storeTypeId);
+        setDataFilter({
+            ...dataFilter,
+            page: 1,
+            searchValues: values.storeTypeId
+        });
+    }
 
 	const handleOpen = (id) => {
 		debugger
@@ -64,6 +75,7 @@ function ProductStockTable() {
 	};
 
 	const loadData = () => {
+		debugger
 		setIsLoading(true);
 		productAxios
 			.getStockFilter(
@@ -71,7 +83,7 @@ function ProductStockTable() {
 				dataFilter.ascendingOrder,
 				dataFilter.page,
 				dataFilter.recordsPerPage,
-				dataFilter.searchValues.productName,
+				dataFilter.searchValues.storeTypeId,
 			)
 			.then((res) => {
 				if (res.data.isSuccess) {
@@ -178,7 +190,7 @@ function ProductStockTable() {
 							{data[dataIndex].storeType === "2" ? (
 								<Grid>-{data[dataIndex].qty}</Grid>
 							) : (
-								<Grid>+{data[dataIndex].qty}</Grid>
+									<Grid>+{data[dataIndex].qty}</Grid>
 								)}
 						</Grid>
 					);
@@ -214,14 +226,11 @@ function ProductStockTable() {
 				alignItems="stretch">
 				<Card elevation={3} style={{ marginBottom: 5 }}>
 					<CardContent>
-						<Grid
-							container
+						<Grid container
 							direction="row"
 							justify="flex-start"
-							alignItems="center"
-						>
-							{/* <ProductSearch submit={handleSearchProduct.bind(this)}></ProductSearch> */}
-							<Grid item xs={12} lg={2}>
+							alignItems="stretch">
+							<Grid item xs={12} lg={6}>
 								<AddButton
 									fullWidth
 									color="primary"
@@ -231,7 +240,10 @@ function ProductStockTable() {
 									}}
 								>
 									New RECORD
-                    		</AddButton>
+                    			</AddButton>
+							</Grid>
+							<Grid item xs={12} lg={6}>
+								<ProductStockSearch submit={handleSearchProduct.bind(this)}></ProductStockSearch>
 							</Grid>
 						</Grid>
 					</CardContent>

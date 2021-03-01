@@ -14,6 +14,7 @@ import * as CONST from '../../../../../../Constants';
 import Axios from "axios";
 import * as commonValidators from '../../../../Common/functions/CommonValidators';
 
+
 function ProductStockAdd(props) {
 	const dispatch = useDispatch()
 	const productReducer = useSelector(({ product }) => product);
@@ -44,8 +45,6 @@ function ProductStockAdd(props) {
 					errors.quantity = "Quantity Over ProductStockCount"
 				}
 			}
-
-
 
 			if (!commonValidators.validationOnlyNumeric(values.quantity)) {
 				errors.quantity = "number only"
@@ -85,13 +84,13 @@ function ProductStockAdd(props) {
 			.then((res) => {
 				if (res.data.isSuccess) {
 
-					handleClose({ resetForm });
+					handleClose();
 					swal.swalSuccess("Success", `Edit ${res.data.data.id} success.`)
 					props.submit(true);
 					dispatch(productRedux.actions.resetOpenModalStock());
 					dispatch(productRedux.actions.resetProductStock());
 				} else {
-					handleClose({ resetForm });
+					handleClose();
 					dispatch(productRedux.actions.resetOpenModalStock());
 					dispatch(productRedux.actions.resetProductStock());
 					swal.swalError("Error", res.data.message);
@@ -99,7 +98,7 @@ function ProductStockAdd(props) {
 			})
 			.catch((err) => {
 				//network error
-				handleClose({ resetForm });
+				handleClose();
 				swal.swalError("Error", err.message);
 
 			});
@@ -210,7 +209,8 @@ function ProductStockAdd(props) {
 	};
 
 	const handleClose = () => {
-		// resetForm();
+
+		formik.resetForm();
 		dispatch(productRedux.actions.resetOpenModalStock());
 		setOpen(false);
 	};

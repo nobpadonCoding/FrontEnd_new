@@ -53,15 +53,6 @@ function ProductSearch(props) {
 								name="productName"
 							/>
 						</Grid>
-						{/* <Grid item xs={12} lg={3}>
-							<Field
-								fullWidth
-								component={TextField}
-								type="text"
-								label="productGroupName"
-								name="productGroupName"
-							/>
-						</Grid> */}
 						<Grid item xs={12} lg={4}>
 							{isSubmitting && <LinearProgress />}
 							<Button

@@ -12,6 +12,7 @@ import { Grid, Chip, Typography, CircularProgress, Card, CardContent } from "@ma
 import { useSelector, useDispatch } from "react-redux";
 import * as swal from "../../../../Common/components/SweetAlert";
 import AddButton from "../../../../Common/components/Buttons/AddButton";
+import * as commonValidators from '../../../../Common/functions/CommonValidators';
 
 var flatten = require("flat");
 require("dayjs/locale/th");
@@ -109,8 +110,8 @@ function ProductTable(props) {
                                         swal.swalSuccess("Success", `Delete ${res.data.data.name} success.`).then(() => {
                                             loadData();
                                         });
-                                    }else{
-                                        swal.swalError("Error",  res.data.message);
+                                    } else {
+                                        swal.swalError("Error", res.data.message);
                                     }
                                 })
                                 .catch((err) => {
@@ -174,7 +175,6 @@ function ProductTable(props) {
         search: false,
         selectableRows: "none",
         serverSide: true,
-        // resizableColumns: true,
         count: totalRecords,
         page: dataFilter.page - 1,
         rowsPerPage: dataFilter.recordsPerPage,
@@ -219,24 +219,62 @@ function ProductTable(props) {
             name: "productGroup.name",
             label: "ProductGroup"
         },
-        "price",
-        "stockCount",
         {
-            name: "createdBy",
+            name: "price",
+            label: "price",
             options: {
-                customBodyRenderLite: (dataIndex, rowIndex) => {
-                    return (
-                        <Grid>
-                            {data[dataIndex].createdBy}
-                        </Grid>
-                    );
-                },
+                sort: false,
+                customHeadLabelRender: (columnMeta, updateDirection) => (
+                    <Grid style={{ cursor: 'pointer', textAlign: "center" }}>
+                        {columnMeta.name}
+                    </Grid>
+                ),
+                customBodyRender: (value) => (
+                    <Grid style={{ cursor: 'pointer', textAlign: "right" }}>
+                        {commonValidators.currencyFormat(value)}
+                    </Grid>
+                )
+            }
+        },
+        {
+            name: "stockCount",
+            label: "stockCount",
+            options: {
+                sort: false,
+                customHeadLabelRender: (columnMeta, updateDirection) => (
+                    <Grid style={{ cursor: 'pointer', textAlign: "center" }}>
+                        {columnMeta.label}
+                    </Grid>
+                ),
+                customBodyRender: (value) => (
+                    <Grid style={{ textAlign: "center" }}>
+                        {value}
+                    </Grid>
+                )
+            },
+        },
+        {
+            name: "createdBy.username",
+            label: "createdBy",
+            options: {
+                sort: false,
+                customHeadLabelRender: (columnMeta, updateDirection) => (
+                    <Grid style={{ cursor: 'pointer', textAlign: "center" }}>
+                        {columnMeta.label}
+                    </Grid>
+                ),
+                customBodyRender: (value) => (
+                    <Grid style={{ textAlign: "center" }}>
+                        {value}
+                    </Grid>
+                )
             },
         },
 
         {
             name: "createdDate",
             options: {
+                sort: false,
                 customBodyRenderLite: (dataIndex, rowIndex) => {
                     return (
                         <Grid
@@ -256,7 +294,7 @@ function ProductTable(props) {
             name: "Status",
             label: "Status",
             options: {
-                // sort: false,
+                sort: false,
                 // setCellHeaderProps: () => ({ align: "center" }),
                 customBodyRenderLite: (dataIndex, rowIndex) => {
                     return (
