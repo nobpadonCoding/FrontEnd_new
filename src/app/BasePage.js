@@ -7,7 +7,7 @@ import DashboardPage from "./pages/DashboardPage";
 import TokenHandler from "./modules/Auth/components/TokenHandler";
 import { ROLES } from "../Constants";
 import Alert from "./modules/_Demo/Alert";
-import Test from  './pages/Test'
+import Test from './pages/Test'
 import ReduxDemo from './modules/_Demo/pages/ReduxDemo'
 // import WithTextField from './modules/_FormikDemo/pages/WithTextField'
 import WithTextField from './modules/_FormikUseFormik/pages/WithTextField'
@@ -20,6 +20,7 @@ import EmployeeList from './modules/_EmployeeDemo/pages/EmployeeList'
 import ProductList from './modules/POS/SmileShop/Product/pages/ProductList';
 import ProductGroupList from './modules/POS/SmileShop/ProductGroup/pages/ProductGroupList';
 import ProductStockList from './modules/POS/SmileShop/Product/pages/ProductStockList';
+import OrderList from './modules/POS/SmileShop/Order/pages/OrderList'
 
 export default function BasePage(props) {
   // useEffect(() => {
@@ -43,11 +44,12 @@ export default function BasePage(props) {
         <ContentRoute exact path="/employee/" component={EmployeeList} />
         <ContentRoute exact path="/employee/new" component={NewEmployee} />
         <ContentRoute exact path="/employee/edit/:id" component={NewEmployee} />
-        <PrivateRoute exact path="/test" roles={[ROLES.admin,ROLES.developer]} component={Test} />
+        <PrivateRoute exact path="/test" roles={[ROLES.admin, ROLES.developer]} component={Test} />
 
         <ContentRoute exact path="/product/" component={ProductList} />
         <ContentRoute exact path="/productgroup/" component={ProductGroupList} />
         <ContentRoute exact path="/editstock/" component={ProductStockList} />
+        <ContentRoute exact path="/neworder/" component={OrderList} />
         {/* End Demo part สามารถ comment ได้ */}
 
         <Route
@@ -56,7 +58,7 @@ export default function BasePage(props) {
         />
 
         {/* nothing match - redirect to error */}
-        <Redirect to="/error"/>
+        <Redirect to="/error" />
       </Switch>
       <TokenHandler></TokenHandler>
     </Suspense>
