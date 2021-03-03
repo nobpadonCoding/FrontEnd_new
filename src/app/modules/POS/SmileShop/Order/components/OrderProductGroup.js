@@ -14,7 +14,6 @@ function OrderProductGroup() {
 			productGroupId: id,
 			clickProductGroup: true
 		}
-		console.log(objPayload)
 		dispatch(orderRedux.actions.getProduct(objPayload));
 	};
 	return (

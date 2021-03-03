@@ -8,7 +8,7 @@ dayjs.locale("th");
 export const actionTypes = {
 
 	UPDATE_PRODUCT: '[UPDATE_PRODUCT] Action',
-	RESET_PRODUCT: '[RESET_PRODUCT] Action',
+	RESET_DIALOG: '[RESET_DIALOG] Action',
 	GET_PRODUCT: "[GET_PRODUCT] Action",
 	SET_OPENDIALOG: "[SET_DIALOG] action"
 
@@ -24,12 +24,12 @@ const initialState = {
 		openDialog: false
 	},
 	productObj: {
-		productId:0,
+		productId: 0,
 		productName: "",
 		productPrice: 0,
 		stockCount: 0,
 		productGroupId: 0,
-	  },
+	},
 };
 
 // reducer แต่ละ Action จะไป update State อย่างไร
@@ -47,6 +47,10 @@ export const reducer = (state = initialState, action) => {
 			return { ...state, productObj: action.payload };
 		}
 
+		case actionTypes.RESET_DIALOG: {
+			return { ...state, dialogOrder: initialState.dialogOrder };
+		}
+
 		default:
 			return state;
 	}
@@ -58,4 +62,5 @@ export const actions = {
 	updateProduct: (payload) => ({ type: actionTypes.UPDATE_PRODUCT, payload }),
 	getProduct: (payload) => ({ type: actionTypes.GET_PRODUCT, payload }),
 	setOpenDialog: (payload) => ({ type: actionTypes.SET_OPENDIALOG, payload, }),
+	resetDialog: () => ({ type: actionTypes.RESET_DIALOG })
 }

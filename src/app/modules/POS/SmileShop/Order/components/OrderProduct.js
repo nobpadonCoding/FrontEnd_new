@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-imports */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react'
-import { Paper, Grid, CardContent, Card, IconButton, Typography } from '@material-ui/core';
+import { Grid, CardContent, Card, Typography } from '@material-ui/core';
 import * as swal from "../../../../Common/components/SweetAlert";
 import * as commonValidators from '../../../../Common/functions/CommonValidators';
 import * as orderRedux from "../../Order/_redux/orderRedux";
@@ -19,10 +19,8 @@ function OrderProduct() {
 	const PRODUCTGROUP_API_URL = `${CONST.API_URL}/SmileShop/ProductGroups`
 
 	React.useEffect(() => {
-		debugger
 		Axios.get(PRODUCTGROUP_API_URL)
 			.then((res) => {
-				console.log(res)
 				//bind data
 				if (res.data.isSuccess) {
 					setProductGroup(res.data.data)
@@ -37,10 +35,16 @@ function OrderProduct() {
 	}, [])
 
 	const loadProductFromProductGroup = () => {
-		if (orderReducer.productGet.productGroupId !== 0) {
-			let objProduct = productGroup.find(obj => obj.id === orderReducer.productGet.productGroupId);
-			setProduct(objProduct.products)
-			console.log(objProduct)
+		debugger
+		//เช็ค length productGroup ต้องมากกว่า 0 ถึงจะ find หา product ได้
+		if (productGroup.length > 0) {
+			//เช็ค id producgroup ต้อง != 0 (0 คือ default)
+			if (orderReducer.productGet.productGroupId !== 0) {
+				let objProduct = productGroup.find(obj => obj.id === orderReducer.productGet.productGroupId);
+				if (objProduct !== null) {
+					setProduct(objProduct.products)
+				}
+			}
 		}
 
 	};
@@ -73,15 +77,17 @@ function OrderProduct() {
 							<CardContent style={{ cursor: 'pointer' }} onClick={() => {
 								debugger
 								let objProduct = {
-									productId:product.id,
+									productId: product.id,
 									productName: product.name,
 									productPrice: product.price,
 									stockCount: product.stockCount,
 								}
-								dispatch(orderRedux.actions.updateProduct(objProduct));
+								console.log(objProduct)
 								handleAddProduct();
+								dispatch(orderRedux.actions.updateProduct(objProduct));
+								// dispatch(orderRedux.actions.resetProduct());
 							}}>
-
+								<img src="https://i.pinimg.com/236x/4d/d7/ea/4dd7ea06ee085b5e0d8f855e415b2bb6.jpg" alt="01" style={{ width: 150, height: 'auto' }} />
 							</CardContent>
 							<Typography style={{ textAlign: 'center' }}>{product.name}  {commonValidators.currencyFormat(product.price)} ฿</Typography>
 						</Card>

@@ -6,7 +6,11 @@ import { red } from "@material-ui/core/colors";
 const MySwal = withReactContent(Swal);
 
 export const swalInfo = (title, text) => {
-  return MySwal.fire(title, text);
+  return Swal.fire({
+    icon: "info",
+    title,
+    text,
+  });
 };
 
 export const swalConfirm = (title, text) => {
