@@ -66,7 +66,7 @@ function ProductStockAdd(props) {
 		},
 	});
 
-	const handleSave = ({ resetForm, setSubmitting }) => {
+	const handleSave = ({ setSubmitting }) => {
 		debugger
 		setSubmitting(false);
 		let objPayload =

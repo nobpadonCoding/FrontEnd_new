@@ -36,7 +36,6 @@ export const validatePhoneNumber = (id) => {
 
 export const validationOnlyNumeric = (val) => {
 
-  debugger
   if (val === null || val === '') return false;
 
   if (!val.toString().match(/^[0-9]+(\.?[0-9]+)?$/)) {
@@ -48,5 +47,8 @@ export const validationOnlyNumeric = (val) => {
 
 export const currencyFormat = (val) => {
   // return '$' + val.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-  return val.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, ',').trim()
+  let result = val;
+  if (val) result = val.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,').trim();
+
+  return result;
 }

@@ -10,7 +10,8 @@ export const actionTypes = {
 	UPDATE_PRODUCT: '[UPDATE_PRODUCT] Action',
 	RESET_DIALOG: '[RESET_DIALOG] Action',
 	GET_PRODUCT: "[GET_PRODUCT] Action",
-	SET_OPENDIALOG: "[SET_DIALOG] action"
+	SET_OPENDIALOG: "[SET_DIALOG] action",
+	GET_PRODUCT_DETAIL: "[GET_PRODUCT_DETAIL] Action",
 
 };
 
@@ -30,6 +31,7 @@ const initialState = {
 		stockCount: 0,
 		productGroupId: 0,
 	},
+	orderDetail:[]
 };
 
 // reducer แต่ละ Action จะไป update State อย่างไร
@@ -51,6 +53,10 @@ export const reducer = (state = initialState, action) => {
 			return { ...state, dialogOrder: initialState.dialogOrder };
 		}
 
+		case actionTypes.GET_PRODUCT_DETAIL: {
+			return { ...state, orderDetail: action.payload };
+		}
+
 		default:
 			return state;
 	}
@@ -62,5 +68,6 @@ export const actions = {
 	updateProduct: (payload) => ({ type: actionTypes.UPDATE_PRODUCT, payload }),
 	getProduct: (payload) => ({ type: actionTypes.GET_PRODUCT, payload }),
 	setOpenDialog: (payload) => ({ type: actionTypes.SET_OPENDIALOG, payload, }),
-	resetDialog: () => ({ type: actionTypes.RESET_DIALOG })
+	resetDialog: () => ({ type: actionTypes.RESET_DIALOG }),
+	getProductDetail: (payload) => ({ type: actionTypes.GET_PRODUCT_DETAIL, payload })
 }

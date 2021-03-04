@@ -17,7 +17,6 @@ function OrderList() {
 				</Grid>
 				<OrderDialog></OrderDialog>
 			</Grid>
-
 		</div>
 	)
 }

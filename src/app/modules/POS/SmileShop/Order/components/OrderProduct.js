@@ -35,7 +35,7 @@ function OrderProduct() {
 	}, [])
 
 	const loadProductFromProductGroup = () => {
-		debugger
+
 		//เช็ค length productGroup ต้องมากกว่า 0 ถึงจะ find หา product ได้
 		if (productGroup.length > 0) {
 			//เช็ค id producgroup ต้อง != 0 (0 คือ default)
@@ -50,12 +50,12 @@ function OrderProduct() {
 	};
 
 	const handleAddProduct = () => {
-		debugger
+
 		let objPayload = {
 			...orderReducer.dialogOrder,
 			openDialog: true
 		};
-		console.log('handleAddProduct', objPayload)
+		// console.log('handleAddProduct', objPayload)
 		dispatch(orderRedux.actions.setOpenDialog(objPayload));
 	}
 
@@ -67,34 +67,32 @@ function OrderProduct() {
 	}, [orderReducer.productGet]);
 
 	return (
-		<div >
-			<Grid
-				container
-			>
-				{product.map((product) => (
-					<Grid item xs={12} lg={3}>
-						<Card elevation={5} style={{ margin: 5 }}>
-							<CardContent style={{ cursor: 'pointer' }} onClick={() => {
-								debugger
-								let objProduct = {
-									productId: product.id,
-									productName: product.name,
-									productPrice: product.price,
-									stockCount: product.stockCount,
-								}
-								console.log(objProduct)
-								handleAddProduct();
-								dispatch(orderRedux.actions.updateProduct(objProduct));
-								// dispatch(orderRedux.actions.resetProduct());
-							}}>
-								<img src="https://i.pinimg.com/236x/4d/d7/ea/4dd7ea06ee085b5e0d8f855e415b2bb6.jpg" alt="01" style={{ width: 150, height: 'auto' }} />
-							</CardContent>
-							<Typography style={{ textAlign: 'center' }}>{product.name}  {commonValidators.currencyFormat(product.price)} ฿</Typography>
-						</Card>
-					</Grid>
-				))}
-			</Grid>
-		</div >
+		<Grid
+			container
+		>
+			{product.map((product) => (
+				<Grid item xs={12} lg={3} key={`product_${product.id}`}>
+					<Card elevation={5} style={{ margin: 5 }} >
+						<CardContent style={{ cursor: 'pointer' }} onClick={() => {
+
+							let objProduct = {
+								productId: product.id,
+								productName: product.name,
+								productPrice: product.price,
+								stockCount: product.stockCount,
+							}
+							// console.log(objProduct)
+							handleAddProduct();
+							dispatch(orderRedux.actions.updateProduct(objProduct));
+							// dispatch(orderRedux.actions.resetProduct());
+						}}>
+							<img src="http://blog.sogoodweb.com/upload/510/ZDqhSBYemO.jpg" alt="01" style={{ width: 150, height: 'auto' }} />
+						</CardContent>
+						<Typography style={{ textAlign: 'center' }}>{product.name}  {commonValidators.currencyFormat(product.price)} ฿</Typography>
+					</Card>
+				</Grid>
+			))}
+		</Grid>
 	)
 }
 

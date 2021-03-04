@@ -1,12 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-restricted-imports */
 import React from 'react'
-import { Dialog, DialogContent, DialogTitle, DialogActions, DialogContentText, Button, Grid, CardContent, Card, Typography, TextField, Icon } from "@material-ui/core";
+import { Dialog, DialogContent, DialogTitle, DialogActions, Button, Grid, CardContent, Card, Typography, TextField } from "@material-ui/core";
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import { blue } from '@material-ui/core/colors';
-import SaveIcon from '@material-ui/icons/Save';
 import { Formik, Form, useFormik } from "formik";
 import { useSelector, useDispatch } from "react-redux";
-import * as swal from "../../../../Common/components/SweetAlert";
 import * as commonValidators from '../../../../Common/functions/CommonValidators';
 import * as orderRedux from "../../Order/_redux/orderRedux";
 function OrderDialog() {
@@ -24,12 +23,8 @@ function OrderDialog() {
 				errors.quantity = "Quantity Over"
 			}
 
-			// if (values.quantity < 0) {
-
-			// 	errors.quantity = "Quantity Less than 0"
-			// }
-
 			if (!commonValidators.validationOnlyNumeric(formik.values.quantity)) {
+
 				errors.quantity = "number only (0-9)"
 			}
 
@@ -40,19 +35,46 @@ function OrderDialog() {
 			productName: orderReducer.productObj.productName,
 			productPrice: orderReducer.productObj.productPrice,
 			stockCount: orderReducer.productObj.stockCount,
-			quantity: 1
+			quantity: 0
 
 		},
-		onSubmit: (values, { setSubmitting, resetForm }) => {
+		onSubmit: (values, { setSubmitting }) => {
+			setSubmitting(false);
+			handleSave({ setSubmitting }, values);
 		},
 	});
 
 	React.useEffect(() => {
-		debugger
+
 		if (orderReducer.dialogOrder.openDialog === true) {
 			handleOpen();
 		}
 	}, [orderReducer.dialogOrder]);
+
+	const handleSave = ({ setSubmitting }, values) => {
+
+		setSubmitting(false);
+
+		let objOrderDetail =
+		{
+			productId: values.productId,
+			productQuantity: formik.values.quantity,
+			productName: values.productName,
+			productPrice: values.productPrice
+		}
+
+		let orderDetailUpdate = [...orderReducer.orderDetail]
+
+		//add array
+		orderDetailUpdate.push(objOrderDetail);
+
+		console.log("objOrderDetail", orderDetailUpdate);
+
+		dispatch(orderRedux.actions.getProductDetail(orderDetailUpdate));
+		
+		//close dialog
+		handleClose();
+	}
 
 	const handleOpen = () => {
 		setOpen(true);
@@ -87,29 +109,31 @@ function OrderDialog() {
 		formik.setFieldValue("quantity", parseInt(formik.values.quantity) + 1)
 	}
 	return (
-		<form onSubmit={formik.handleSubmit}>
-			<Dialog fullWidth={true} maxWidth='sm' open={open} aria-labelledby="form-dialog-title">
-				<DialogTitle id="form-dialog-title">New Order</DialogTitle>
-				<DialogContent>
-					<DialogContentText>
+		<div>
+			<form onSubmit={formik.handleSubmit}>
+				<Dialog fullWidth={true} maxWidth='sm' open={open} aria-labelledby="form-dialog-title">
+					<DialogTitle id="form-dialog-title">New Order</DialogTitle>
+					<DialogContent>
 						<Grid container>
 							<Grid item xs={12} lg={6}>
 								<Card elevation={5} style={{ margin: 5 }}>
 									<CardContent style={{ textAlign: 'center' }}>
-										<img src="https://i.pinimg.com/236x/4d/d7/ea/4dd7ea06ee085b5e0d8f855e415b2bb6.jpg" alt="01" style={{ width: 150, height: 'auto' }} />
+										<img src="http://blog.sogoodweb.com/upload/510/ZDqhSBYemO.jpg" alt="01" style={{ width: 150, height: 'auto' }} />
+
 									</CardContent>
 									<Typography style={{ textAlign: 'center' }}>{formik.values.productName} {commonValidators.currencyFormat(formik.values.productPrice)}฿  Quantity: {formik.values.stockCount}</Typography>
 								</Card>
 							</Grid>
 							<Grid item xs={12} lg={6}>
 								<Card elevation={5} style={{ margin: 5 }}>
-									<CardContent>
+									<CardContent style={{ textAlign: 'center' }}>
 										<Grid container>
 											<Grid item xs={12} lg={2}>
-												<Icon className="fa fa-sort-up" style={{ fontSize: 30, marginTop: 25, color: blue[500], cursor: 'pointer' }} onClick={() => { handleUp() }} />
+												<span className="fa fa-sort-down" style={{ fontSize: 30, marginTop: 15, color: blue[500], cursor: 'pointer' }} onClick={() => { handleDown() }} />
 											</Grid>
-											<Grid item xs={12} lg={8}>
+											<Grid item xs={12} lg={8} >
 												<TextField
+													inputProps={{ style: { textAlign: 'center', fontSize: 25, color: blue[500] } }}
 													name="quantity"
 													label="Quantity"
 													required
@@ -122,33 +146,34 @@ function OrderDialog() {
 												/>
 											</Grid>
 											<Grid item xs={12} lg={2}>
-												<Icon className="fa fa-sort-down" style={{ fontSize: 30, marginTop: 15, color: blue[500], cursor: 'pointer' }} onClick={() => { handleDown() }} />
+												<span className="fa fa-sort-up" style={{ fontSize: 30, marginTop: 25, color: blue[500], cursor: 'pointer' }} onClick={() => { handleUp() }} />
 											</Grid>
 										</Grid>
 									</CardContent>
 								</Card>
 							</Grid>
 						</Grid>
-					</DialogContentText>
-				</DialogContent>
-				<DialogActions>
-					<Button variant="contained" onClick={() => {
-						handleClose()
-					}}
-						color="secondary">
-						Cancel
+					</DialogContent>
+					<DialogActions>
+						<Button variant="contained" onClick={() => {
+							handleClose()
+						}}
+							color="secondary">
+							Cancel
                                 </Button>
-					<Button variant="contained"
-						type="submit"
-						onClick={formik.handleSubmit}
-						// disabled={isSubmitting}
-						color="primary"
-						startIcon={<SaveIcon color="action" />}>
-						Save
+						<Button variant="contained"
+							type="submit"
+							onClick={formik.handleSubmit}
+							// disabled={isSubmitting}
+							color="primary"
+							startIcon={<AddShoppingCartIcon style={{ color: blue[50] }} />}
+						>
+							Add To Cart
                     </Button>
-				</DialogActions>
-			</Dialog>
-		</form>
+					</DialogActions>
+				</Dialog>
+			</form>
+		</div>
 	)
 }
 
