@@ -17,37 +17,36 @@ function OrderDetail() {
 			<Grid container>
 				<Grid item xs={12} lg={10}>
 					<List elevation={5} >
-						{orderReducer.orderDetail.map((item, i) => (
+						{orderReducer.orderDetail.map((item) => (
 							<ListItem key={item.productId} alignItems="flex-start" >
 								<ListItemText primary={`${item.productName} จำนวน :  ${item.productQuantity}`} />
 								<ListItemSecondaryAction>
 									<IconButton edge="end" aria-label="delete"
 										onClick={() => {
-
+											debugger
 											let orderList = [...orderReducer.orderDetail]
-											let obj = orderList.find(obj => obj.productId === item.productId);
+											let obj = orderList.find((obj => obj.productId === item.productId));
 
-											//down qty
-											obj.productQuantity -= 1;
+											if (obj) {
 
-											//check qty = 0
-											if (obj.productQuantity === 0) {
+												//edit qty -1
+												obj.productQuantity -= 1;
 
-												//ค้นหา product qty = 0
-												let quantityZero = orderList.find(o => o.productId === item.productId);
-												if (quantityZero !== null) {
+												//เช็ค qty = 0 ไหม
+												if (obj.productQuantity !== 0) {
 
-													//remove array
-													orderList.splice(quantityZero, 1);
+													//qty != 0 edit qty -1 save redux
+													dispatch(orderRedux.actions.updateOrderDetail(orderList));
 
-													// save product redux
-													dispatch(orderRedux.actions.deleteorderDetail(quantityZero));
+												} else {
+
+													//qty = 0 remove array product
+													orderList.splice(obj, 1);
+													dispatch(orderRedux.actions.deleteorderDetail(obj));
 												}
-											} else {
-
-												dispatch(orderRedux.actions.updateProductDetail(obj));
+											}else{
+												alert("product not found")
 											}
-
 										}}
 									>
 										<DeleteIcon />

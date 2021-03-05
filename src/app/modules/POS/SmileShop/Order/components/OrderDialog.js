@@ -67,23 +67,32 @@ function OrderDialog() {
 
 		if (formik.values.quantity > 0) {
 
-			let orderDetailUpdate = [...orderReducer.orderDetail]
+			let orderDetailUpdate = [...orderReducer.orderDetail];
 
-			//ค้น product
 			let hasOrder = orderReducer.orderDetail.find(obj => obj.productId === objOrderDetail.productId);
 
+			//check product ว่ามีไหม ใน array ไหม
 			if (!hasOrder) {
 
-				//ถ้าไม่เจอ push array save redux
+				//ไม่มี product ใน array add เข้าไป
 				orderDetailUpdate.push(objOrderDetail);
-				dispatch(orderRedux.actions.getProductDetail(orderDetailUpdate));
+				dispatch(orderRedux.actions.addOrderDetail(orderDetailUpdate));
 
-			}else{
-
-				//ถ้าเจอ + qty save redux
+			} else {
+				
+				// มี product ใน array + qty
 				hasOrder.productQuantity += formik.values.quantity;
-				dispatch(orderRedux.actions.updateProductDetail(hasOrder));
+				dispatch(orderRedux.actions.updateOrderDetail(orderDetailUpdate));
+				console.log(hasOrder);
+				
+				//เขียนได้หลายแปบ
+				// hasOrder.productQuantity = hasOrder.productQuantity+formik.values.quantity;
+
+				// let sss = hasOrder.productQuantity+formik.values.quantity;
+				// hasOrder.productQuantity=sss;
 			}
+
+			console.log("objOrderDetail", orderDetailUpdate);
 
 			//close dialog
 			handleClose();

@@ -11,7 +11,8 @@ export const actionTypes = {
 	RESET_DIALOG: '[RESET_DIALOG] Action',
 	GET_PRODUCT: "[GET_PRODUCT] Action",
 	SET_OPENDIALOG: "[SET_DIALOG] action",
-	GET_PRODUCT_DETAIL: "[GET_PRODUCT_DETAIL] Action",
+
+	ADD_ORDER_DETAIL: "[ADD_ORDER_DETAIL] Action",
 	UPDATE_ORDER_DETAIL: "[UPDATE_ORDER_DETAIL] Action",
 	REMOVE_QUANTITY_ORDER_DETAIL: "[REMOVE_QUANTITY_ORDER_DETAIL] Action"
 
@@ -55,11 +56,7 @@ export const reducer = (state = initialState, action) => {
 			return { ...state, dialogOrder: initialState.dialogOrder };
 		}
 
-		case actionTypes.GET_PRODUCT_DETAIL: {
-			return { ...state, orderDetail: action.payload };
-		}
-
-		case actionTypes.UPDATE_ORDER_DETAIL: {
+		case actionTypes.ADD_ORDER_DETAIL: {
 
 			return { ...state, orderDetail: action.payload };
 		}
@@ -83,7 +80,8 @@ export const actions = {
 	getProduct: (payload) => ({ type: actionTypes.GET_PRODUCT, payload }),
 	setOpenDialog: (payload) => ({ type: actionTypes.SET_OPENDIALOG, payload, }),
 	resetDialog: () => ({ type: actionTypes.RESET_DIALOG }),
-	getProductDetail: (payload) => ({ type: actionTypes.GET_PRODUCT_DETAIL, payload }),
-	updateProductDetail: (payload) => ({ type: actionTypes.UPDATE_ORDER_DETAIL, payload }),
+	
+	addOrderDetail: (payload) => ({ type: actionTypes.ADD_ORDER_DETAIL, payload }),
+	updateOrderDetail: (payload) => ({ type: actionTypes.ADD_ORDER_DETAIL, payload }),
 	deleteorderDetail: (payload) => ({ type: actionTypes.REMOVE_QUANTITY_ORDER_DETAIL, payload }),
 }
