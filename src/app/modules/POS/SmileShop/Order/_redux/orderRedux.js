@@ -12,6 +12,8 @@ export const actionTypes = {
 	GET_PRODUCT: "[GET_PRODUCT] Action",
 	SET_OPENDIALOG: "[SET_DIALOG] action",
 	GET_PRODUCT_DETAIL: "[GET_PRODUCT_DETAIL] Action",
+	UPDATE_ORDER_DETAIL: "[UPDATE_ORDER_DETAIL] Action",
+	REMOVE_QUANTITY_ORDER_DETAIL: "[REMOVE_QUANTITY_ORDER_DETAIL] Action"
 
 };
 
@@ -31,7 +33,7 @@ const initialState = {
 		stockCount: 0,
 		productGroupId: 0,
 	},
-	orderDetail:[]
+	orderDetail: []
 };
 
 // reducer แต่ละ Action จะไป update State อย่างไร
@@ -57,6 +59,18 @@ export const reducer = (state = initialState, action) => {
 			return { ...state, orderDetail: action.payload };
 		}
 
+		case actionTypes.UPDATE_ORDER_DETAIL: {
+
+			return { ...state, orderDetail: action.payload };
+		}
+
+		case actionTypes.REMOVE_QUANTITY_ORDER_DETAIL: {
+
+			//remove product quantity = 0
+			return { ...state, orderDetail: state.orderDetail.filter(i => i !== action.payload) };
+		}
+
+
 		default:
 			return state;
 	}
@@ -69,5 +83,7 @@ export const actions = {
 	getProduct: (payload) => ({ type: actionTypes.GET_PRODUCT, payload }),
 	setOpenDialog: (payload) => ({ type: actionTypes.SET_OPENDIALOG, payload, }),
 	resetDialog: () => ({ type: actionTypes.RESET_DIALOG }),
-	getProductDetail: (payload) => ({ type: actionTypes.GET_PRODUCT_DETAIL, payload })
+	getProductDetail: (payload) => ({ type: actionTypes.GET_PRODUCT_DETAIL, payload }),
+	updateProductDetail: (payload) => ({ type: actionTypes.UPDATE_ORDER_DETAIL, payload }),
+	deleteorderDetail: (payload) => ({ type: actionTypes.REMOVE_QUANTITY_ORDER_DETAIL, payload }),
 }

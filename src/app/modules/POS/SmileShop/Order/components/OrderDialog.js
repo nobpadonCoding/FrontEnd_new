@@ -4,10 +4,12 @@ import React from 'react'
 import { Dialog, DialogContent, DialogTitle, DialogActions, Button, Grid, CardContent, Card, Typography, TextField } from "@material-ui/core";
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import { blue } from '@material-ui/core/colors';
-import { Formik, Form, useFormik } from "formik";
+import { useFormik } from "formik";
 import { useSelector, useDispatch } from "react-redux";
 import * as commonValidators from '../../../../Common/functions/CommonValidators';
 import * as orderRedux from "../../Order/_redux/orderRedux";
+import * as swal from "../../../../Common/components/SweetAlert";
+
 function OrderDialog() {
 	const orderReducer = useSelector(({ order }) => order);
 	const [open, setOpen] = React.useState(false);
@@ -63,17 +65,41 @@ function OrderDialog() {
 			productPrice: values.productPrice
 		}
 
-		let orderDetailUpdate = [...orderReducer.orderDetail]
+		if (formik.values.quantity > 0) {
 
-		//add array
-		orderDetailUpdate.push(objOrderDetail);
+			let orderDetailUpdate = [...orderReducer.orderDetail]
 
-		console.log("objOrderDetail", orderDetailUpdate);
+			//add array
 
-		dispatch(orderRedux.actions.getProductDetail(orderDetailUpdate));
-		
-		//close dialog
-		handleClose();
+			let hasOrder = orderReducer.orderDetail.find(obj => obj.productId === objOrderDetail.productId);
+			debugger
+			if (!hasOrder) {
+				orderDetailUpdate.push(objOrderDetail);
+				dispatch(orderRedux.actions.getProductDetail(orderDetailUpdate));
+			}else{
+				hasOrder.productQuantity += formik.values.quantity;
+
+				// hasOrder.productQuantity = hasOrder.productQuantity+formik.values.quantity;
+
+				// let sss = hasOrder.productQuantity+formik.values.quantity;
+				// hasOrder.productQuantity=sss;
+				dispatch(orderRedux.actions.updateProductDetail(hasOrder));
+			}
+
+
+			console.log("objOrderDetail", orderDetailUpdate);
+
+			//close dialog
+			handleClose();
+		} else {
+
+			//close dialog
+			handleClose();
+
+			swal.swalInfo("", "Quantity = 0");
+
+		}
+
 	}
 
 	const handleOpen = () => {
