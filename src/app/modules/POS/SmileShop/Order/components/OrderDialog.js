@@ -62,7 +62,7 @@ function OrderDialog() {
 			productId: values.productId,
 			productQuantity: formik.values.quantity,
 			productName: values.productName,
-			productPrice: values.productPrice,
+			productPrice: values.productPrice
 		}
 
 		let objOrderSubtotal =
