@@ -1,12 +1,20 @@
 import React from 'react'
-import { List, ListItemText, Typography, Grid, ListItem, Card, IconButton, ListItemSecondaryAction } from "@material-ui/core";
+import { List, ListItemText, Typography, Grid, ListItem, Card, IconButton, ListItemSecondaryAction, TextField } from "@material-ui/core";
 import * as orderRedux from "../../Order/_redux/orderRedux";
 import DeleteIcon from '@material-ui/icons/Delete';
 import { useSelector, useDispatch } from "react-redux";
+import { useFormik } from "formik";
 
 function OrderDetail() {
 	const orderReducer = useSelector(({ order }) => order);
 	const dispatch = useDispatch();
+
+	const formik = useFormik({
+		enableReinitialize: true,
+		initialValues: {
+		  test: orderReducer.orderSubtotal.subtotal,
+		},
+	  });
 
 	return (
 
@@ -19,7 +27,7 @@ function OrderDetail() {
 					<List elevation={5} >
 						{orderReducer.orderDetail.map((item) => (
 							<ListItem key={item.productId} alignItems="flex-start" >
-								<ListItemText primary={`${item.productName} จำนวน :  ${item.productQuantity}`} />
+								<ListItemText primary={`${item.productName} จำนวน :  ${item.productQuantity} ราคา ${item.productPrice * item.productQuantity}`} />
 								<ListItemSecondaryAction>
 									<IconButton edge="end" aria-label="delete"
 										onClick={() => {
@@ -44,7 +52,7 @@ function OrderDetail() {
 													orderList.splice(obj, 1);
 													dispatch(orderRedux.actions.deleteorderDetail(obj));
 												}
-											}else{
+											} else {
 												alert("product not found")
 											}
 										}}
@@ -56,6 +64,13 @@ function OrderDetail() {
 						))}
 					</List>
 				</Grid>
+				<TextField
+					name="test"
+					label="Test"
+					required
+					fullWidth
+					value={formik.initialValues.test}
+				/>
 			</Grid>
 		</Card>
 	)

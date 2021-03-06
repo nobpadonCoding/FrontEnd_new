@@ -14,19 +14,23 @@ export const actionTypes = {
 
 	ADD_ORDER_DETAIL: "[ADD_ORDER_DETAIL] Action",
 	UPDATE_ORDER_DETAIL: "[UPDATE_ORDER_DETAIL] Action",
-	REMOVE_QUANTITY_ORDER_DETAIL: "[REMOVE_QUANTITY_ORDER_DETAIL] Action"
+	REMOVE_QUANTITY_ORDER_DETAIL: "[REMOVE_QUANTITY_ORDER_DETAIL] Action",
+	SUM_ORDER_SUBTOTAL:"[SUM_ORDER_SUBTOTAL] Action"
 
 };
 
 // state ค่าที่ถูกเก็บไว้
 const initialState = {
+
 	productGet: {
 		productGroupId: 0,
 		clickProductGroup: false
 	},
+
 	dialogOrder: {
 		openDialog: false
 	},
+
 	productObj: {
 		productId: 0,
 		productName: "",
@@ -34,7 +38,14 @@ const initialState = {
 		stockCount: 0,
 		productGroupId: 0,
 	},
-	orderDetail: []
+
+	orderDetail: [
+
+	],
+
+	orderSubtotal:{
+		subtotal:0
+	}
 };
 
 // reducer แต่ละ Action จะไป update State อย่างไร
@@ -67,6 +78,10 @@ export const reducer = (state = initialState, action) => {
 			return { ...state, orderDetail: state.orderDetail.filter(i => i !== action.payload) };
 		}
 
+		case actionTypes.SUM_ORDER_SUBTOTAL: {
+
+			return { ...state, orderSubtotal: action.payload };
+		}
 
 		default:
 			return state;
@@ -84,4 +99,5 @@ export const actions = {
 	addOrderDetail: (payload) => ({ type: actionTypes.ADD_ORDER_DETAIL, payload }),
 	updateOrderDetail: (payload) => ({ type: actionTypes.ADD_ORDER_DETAIL, payload }),
 	deleteorderDetail: (payload) => ({ type: actionTypes.REMOVE_QUANTITY_ORDER_DETAIL, payload }),
+	sumOrderSubtotal: (payload) => ({ type: actionTypes.SUM_ORDER_SUBTOTAL, payload }),
 }

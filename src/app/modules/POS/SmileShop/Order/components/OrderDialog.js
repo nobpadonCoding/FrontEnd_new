@@ -62,7 +62,12 @@ function OrderDialog() {
 			productId: values.productId,
 			productQuantity: formik.values.quantity,
 			productName: values.productName,
-			productPrice: values.productPrice
+			productPrice: values.productPrice,
+		}
+
+		let objOrderSubtotal =
+		{
+			subtotal: orderReducer.orderSubtotal.subtotal + values.productPrice * formik.values.quantity
 		}
 
 		if (formik.values.quantity > 0) {
@@ -74,22 +79,22 @@ function OrderDialog() {
 			//check product ว่ามีไหม ใน array ไหม
 			if (!hasOrder) {
 
+				//sum total
+				dispatch(orderRedux.actions.sumOrderSubtotal(objOrderSubtotal));
+
 				//ไม่มี product ใน array add เข้าไป
 				orderDetailUpdate.push(objOrderDetail);
 				dispatch(orderRedux.actions.addOrderDetail(orderDetailUpdate));
 
 			} else {
-				
+
+				//sum total
+				dispatch(orderRedux.actions.sumOrderSubtotal(objOrderSubtotal));
+
 				// มี product ใน array + qty
 				hasOrder.productQuantity += formik.values.quantity;
 				dispatch(orderRedux.actions.updateOrderDetail(orderDetailUpdate));
 				console.log(hasOrder);
-				
-				//เขียนได้หลายแปบ
-				// hasOrder.productQuantity = hasOrder.productQuantity+formik.values.quantity;
-
-				// let sss = hasOrder.productQuantity+formik.values.quantity;
-				// hasOrder.productQuantity=sss;
 			}
 
 			console.log("objOrderDetail", orderDetailUpdate);
@@ -139,6 +144,7 @@ function OrderDialog() {
 	const handleUp = () => {
 		formik.setFieldValue("quantity", parseInt(formik.values.quantity) + 1)
 	}
+
 	return (
 		<div>
 			<form onSubmit={formik.handleSubmit}>
