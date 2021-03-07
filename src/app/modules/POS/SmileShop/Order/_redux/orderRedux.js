@@ -10,7 +10,9 @@ export const actionTypes = {
 	UPDATE_PRODUCT: '[UPDATE_PRODUCT] Action',
 	RESET_DIALOG: '[RESET_DIALOG] Action',
 	GET_PRODUCT: "[GET_PRODUCT] Action",
+
 	SET_OPENDIALOG: "[SET_DIALOG] action",
+	SET_OPENDIALOG_SUMMARY: "[SET_OPENDIALOG_SUMMARY] action",
 
 	ADD_ORDER_DETAIL: "[ADD_ORDER_DETAIL] Action",
 	UPDATE_ORDER_DETAIL: "[UPDATE_ORDER_DETAIL] Action",
@@ -28,6 +30,10 @@ const initialState = {
 	},
 
 	dialogOrder: {
+		openDialog: false
+	},
+
+	dialogOrderSummary: {
 		openDialog: false
 	},
 
@@ -83,6 +89,10 @@ export const reducer = (state = initialState, action) => {
 			return { ...state, orderSubtotal: action.payload };
 		}
 
+		case actionTypes.SET_OPENDIALOG_SUMMARY: {
+			return { ...state, dialogOrderSummary: action.payload };
+		}
+
 		default:
 			return state;
 	}
@@ -100,4 +110,5 @@ export const actions = {
 	updateOrderDetail: (payload) => ({ type: actionTypes.ADD_ORDER_DETAIL, payload }),
 	deleteorderDetail: (payload) => ({ type: actionTypes.REMOVE_QUANTITY_ORDER_DETAIL, payload }),
 	sumOrderSubtotal: (payload) => ({ type: actionTypes.SUM_ORDER_SUBTOTAL, payload }),
+	setOpenDialogSummary: (payload) => ({ type: actionTypes.SET_OPENDIALOG_SUMMARY, payload, }),
 }

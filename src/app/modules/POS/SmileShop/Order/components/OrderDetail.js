@@ -1,8 +1,8 @@
 import React from 'react'
-import { List, ListItemText, Typography, Grid, ListItem, Card, CardContent, IconButton, ListItemSecondaryAction, Divider,Button } from "@material-ui/core";
+import { List, ListItemText, Typography, Grid, ListItem, Card, CardContent, IconButton, ListItemSecondaryAction, Divider, Button } from "@material-ui/core";
 import SaveIcon from '@material-ui/icons/Save';
 import * as orderRedux from "../../Order/_redux/orderRedux";
-import * as orderAxios from "../../Order/_redux/orderAxios";
+
 import DeleteIcon from '@material-ui/icons/Delete';
 import * as commonValidators from '../../../../Common/functions/CommonValidators';
 import { useSelector, useDispatch } from "react-redux";
@@ -19,23 +19,20 @@ function OrderDetail() {
 			test: orderReducer.orderSubtotal.subtotal,
 		},
 		onSubmit: (values, { setSubmitting, resetForm }) => {
-			console.log(orderReducer.orderDetail)
-			orderAxios.addOrder(orderReducer.orderDetail)
-			.then((res) => {
-				if (res.data.isSuccess) {
-					swal.swalSuccess("Success", `add Order success.`)
-					
-				} else {
-					swal.swalError("Error", res.data.message);
-				}
-			})
-			.catch((err) => {
-				//network error
-				swal.swalError("Error", err.message);
 
-			});
+			handleCheckOut({ setSubmitting, resetForm });
 		},
 	});
+
+	const handleCheckOut = ({ setSubmitting }) => {
+		debugger
+		setSubmitting(false);
+		let objPayload = {
+			...orderReducer.dialogOrderSummary,
+			openDialog: true
+		};
+		dispatch(orderRedux.actions.setOpenDialogSummary(objPayload));
+	};
 
 	return (
 
@@ -100,7 +97,7 @@ function OrderDetail() {
 						// disabled={isSubmitting}
 						color="primary"
 						startIcon={<SaveIcon color="action" />}>
-						Save
+						Check Out
                     </Button>
 				</Grid>
 			</CardContent>

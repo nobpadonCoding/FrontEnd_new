@@ -4,6 +4,7 @@ import OrderProductGroup from '../../Order/components/OrderProductGroup'
 import OrderProduct from '../../Order/components/OrderProduct'
 import OrderDialog from '../../Order/components/OrderDialog'
 import OrderDetail from '../../Order/components/OrderDetail'
+import OrderSummaryDialog from '../../Order/components/OrderSummaryDialog'
 function OrderList() {
 	return (
 		<div>
@@ -16,6 +17,7 @@ function OrderList() {
 					<OrderDetail></OrderDetail>
 				</Grid>
 				<OrderDialog></OrderDialog>
+				<OrderSummaryDialog></OrderSummaryDialog>
 			</Grid>
 		</div>
 	)
