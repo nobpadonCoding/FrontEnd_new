@@ -2,6 +2,7 @@
 import React from 'react'
 import { useField, useFormik } from "formik";
 import { useSelector, useDispatch } from "react-redux";
+import * as orderRedux from "../../Order/_redux/orderRedux";
 import * as orderAxios from "../../Order/_redux/orderAxios";
 import { Dialog, DialogContent, DialogTitle, DialogActions, Button, Grid, List, Divider, ListItem, ListItemText, Typography, TextField } from "@material-ui/core";
 import * as swal from "../../../../Common/components/SweetAlert";
@@ -11,6 +12,7 @@ function OrderSummaryDialog() {
 
 	const orderReducer = useSelector(({ order }) => order);
 	const [open, setOpen] = React.useState(false);
+	const dispatch = useDispatch();
 
 	const formik = useFormik({
 		enableReinitialize: true,
@@ -53,6 +55,10 @@ function OrderSummaryDialog() {
 				if (res.data.isSuccess) {
 					handleClose();
 					swal.swalSuccess("Success", `add Order success.`)
+
+					dispatch(orderRedux.actions.resetOrderDetail());
+					dispatch(orderRedux.actions.resetOrderSubtotal());
+					dispatch(orderRedux.actions.resetOrderDialogSummary());
 
 				} else {
 					handleClose();
@@ -118,7 +124,7 @@ function OrderSummaryDialog() {
 											label="Total"
 											required
 											fullWidth
-											disabled={false}
+											disabled={true}
 											onBlur={formik.handleBlur}
 											onChange={formik.handleChange}
 											value={formik.values.total}
@@ -142,7 +148,7 @@ function OrderSummaryDialog() {
 											label="Total Amount"
 											required
 											fullWidth
-											disabled={false}
+											disabled={true}
 											onBlur={formik.handleBlur}
 											onChange={formik.handleChange}
 											value={formik.values.totalAmount}

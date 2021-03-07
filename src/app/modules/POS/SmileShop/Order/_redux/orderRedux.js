@@ -8,7 +8,6 @@ dayjs.locale("th");
 export const actionTypes = {
 
 	UPDATE_PRODUCT: '[UPDATE_PRODUCT] Action',
-	RESET_DIALOG: '[RESET_DIALOG] Action',
 	GET_PRODUCT: "[GET_PRODUCT] Action",
 
 	SET_OPENDIALOG: "[SET_DIALOG] action",
@@ -17,7 +16,12 @@ export const actionTypes = {
 	ADD_ORDER_DETAIL: "[ADD_ORDER_DETAIL] Action",
 	UPDATE_ORDER_DETAIL: "[UPDATE_ORDER_DETAIL] Action",
 	REMOVE_QUANTITY_ORDER_DETAIL: "[REMOVE_QUANTITY_ORDER_DETAIL] Action",
-	SUM_ORDER_SUBTOTAL:"[SUM_ORDER_SUBTOTAL] Action"
+	SUM_ORDER_SUBTOTAL:"[SUM_ORDER_SUBTOTAL] Action",
+
+	RESET_ORDER_DETAIL:"[RESET_ORDER_DETAIL] Action",
+	RESET_ORDER_SUBTOTAL:"[RESET_ORDER_SUBTOTAL] Action",
+	RESET_DIALOG: '[RESET_DIALOG] Action',
+	RESET_DIALOG_ORDER_SUMMARY: '[RESET_DIALOG_ORDER_SUMMARY] Action',
 
 };
 
@@ -93,6 +97,17 @@ export const reducer = (state = initialState, action) => {
 			return { ...state, dialogOrderSummary: action.payload };
 		}
 
+		case actionTypes.RESET_ORDER_DETAIL: {
+			return { ...state, orderDetail: initialState.orderDetail };
+		}
+
+		case actionTypes.RESET_ORDER_SUBTOTAL: {
+			return { ...state, orderSubtotal: initialState.orderSubtotal };
+		}
+		case actionTypes.RESET_DIALOG_ORDER_SUMMARY: {
+			return { ...state, dialogOrderSummary: initialState.dialogOrderSummary };
+		}
+
 		default:
 			return state;
 	}
@@ -111,4 +126,7 @@ export const actions = {
 	deleteorderDetail: (payload) => ({ type: actionTypes.REMOVE_QUANTITY_ORDER_DETAIL, payload }),
 	sumOrderSubtotal: (payload) => ({ type: actionTypes.SUM_ORDER_SUBTOTAL, payload }),
 	setOpenDialogSummary: (payload) => ({ type: actionTypes.SET_OPENDIALOG_SUMMARY, payload, }),
+	resetOrderDetail: () => ({ type: actionTypes.RESET_ORDER_DETAIL }),
+	resetOrderSubtotal: () => ({ type: actionTypes.RESET_ORDER_SUBTOTAL }),
+	resetOrderDialogSummary: () => ({ type: actionTypes.RESET_DIALOG_ORDER_SUMMARY }),
 }
