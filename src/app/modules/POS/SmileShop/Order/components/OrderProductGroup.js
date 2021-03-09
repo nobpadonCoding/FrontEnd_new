@@ -47,15 +47,15 @@ function OrderProductGroup() {
 					justify="center"
 					alignItems="center"
 					spacing={3}>
-						{productGroup.map((productGroup) => (
-							<Grid item xs={12} lg={3} key={`product_${productGroup.id}`}>
-							<Button variant="outlined" color="primary" onClick={()=>{
+					{productGroup.map((productGroup) => (
+						<Grid item xs={12} lg={3} key={`product_${productGroup.id}`}>
+							<Button variant="outlined" color="primary" onClick={() => {
 								handleGet(productGroup.id);
 							}} >
 								{productGroup.name}
-						  </Button>
+							</Button>
 						</Grid>
-						))}
+					))}
 				</Grid>
 			</CardContent>
 		</Card>
