@@ -155,7 +155,7 @@ function OrderDialog() {
 							<Grid item xs={12} lg={6}>
 								<Card elevation={5} style={{ margin: 5 }}>
 									<CardContent style={{ textAlign: 'center' }}>
-										<img src="http://blog.sogoodweb.com/upload/510/ZDqhSBYemO.jpg" alt="01" style={{ width: 140, height: 'auto' }} />
+										<img src="http://blog.sogoodweb.com/upload/510/ZDqhSBYemO.jpg" alt="01" style={{ width: 130, height: 'auto' }} />
 
 									</CardContent>
 									<Typography style={{ textAlign: 'center' }}>{formik.values.productName} {commonValidators.currencyFormat(formik.values.productPrice)}฿  Quantity: {formik.values.stockCount}</Typography>

@@ -40,19 +40,18 @@ function OrderSummaryDialog() {
 		debugger
 		setSubmitting(false);
 
-		let orderDetailUpdate = [...orderReducer.orderDetail];
+		let orderDetail = [...orderReducer.orderDetail];
+		
+		let orderHeader = {
+			...orderReducer.orderHeader,
+			total: orderReducer.orderSubtotal.subtotal,
+			discount: values.productDiscount,
+			totalAmount: values.totalAmount,
+			//ใน obj orderHeader มี array orderDetail
+			orderDetail: orderDetail,
+		};
 
-		//add key/value to an obj in array
-		var result = orderDetailUpdate.map((el) => {
-			var o = Object.assign({}, el);
-			o.total = orderReducer.orderSubtotal.subtotal;
-			o.productDiscount = values.productDiscount;
-			o.totalAmount = values.totalAmount;
-			return o;
-		})
-
-		console.log("xxxxx", result)
-		orderAxios.addOrder(result)
+		orderAxios.addOrder(orderHeader)
 			.then((res) => {
 				if (res.data.isSuccess) {
 					handleClose();

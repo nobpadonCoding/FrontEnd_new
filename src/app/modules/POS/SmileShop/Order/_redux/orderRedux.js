@@ -53,6 +53,13 @@ const initialState = {
 
 	],
 
+	orderHeader:{
+		total:0,
+		discount:0,
+		totalAmount:0,
+		orderDetail: []
+	},
+
 	orderSubtotal:{
 		subtotal:0
 	}
