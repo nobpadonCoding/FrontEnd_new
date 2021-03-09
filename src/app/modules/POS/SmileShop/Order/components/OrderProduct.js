@@ -71,7 +71,7 @@ function OrderProduct() {
 			container
 		>
 			{product.map((product) => (
-				<Grid item xs={12} lg={3} key={`product_${product.id}`}>
+				<Grid item xs={6} lg={3} key={`product_${product.id}`}>
 					<Card elevation={5} style={{ margin: 5 }} >
 						<CardContent style={{ cursor: 'pointer' }} onClick={() => {
 

@@ -20,6 +20,7 @@ export const editProduct = (payload, id) => {
 export const getProduct = (id) => {
     return axios.get(`${SMILESHOP_URL}/Product/${id}`);
 };
+
 export const getProductsFilter = (orderingField, ascendingOrder, page, recordsPerPage, productName, productGroupName) => {
     let payload = {
         page,

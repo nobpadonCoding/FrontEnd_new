@@ -40,14 +40,17 @@ function OrderSummaryDialog() {
 		debugger
 		setSubmitting(false);
 
+		//แตก array orderDetail ออกมา
 		let orderDetail = [...orderReducer.orderDetail];
-		
+
+		//ประกาศ obj orderHeader
 		let orderHeader = {
-			...orderReducer.orderHeader,
+
+			// ...orderReducer.orderHeader,
 			total: orderReducer.orderSubtotal.subtotal,
 			discount: values.productDiscount,
 			totalAmount: values.totalAmount,
-			//ใน obj orderHeader มี array orderDetail
+			//ยัด array orderDetail เข้าไป orderHeader
 			orderDetail: orderDetail,
 		};
 
@@ -67,6 +70,7 @@ function OrderSummaryDialog() {
 				}
 			})
 			.catch((err) => {
+
 				//network error
 				handleClose();
 				swal.swalError("Error", err.message);
