@@ -86,7 +86,7 @@ function OrderProduct() {
 							dispatch(orderRedux.actions.updateProduct(objProduct));
 							// dispatch(orderRedux.actions.resetProduct());
 						}}>
-							<img src="http://blog.sogoodweb.com/upload/510/ZDqhSBYemO.jpg" alt="01" style={{ width: 150, height: 'auto' }} />
+							<img src="http://blog.sogoodweb.com/upload/510/ZDqhSBYemO.jpg" alt="01" style={{ width: 130, height: 'auto' }} />
 						</CardContent>
 						<Typography style={{ textAlign: 'center' }}>{product.name}  {commonValidators.currencyFormat(product.price)} ฿</Typography>
 					</Card>
