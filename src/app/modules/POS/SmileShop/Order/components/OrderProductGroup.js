@@ -44,7 +44,7 @@ function OrderProductGroup() {
 				<Grid
 					container
 					direction="row"
-					justify="center"
+					justify="flex-start"
 					alignItems="center"
 					spacing={3}>
 					{productGroup.map((productGroup) => (
