@@ -17,6 +17,6 @@ export const getOrderFilter = (orderingField, ascendingOrder, page, recordsPerPa
         ascendingOrder,
         OrderNumber
     }
-    return axios.get(encodeURLWithParams(`${SMILESHOP_URL}/Order/filter`, payload));
+    return axios.get(encodeURLWithParams(`${SMILESHOP_URL}/Orders/filter`, payload));
     
 };

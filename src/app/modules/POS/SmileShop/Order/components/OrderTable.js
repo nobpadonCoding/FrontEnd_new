@@ -5,6 +5,8 @@ import * as orderAxios from "../../Order/_redux/orderAxios";
 import OrderDataTable from "mui-datatables";
 import { Grid, Typography, CircularProgress, Chip } from "@material-ui/core";
 import * as CommonValidators from '../../../../Common/functions/CommonValidators'
+import DeleteButton from '../../../../Common/components/Buttons/DeleteButton'
+import ViewButton from '../../../../Common/components/Buttons/ViewButton'
 
 var flatten = require("flat");
 require("dayjs/locale/th");
@@ -26,6 +28,10 @@ function OrderTable() {
 			OrderNumber: ""
 		}
 	});
+
+	const handleOpen = () => {
+
+	}
 
 	React.useEffect(() => {
 		//load data from api
@@ -68,7 +74,10 @@ function OrderTable() {
 	};
 
 	const options = {
-		filterType: "checkbox",
+		filterOptions: {
+
+		},
+		// filterType: "checkbox",
 		print: false,
 		download: false,
 		filter: false,
@@ -239,7 +248,7 @@ function OrderTable() {
 				customBodyRenderLite: (dataIndex, rowIndex) => {
 					return (
 						<Grid
-							style={{ padding: 0, margin: 0,textAlign: "left" }}
+							style={{ padding: 0, margin: 0, textAlign: "left" }}
 						>
 							{data[dataIndex].status === true ? (
 								<Chip
@@ -258,7 +267,45 @@ function OrderTable() {
 					);
 				},
 			},
-		}
+		},
+		{
+			name: "",
+			options: {
+				filter: false,
+				sort: false,
+				empty: true,
+				viewColumns: false,
+				hight: 2,
+				customBodyRenderLite: (dataIndex, rowIndex) => {
+					return (
+						<Grid
+							container
+							direction="row"
+							justify="center"
+							alignItems="center"
+						>
+							<ViewButton
+								// style={{ marginRight: 20 }}
+								onClick={() => {
+									handleOpen(data[dataIndex].id);
+								}}
+							>
+								View
+                          </ViewButton>
+							<DeleteButton
+								style={{ marginLeft: 10 }}
+								disabled={data[dataIndex].status === true ? false : true}
+								onClick={() => {
+									// handleDelete(data[dataIndex].id);
+								}}
+							>
+								Delete
+                          </DeleteButton>
+						</Grid>
+					);
+				},
+			},
+		},
 	];
 	return (
 		<div>
