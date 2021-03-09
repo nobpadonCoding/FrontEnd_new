@@ -1,16 +1,16 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react'
 import { List, ListItemText, Typography, Grid, ListItem, Card, CardContent, IconButton, ListItemSecondaryAction, Divider, Button } from "@material-ui/core";
-import SaveIcon from '@material-ui/icons/Save';
+import ShoppingCart from '@material-ui/icons/ShoppingCart';
 import * as orderRedux from "../../Order/_redux/orderRedux";
-
 import DeleteIcon from '@material-ui/icons/Delete';
 import * as commonValidators from '../../../../Common/functions/CommonValidators';
 import { useSelector, useDispatch } from "react-redux";
 import { useFormik } from "formik";
-import * as swal from "../../../../Common/components/SweetAlert";
 
 function OrderDetail() {
 	const orderReducer = useSelector(({ order }) => order);
+	const [disabled, setDisabled] = React.useState(true);
 	const dispatch = useDispatch();
 
 	const formik = useFormik({
@@ -34,6 +34,12 @@ function OrderDetail() {
 		dispatch(orderRedux.actions.setOpenDialogSummary(objPayload));
 	};
 
+	React.useEffect(() => {
+
+		if (orderReducer.orderSubtotal.subtotal > 0 ? setDisabled(false) : setDisabled(true));
+
+	}, [orderReducer.orderSubtotal.subtotal])
+
 	return (
 
 		<Card style={{ marginLeft: 5 }}>
@@ -42,7 +48,7 @@ function OrderDetail() {
 					Order Detail
           		</Typography>
 				<Grid container>
-					<Grid item xs={12} lg={10}>
+					<Grid item xs={12} lg={12}>
 						<List elevation={5} >
 							<Divider />
 							{orderReducer.orderDetail.map((item) => (
@@ -54,7 +60,16 @@ function OrderDetail() {
 											onClick={() => {
 												debugger
 												let orderList = [...orderReducer.orderDetail]
+
 												let obj = orderList.find((obj => obj.productId === item.productId));
+
+												let orderSubtotal = {
+													...orderReducer.orderSubtotal
+												}
+
+												// ลด Subtotal เท่ากับ productPrice
+												orderSubtotal.subtotal -= obj.productPrice
+												dispatch(orderRedux.actions.sumOrderSubtotal(orderSubtotal));
 
 												if (obj) {
 
@@ -86,19 +101,22 @@ function OrderDetail() {
 							<Divider />
 						</List>
 					</Grid>
-					<Grid item xs={12} lg={10}>
+					<Grid item xs={12} lg={12}>
 						<Typography style={{ textAlign: 'right' }}>
 							{commonValidators.currencyFormat(formik.initialValues.test)}
 						</Typography>
 					</Grid>
-					<Button variant="contained"
-						type="submit"
-						onClick={formik.handleSubmit}
-						// disabled={isSubmitting}
-						color="primary"
-						startIcon={<SaveIcon color="action" />}>
-						Check Out
-                    </Button>
+					<Grid container justify="flex-end" item xs={12} lg={12} style={{ marginTop: 5 }}>
+						<Button variant="contained"
+							type="submit"
+							onClick={formik.handleSubmit}
+							disabled={disabled}
+							color="primary"
+							startIcon={<ShoppingCart color="action" />}>
+							Check Out
+                    	</Button>
+					</Grid>
+
 				</Grid>
 			</CardContent>
 		</Card>

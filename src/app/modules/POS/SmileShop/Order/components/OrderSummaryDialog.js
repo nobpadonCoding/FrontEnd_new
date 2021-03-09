@@ -1,12 +1,14 @@
+/* eslint-disable no-restricted-imports */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react'
-import { useField, useFormik } from "formik";
+import { useFormik } from "formik";
 import { useSelector, useDispatch } from "react-redux";
 import * as orderRedux from "../../Order/_redux/orderRedux";
 import * as orderAxios from "../../Order/_redux/orderAxios";
 import { Dialog, DialogContent, DialogTitle, DialogActions, Button, Grid, List, Divider, ListItem, ListItemText, Typography, TextField } from "@material-ui/core";
 import * as swal from "../../../../Common/components/SweetAlert";
 import * as commonValidators from '../../../../Common/functions/CommonValidators';
+import { blue } from '@material-ui/core/colors';
 
 function OrderSummaryDialog() {
 
@@ -25,7 +27,7 @@ function OrderSummaryDialog() {
 			subtotal: orderReducer.orderSubtotal.subtotal,
 			total: orderReducer.orderSubtotal.subtotal,
 			productDiscount: 0,
-			totalAmount: 0
+			totalAmount: orderReducer.orderSubtotal.subtotal
 
 		},
 		onSubmit: (values, { setSubmitting }) => {
@@ -78,7 +80,10 @@ function OrderSummaryDialog() {
 	};
 
 	const handleClose = () => {
+
 		setOpen(false);
+
+		dispatch(orderRedux.actions.resetOrderDialogSummary());
 	};
 
 	React.useEffect(() => {
@@ -90,6 +95,7 @@ function OrderSummaryDialog() {
 
 	React.useEffect(() => {
 
+		//ลด totalAmount = discount
 		formik.setFieldValue("totalAmount", formik.values.total - formik.values.productDiscount);
 
 	}, [formik.values.productDiscount])
@@ -101,7 +107,7 @@ function OrderSummaryDialog() {
 					<DialogTitle id="form-dialog-title">Order Summary</DialogTitle>
 					<DialogContent>
 						<Grid container>
-							<Grid item xs={12} lg={6}>
+							<Grid item xs={12} lg={6} style={{ marginRight: 6 }}>
 								<List elevation={5} >
 									<Divider />
 									{orderReducer.orderDetail.map((item) => (
@@ -116,47 +122,53 @@ function OrderSummaryDialog() {
 									{commonValidators.currencyFormat(formik.initialValues.subtotal)}
 								</Typography>
 							</Grid>
-							<Grid item xs={12} lg={6}>
-								<List elevation={5} >
-									<ListItem alignItems="flex-start" >
-										<TextField
-											name="total"
-											label="Total"
-											required
-											fullWidth
-											disabled={true}
-											onBlur={formik.handleBlur}
-											onChange={formik.handleChange}
-											value={formik.values.total}
-											error={(formik.errors.total && formik.touched.total)}
-											helperText={(formik.errors.total && formik.touched.total) && formik.errors.total}
-										/>
-										<TextField
-											name="productDiscount"
-											label="Discount"
-											required
-											fullWidth
-											disabled={false}
-											onBlur={formik.handleBlur}
-											onChange={formik.handleChange}
-											value={formik.values.productDiscount}
-											error={(formik.errors.productDiscount && formik.touched.productDiscount)}
-											helperText={(formik.errors.productDiscount && formik.touched.productDiscount) && formik.errors.productDiscount}
-										/>
-										<TextField
-											name="totalAmount"
-											label="Total Amount"
-											required
-											fullWidth
-											disabled={true}
-											onBlur={formik.handleBlur}
-											onChange={formik.handleChange}
-											value={formik.values.totalAmount}
-											error={(formik.errors.test && formik.touched.totalAmount)}
-											helperText={(formik.errors.totalAmount && formik.touched.totalAmount) && formik.errors.totalAmount}
-										/>
-									</ListItem>
-								</List>
+
+							<Grid item xs={12} lg={5} >
+								<Grid item xs={12} lg={12}>
+									<TextField
+										inputProps={{ style: { textAlign: 'center', fontSize: 25 } }}
+										name="total"
+										label="Total"
+										required
+										fullWidth
+										disabled={true}
+										onBlur={formik.handleBlur}
+										onChange={formik.handleChange}
+										value={formik.values.total}
+										error={(formik.errors.total && formik.touched.total)}
+										helperText={(formik.errors.total && formik.touched.total) && formik.errors.total}
+									/>
+								</Grid>
+								<Grid item xs={12} lg={12}>
+									<TextField
+										inputProps={{ style: { textAlign: 'center', fontSize: 25, color: blue[500] } }}
+										name="productDiscount"
+										label="Discount"
+										required
+										fullWidth
+										disabled={false}
+										onBlur={formik.handleBlur}
+										onChange={formik.handleChange}
+										value={formik.values.productDiscount}
+										error={(formik.errors.productDiscount && formik.touched.productDiscount)}
+										helperText={(formik.errors.productDiscount && formik.touched.productDiscount) && formik.errors.productDiscount}
+									/>
+								</Grid>
+								<Grid item xs={12} lg={12}>
+									<TextField
+										inputProps={{ style: { textAlign: 'center', fontSize: 25 } }}
+										name="totalAmount"
+										label="Total Amount"
+										required
+										fullWidth
+										disabled={true}
+										onBlur={formik.handleBlur}
+										onChange={formik.handleChange}
+										value={formik.values.totalAmount}
+										error={(formik.errors.test && formik.touched.totalAmount)}
+										helperText={(formik.errors.totalAmount && formik.touched.totalAmount) && formik.errors.totalAmount}
+									/>
+								</Grid>
 							</Grid>
 						</Grid>
 					</DialogContent>
