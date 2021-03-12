@@ -62,7 +62,6 @@ function OrderSummaryDialog() {
 
 					dispatch(orderRedux.actions.resetOrderDetail());
 					dispatch(orderRedux.actions.resetOrderSubtotal());
-					dispatch(orderRedux.actions.resetOrderDialogSummary());
 
 				} else {
 					handleClose();
