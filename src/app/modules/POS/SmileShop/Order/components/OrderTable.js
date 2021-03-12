@@ -39,9 +39,9 @@ function OrderTable() {
 			.then((res) => {
 				if (res.data.isSuccess) {
 					console.log(res.data)
+
 					//ประกาศ obj orderHeader
 					let orderHeader = {
-
 						...orderReducer.orderHeader,
 						total: res.data.data.total,
 						discount: res.data.data.discount,
@@ -181,9 +181,9 @@ function OrderTable() {
 	const columns = [
 		{
 			name: "id",
-			label: "Code",
+			label: "Bill Number",
 			options: {
-				// sort: false,
+				sort: false,
 				customHeadLabelRender: (columnMeta, updateDirection) => (
 					<Grid style={{ textAlign: "center", cursor: 'pointer' }}>
 						{columnMeta.label}

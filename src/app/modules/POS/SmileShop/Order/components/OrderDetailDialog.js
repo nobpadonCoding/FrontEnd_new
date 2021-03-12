@@ -28,7 +28,7 @@ function OrderDetailDialog() {
 
 	const total = orderReducer.orderHeader.total;
 	const discount = orderReducer.orderHeader.discount;
-	const totalAmount = total - discount;
+	const totalAmount = orderReducer.orderHeader.totalAmount;
 
 	return (
 		<div>
