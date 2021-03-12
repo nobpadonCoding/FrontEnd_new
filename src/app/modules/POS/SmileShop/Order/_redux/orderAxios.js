@@ -8,6 +8,10 @@ export const addOrder = (payload) => {
     return axios.post(`${SMILESHOP_URL}/Order`, payload);
 };
 
+export const getOrder = (id) => {
+    return axios.get(`${SMILESHOP_URL}/Order/${id}`);
+};
+
 export const getOrderFilter = (orderingField, ascendingOrder, page, recordsPerPage, OrderNumber) => {
 
     let payload = {

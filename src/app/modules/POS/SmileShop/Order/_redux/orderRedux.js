@@ -16,12 +16,16 @@ export const actionTypes = {
 	ADD_ORDER_DETAIL: "[ADD_ORDER_DETAIL] Action",
 	UPDATE_ORDER_DETAIL: "[UPDATE_ORDER_DETAIL] Action",
 	REMOVE_QUANTITY_ORDER_DETAIL: "[REMOVE_QUANTITY_ORDER_DETAIL] Action",
-	SUM_ORDER_SUBTOTAL:"[SUM_ORDER_SUBTOTAL] Action",
+	SUM_ORDER_SUBTOTAL: "[SUM_ORDER_SUBTOTAL] Action",
 
-	RESET_ORDER_DETAIL:"[RESET_ORDER_DETAIL] Action",
-	RESET_ORDER_SUBTOTAL:"[RESET_ORDER_SUBTOTAL] Action",
+	RESET_ORDER_DETAIL: "[RESET_ORDER_DETAIL] Action",
+	RESET_ORDER_SUBTOTAL: "[RESET_ORDER_SUBTOTAL] Action",
 	RESET_DIALOG: '[RESET_DIALOG] Action',
 	RESET_DIALOG_ORDER_SUMMARY: '[RESET_DIALOG_ORDER_SUMMARY] Action',
+
+	RESET_ORDER_HEADER: '[RESET_ORDER_HEADER] Action',
+
+	GET_ORDER_DETAIL: '[GET_ORDER_DETAIL] Action',
 
 };
 
@@ -53,15 +57,17 @@ const initialState = {
 
 	],
 
-	// orderHeader:{
-	// 	total:0,
-	// 	discount:0,
-	// 	totalAmount:0,
-	// 	orderDetail: []
-	// },
+	orderHeader: {
+		total: 0,
+		discount: 0,
+		totalAmount: 0,
+		productQuantity: 0,
+		openDialogOrderDetail:false,
+		orderDetail: []
+	},
 
-	orderSubtotal:{
-		subtotal:0
+	orderSubtotal: {
+		subtotal: 0
 	}
 };
 
@@ -111,8 +117,16 @@ export const reducer = (state = initialState, action) => {
 		case actionTypes.RESET_ORDER_SUBTOTAL: {
 			return { ...state, orderSubtotal: initialState.orderSubtotal };
 		}
+
 		case actionTypes.RESET_DIALOG_ORDER_SUMMARY: {
 			return { ...state, dialogOrderSummary: initialState.dialogOrderSummary };
+		}
+		case actionTypes.RESET_ORDER_HEADER: {
+			return { ...state, orderHeader: initialState.orderHeader };
+		}
+
+		case actionTypes.GET_ORDER_DETAIL: {
+			return { ...state, orderHeader: action.payload };
 		}
 
 		default:
@@ -127,7 +141,7 @@ export const actions = {
 	getProduct: (payload) => ({ type: actionTypes.GET_PRODUCT, payload }),
 	setOpenDialog: (payload) => ({ type: actionTypes.SET_OPENDIALOG, payload, }),
 	resetDialog: () => ({ type: actionTypes.RESET_DIALOG }),
-	
+
 	addOrderDetail: (payload) => ({ type: actionTypes.ADD_ORDER_DETAIL, payload }),
 	updateOrderDetail: (payload) => ({ type: actionTypes.ADD_ORDER_DETAIL, payload }),
 	deleteorderDetail: (payload) => ({ type: actionTypes.REMOVE_QUANTITY_ORDER_DETAIL, payload }),
@@ -136,4 +150,6 @@ export const actions = {
 	resetOrderDetail: () => ({ type: actionTypes.RESET_ORDER_DETAIL }),
 	resetOrderSubtotal: () => ({ type: actionTypes.RESET_ORDER_SUBTOTAL }),
 	resetOrderDialogSummary: () => ({ type: actionTypes.RESET_DIALOG_ORDER_SUMMARY }),
+	resetOrderHeader: () => ({ type: actionTypes.RESET_ORDER_HEADER }),
+	getOrderDetail: (payload) => ({ type: actionTypes.GET_ORDER_DETAIL, payload }),
 }

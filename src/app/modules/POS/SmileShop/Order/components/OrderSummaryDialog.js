@@ -58,7 +58,7 @@ function OrderSummaryDialog() {
 			.then((res) => {
 				if (res.data.isSuccess) {
 					handleClose();
-					swal.swalSuccess("Success", `add Order success.`)
+					swal.swalSuccess("Success", `OrderId ${res.data.data.orderNoId}`)
 
 					dispatch(orderRedux.actions.resetOrderDetail());
 					dispatch(orderRedux.actions.resetOrderSubtotal());
