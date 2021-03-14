@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react'
-import { List, ListItemText, Typography, Grid, ListItem, Card, CardContent, IconButton, ListItemSecondaryAction, Divider, Button } from "@material-ui/core";
+import { List, ListItemText, Typography, Grid, ListItem, Card, CardContent, IconButton, ListItemSecondaryAction, Divider, Button, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from "@material-ui/core";
 import ShoppingCart from '@material-ui/icons/ShoppingCart';
 import * as orderRedux from "../../Order/_redux/orderRedux";
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -49,57 +49,68 @@ function OrderDetail() {
           		</Typography>
 				<Grid container>
 					<Grid item xs={12} lg={12}>
-						<List elevation={5} >
-							<Divider />
-							{orderReducer.orderDetail.map((item) => (
-								<ListItem key={item.productId} alignItems="flex-start" >
-									<ListItemText primary={`${item.productName} จำนวน :  ${item.productQuantity} ราคา ${item.productPrice * item.productQuantity}`} />
-									<Divider />
-									<ListItemSecondaryAction>
-										<IconButton edge="end" aria-label="delete"
-											onClick={() => {
-												debugger
-												let orderList = [...orderReducer.orderDetail]
+						<TableContainer component={Paper}>
+							<Table aria-label="spanning table">
+								<TableHead>
+									<TableRow>
+										<TableCell>ProductName</TableCell>
+										<TableCell align="right">Quantity</TableCell>
+										<TableCell align="right">Price</TableCell>
+										<TableCell align="right"></TableCell>
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									{orderReducer.orderDetail.map((item) => (
+										<TableRow>
+											<TableCell>{item.productName}</TableCell>
+											<TableCell align="right">{item.productQuantity}</TableCell>
+											<TableCell align="right">{commonValidators.currencyFormat(item.productPrice * item.productQuantity)}</TableCell>
+											<TableCell align="right">
+												<IconButton edge="end" aria-label="delete"
+													onClick={() => {
+														debugger
+														let orderList = [...orderReducer.orderDetail]
 
-												let obj = orderList.find((obj => obj.productId === item.productId));
+														let obj = orderList.find((obj => obj.productId === item.productId));
 
-												let orderSubtotal = {
-													...orderReducer.orderSubtotal
-												}
+														let orderSubtotal = {
+															...orderReducer.orderSubtotal
+														}
 
-												// ลด Subtotal เท่ากับ productPrice
-												orderSubtotal.subtotal -= obj.productPrice
-												dispatch(orderRedux.actions.sumOrderSubtotal(orderSubtotal));
+														// ลด Subtotal เท่ากับ productPrice
+														orderSubtotal.subtotal -= obj.productPrice
+														dispatch(orderRedux.actions.sumOrderSubtotal(orderSubtotal));
 
-												if (obj) {
+														if (obj) {
 
-													//edit qty -1
-													obj.productQuantity -= 1;
+															//edit qty -1
+															obj.productQuantity -= 1;
 
-													//เช็ค qty = 0 ไหม
-													if (obj.productQuantity !== 0) {
+															//เช็ค qty = 0 ไหม
+															if (obj.productQuantity !== 0) {
 
-														//qty != 0 edit qty -1 save redux
-														dispatch(orderRedux.actions.updateOrderDetail(orderList));
+																//qty != 0 edit qty -1 save redux
+																dispatch(orderRedux.actions.updateOrderDetail(orderList));
 
-													} else {
+															} else {
 
-														//qty = 0 remove array product
-														orderList.splice(obj, 1);
-														dispatch(orderRedux.actions.deleteorderDetail(obj));
-													}
-												} else {
-													alert("product not found")
-												}
-											}}
-										>
-											<DeleteIcon />
-										</IconButton>
-									</ListItemSecondaryAction>
-								</ListItem>
-							))}
-							<Divider />
-						</List>
+																//qty = 0 remove array product
+																orderList.splice(obj, 1);
+																dispatch(orderRedux.actions.deleteorderDetail(obj));
+															}
+														} else {
+															alert("product not found")
+														}
+													}}
+												>
+													<DeleteIcon />
+												</IconButton>
+											</TableCell>
+										</TableRow>
+									))}
+								</TableBody>
+							</Table>
+						</TableContainer>
 					</Grid>
 					<Grid item xs={12} lg={12}>
 						<Typography style={{ textAlign: 'right' }}>
