@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react'
-import { List, ListItemText, Typography, Grid, ListItem, Card, CardContent, IconButton, ListItemSecondaryAction, Divider, Button, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from "@material-ui/core";
+import { Grid, Card, CardContent, IconButton, Button, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from "@material-ui/core";
 import ShoppingCart from '@material-ui/icons/ShoppingCart';
 import * as orderRedux from "../../Order/_redux/orderRedux";
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -44,9 +44,6 @@ function OrderDetail() {
 
 		<Card style={{ marginLeft: 5 }}>
 			<CardContent>
-				<Typography variant="h6" component="p">
-					Order Detail
-          		</Typography>
 				<Grid container>
 					<Grid item xs={12} lg={12}>
 						<TableContainer component={Paper}>
@@ -61,7 +58,7 @@ function OrderDetail() {
 								</TableHead>
 								<TableBody>
 									{orderReducer.orderDetail.map((item) => (
-										<TableRow>
+										<TableRow key={item.productId}>
 											<TableCell>{item.productName}</TableCell>
 											<TableCell align="right">{item.productQuantity}</TableCell>
 											<TableCell align="right">{commonValidators.currencyFormat(item.productPrice * item.productQuantity)}</TableCell>
@@ -108,14 +105,14 @@ function OrderDetail() {
 											</TableCell>
 										</TableRow>
 									))}
+									<TableRow>
+										<TableCell rowSpan={1} />
+										<TableCell align="center" colSpan={1}>total</TableCell>
+										<TableCell align="right">{commonValidators.currencyFormat(formik.initialValues.test)}</TableCell>
+									</TableRow>
 								</TableBody>
 							</Table>
 						</TableContainer>
-					</Grid>
-					<Grid item xs={12} lg={12}>
-						<Typography style={{ textAlign: 'right' }}>
-							{commonValidators.currencyFormat(formik.initialValues.test)}
-						</Typography>
 					</Grid>
 					<Grid container justify="flex-end" item xs={12} lg={12} style={{ marginTop: 5 }}>
 						<Button variant="contained"

@@ -56,7 +56,7 @@ function OrderDetailDialog() {
 										))}
 
 										<TableRow>
-											<TableCell rowSpan={4} />
+											<TableCell rowSpan={3} />
 											<TableCell colSpan={1}>total</TableCell>
 											<TableCell align="right">{commonValidators.currencyFormat(total)}</TableCell>
 										</TableRow>
