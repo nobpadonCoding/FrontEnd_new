@@ -143,7 +143,7 @@ function OrderTable() {
 		// onRowExpansionChange: (rowData) => {
 		// 	console.log((rowData));
 		// },
-
+		filter: false,
 		print: false,
 		download: false,
 		search: false,
@@ -239,7 +239,7 @@ function OrderTable() {
 				sort: false,
 				customHeadLabelRender: (columnMeta, updateDirection) => (
 					<Grid style={{ textAlign: "right" }}>
-						{columnMeta.name}
+						{columnMeta.label}
 					</Grid>
 				),
 				customBodyRender: (value) => (
@@ -256,7 +256,7 @@ function OrderTable() {
 				sort: false,
 				customHeadLabelRender: (columnMeta, updateDirection) => (
 					<Grid style={{ textAlign: "right" }}>
-						{columnMeta.name}
+						{columnMeta.label}
 					</Grid>
 				),
 				customBodyRender: (value) => (
@@ -284,13 +284,13 @@ function OrderTable() {
 			}
 		},
 		{
-			name: "createdBy",
+			name: "createdBy.username",
 			label: "createdBy",
 			options: {
 				sort: false,
 				customHeadLabelRender: (columnMeta, updateDirection) => (
 					<Grid style={{ textAlign: "center" }}>
-						{columnMeta.name}
+						{columnMeta.label}
 					</Grid>
 				),
 				customBodyRender: (value) => (
