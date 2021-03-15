@@ -1,6 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react'
 import { Grid, Card, CardContent, IconButton, Button, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from "@material-ui/core";
+import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ShoppingCart from '@material-ui/icons/ShoppingCart';
 import * as orderRedux from "../../Order/_redux/orderRedux";
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -40,6 +42,68 @@ function OrderDetail() {
 
 	}, [orderReducer.orderSubtotal.subtotal])
 
+	const handleDown = (item) => {
+
+		debugger
+		let orderList = [...orderReducer.orderDetail]
+
+		let obj = orderList.find((obj => obj.productId === item.productId));
+
+		let orderSubtotal = {
+			...orderReducer.orderSubtotal
+		}
+
+		// ลด Subtotal เท่ากับ productPrice
+		orderSubtotal.subtotal -= obj.productPrice
+		dispatch(orderRedux.actions.sumOrderSubtotal(orderSubtotal));
+
+		if (obj) {
+
+			//edit qty -1
+			obj.productQuantity -= 1;
+
+			//เช็ค qty = 0 ไหม
+			if (obj.productQuantity !== 0) {
+
+				//qty != 0 edit qty -1 save redux
+				dispatch(orderRedux.actions.updateOrderDetail(orderList));
+
+			} else {
+
+				//qty = 0 remove array product
+				orderList.splice(obj, 1);
+				dispatch(orderRedux.actions.deleteorderDetail(obj));
+			}
+		} else {
+			alert("product not found")
+		}
+	}
+
+	const handleUp = (item) => {
+
+		debugger
+		let orderList = [...orderReducer.orderDetail]
+
+		let obj = orderList.find((obj => obj.productId === item.productId));
+
+		let orderSubtotal = {
+			...orderReducer.orderSubtotal
+		}
+
+		// ลด Subtotal เท่ากับ productPrice
+		orderSubtotal.subtotal += obj.productPrice
+		dispatch(orderRedux.actions.sumOrderSubtotal(orderSubtotal));
+
+		if (obj) {
+
+			//edit qty +1
+			obj.productQuantity += 1;
+
+			//qty != 0 edit qty +1 save redux
+			dispatch(orderRedux.actions.updateOrderDetail(orderList));
+		}
+	}
+
 	return (
 
 		<Card style={{ marginLeft: 5 }}>
@@ -60,7 +124,11 @@ function OrderDetail() {
 									{orderReducer.orderDetail.map((item) => (
 										<TableRow key={item.productId}>
 											<TableCell>{item.productName}</TableCell>
-											<TableCell align="right">{item.productQuantity}</TableCell>
+											<TableCell align="center">
+												<ArrowDropDownIcon style={{ cursor: 'pointer', fontSize: 'large' }} onClick={() => { handleDown(item); }} />
+												{item.productQuantity}
+												<ArrowDropUpIcon style={{ cursor: 'pointer', fontSize: 'large' }} onClick={() => { handleUp(item); }} />
+											</TableCell>
 											<TableCell align="right">{commonValidators.currencyFormat(item.productPrice * item.productQuantity)}</TableCell>
 											<TableCell align="right">
 												<IconButton edge="end" aria-label="delete"
@@ -74,27 +142,16 @@ function OrderDetail() {
 															...orderReducer.orderSubtotal
 														}
 
-														// ลด Subtotal เท่ากับ productPrice
-														orderSubtotal.subtotal -= obj.productPrice
+														// ลด Subtotal เท่ากับ productPrice * Quantity ที่ มีอยู่ใน array
+														orderSubtotal.subtotal -= obj.productPrice * obj.productQuantity;
 														dispatch(orderRedux.actions.sumOrderSubtotal(orderSubtotal));
 
 														if (obj) {
 
-															//edit qty -1
-															obj.productQuantity -= 1;
+															//remove array product
+															orderList.splice(obj, 1);
+															dispatch(orderRedux.actions.deleteorderDetail(obj));
 
-															//เช็ค qty = 0 ไหม
-															if (obj.productQuantity !== 0) {
-
-																//qty != 0 edit qty -1 save redux
-																dispatch(orderRedux.actions.updateOrderDetail(orderList));
-
-															} else {
-
-																//qty = 0 remove array product
-																orderList.splice(obj, 1);
-																dispatch(orderRedux.actions.deleteorderDetail(obj));
-															}
 														} else {
 															alert("product not found")
 														}

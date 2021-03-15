@@ -3,6 +3,8 @@
 import React from 'react'
 import { Dialog, DialogContent, DialogTitle, DialogActions, Button, Grid, CardContent, Card, Typography, TextField } from "@material-ui/core";
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import { blue, red } from '@material-ui/core/colors';
 import { useFormik } from "formik";
 import { useSelector, useDispatch } from "react-redux";
@@ -166,7 +168,7 @@ function OrderDialog() {
 									<CardContent style={{ textAlign: 'center' }}>
 										<Grid container>
 											<Grid item xs={12} lg={2}>
-												<span className="fa fa-sort-down" style={{ fontSize: 30, marginTop: 15, color: blue[500], cursor: 'pointer' }} onClick={() => { handleDown() }} />
+												<ArrowDropDownIcon style={{ fontSize: 50, marginTop: 10, color: blue[500], cursor: 'pointer' }} onClick={() => { handleDown() }} />
 											</Grid>
 											<Grid item xs={12} lg={8} >
 												<TextField
@@ -183,7 +185,7 @@ function OrderDialog() {
 												/>
 											</Grid>
 											<Grid item xs={12} lg={2}>
-												<span className="fa fa-sort-up" style={{ fontSize: 30, marginTop: 25, color: blue[500], cursor: 'pointer' }} onClick={() => { handleUp() }} />
+												<ArrowDropUpIcon style={{ fontSize: 50, marginTop: 10, color: blue[500], cursor: 'pointer' }} onClick={() => { handleUp() }} />
 											</Grid>
 										</Grid>
 									</CardContent>
