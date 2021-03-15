@@ -5,11 +5,12 @@ import { useSelector, useDispatch } from "react-redux";
 import * as orderAxios from "../../Order/_redux/orderAxios";
 import * as orderRedux from "../../Order/_redux/orderRedux";
 import OrderDataTable from "mui-datatables";
-import { Grid, Typography, CircularProgress, Chip, TableRow, TableCell } from "@material-ui/core";
+import { Grid, Typography, CircularProgress, Chip, CardContent, Card } from "@material-ui/core";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import * as CommonValidators from '../../../../Common/functions/CommonValidators'
 import ViewButton from '../../../../Common/components/Buttons/ViewButton'
 import * as swal from "../../../../Common/components/SweetAlert";
+import OrderSearch from '../../Order/components/OrderSearch'
 
 var flatten = require("flat");
 require("dayjs/locale/th");
@@ -29,7 +30,7 @@ function OrderTable() {
 		orderingField: "",
 		ascendingOrder: true,
 		searchValues: {
-			OrderNumber: ""
+			orderNumber: ""
 		}
 	});
 
@@ -66,6 +67,15 @@ function OrderTable() {
 
 	}
 
+	const handleSearch = (values) =>{
+		console.log(values);
+		setDataFilter({
+            ...dataFilter,
+            page: 1,
+            searchValues: values
+        });
+	}
+
 	React.useEffect(() => {
 		//load data from api
 		loadData();
@@ -80,7 +90,7 @@ function OrderTable() {
 				dataFilter.ascendingOrder,
 				dataFilter.page,
 				dataFilter.recordsPerPage,
-				dataFilter.searchValues.OrderNumber,
+				dataFilter.searchValues.orderNumber,
 			)
 			.then((res) => {
 				console.log(res)
@@ -366,6 +376,16 @@ function OrderTable() {
 	];
 	return (
 		<div>
+			<Grid container
+				direction="column"
+				justify="center"
+				alignItems="stretch">
+				<Card elevation={3} style={{ marginBottom: 10 }}>
+					<CardContent>
+						<OrderSearch submit={handleSearch.bind(this)}></OrderSearch>
+					</CardContent>
+				</Card>
+			</Grid>
 			<MuiThemeProvider theme={theme}>
 				<OrderDataTable
 					title={

@@ -37,12 +37,6 @@ function ProductTable(props) {
     const [isLoading, setIsLoading] = React.useState(true);
     const [totalRecords, setTotalRecords] = React.useState(0);
     const [data, setData] = React.useState([]);
-    // const [productId, setProductId] = React.useState({
-    //     add: 0,
-    //     edit: 0,
-    //     delete: 0,
-    // });
-
 
     React.useEffect(() => {
         //load data from api
@@ -79,16 +73,17 @@ function ProductTable(props) {
                 productId: id,
                 modalOpen: true,
             };
+
             dispatch(productRedux.actions.setOpenModal(objPayloadEdit));
-            // console.log('setOpenModal edit : ', productReducer.openModal);
+
         } else {
             let objPayloadAdd = {
                 ...productReducer.openModal,
                 productId: 0,
                 modalOpen: true,
             };
+
             dispatch(productRedux.actions.setOpenModal(objPayloadAdd));
-            // console.log('setOpenModal add : ', productReducer.openModal);
         }
 
     };
@@ -129,9 +124,6 @@ function ProductTable(props) {
             .catch((err) => {
                 swal.swalError("Error", err.message);
             });
-        // .finally(() => {
-        //     handleOpen(true);
-        // });
     };
 
     const loadData = () => {
@@ -312,12 +304,12 @@ function ProductTable(props) {
                                     color="primary"
                                 />
                             ) : (
-                                    <Chip
-                                        label="Delete"
-                                        variant="outlined"
-                                        color="default"
-                                    />
-                                )}
+                                <Chip
+                                    label="Delete"
+                                    variant="outlined"
+                                    color="default"
+                                />
+                            )}
                         </Grid>
                     );
                 },
