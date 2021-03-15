@@ -8,7 +8,7 @@ import * as orderAxios from "../../Order/_redux/orderAxios";
 import { Dialog, DialogContent, DialogTitle, DialogActions, Button, Grid, List, Divider, ListItem, ListItemText, Typography, TextField } from "@material-ui/core";
 import * as swal from "../../../../Common/components/SweetAlert";
 import * as commonValidators from '../../../../Common/functions/CommonValidators';
-import { blue } from '@material-ui/core/colors';
+import { blue,red } from '@material-ui/core/colors';
 
 function OrderSummaryDialog() {
 
@@ -175,7 +175,7 @@ function OrderSummaryDialog() {
 						</Grid>
 					</DialogContent>
 					<DialogActions>
-						<Button variant="contained" onClick={() => {
+						<Button style={{ backgroundColor: red[400] }} variant="contained" onClick={() => {
 							handleClose()
 						}}
 							color="secondary">

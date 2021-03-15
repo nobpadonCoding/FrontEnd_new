@@ -53,9 +53,7 @@ const initialState = {
 		productGroupId: 0,
 	},
 
-	orderDetail: [
-
-	],
+	orderDetail: [],
 
 	orderHeader: {
 		total: 0,

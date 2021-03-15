@@ -3,7 +3,7 @@
 import React from 'react'
 import { Dialog, DialogContent, DialogTitle, DialogActions, Button, Grid, CardContent, Card, Typography, TextField } from "@material-ui/core";
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
-import { blue } from '@material-ui/core/colors';
+import { blue, red } from '@material-ui/core/colors';
 import { useFormik } from "formik";
 import { useSelector, useDispatch } from "react-redux";
 import * as commonValidators from '../../../../Common/functions/CommonValidators';
@@ -192,7 +192,7 @@ function OrderDialog() {
 						</Grid>
 					</DialogContent>
 					<DialogActions>
-						<Button variant="contained" onClick={() => {
+						<Button style={{ backgroundColor: red[400] }} variant="contained" onClick={() => {
 							handleClose()
 						}}
 							color="secondary">
