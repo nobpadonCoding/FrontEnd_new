@@ -41,7 +41,7 @@ function OrderTable() {
 			.getOrder(id)
 			.then((res) => {
 				if (res.data.isSuccess) {
-					console.log(res.data)
+					// console.log(res.data)
 
 					//ประกาศ obj orderHeader
 					let orderHeader = {
@@ -56,7 +56,7 @@ function OrderTable() {
 						orderDetail: res.data.data.orders,
 					};
 					dispatch(orderRedux.actions.getOrderDetail(orderHeader));
-					console.log("orderHeader", orderHeader)
+					// console.log("orderHeader", orderHeader)
 
 				} else {
 					loadData();
@@ -70,7 +70,7 @@ function OrderTable() {
 	}
 
 	const handleSearch = (values) =>{
-		console.log(values);
+		// console.log(values);
 		setDataFilter({
             ...dataFilter,
             page: 1,
@@ -93,18 +93,20 @@ function OrderTable() {
 				dataFilter.page,
 				dataFilter.recordsPerPage,
 				dataFilter.searchValues.orderNumber,
+				dataFilter.searchValues.startDate,
+				dataFilter.searchValues.endDate,
 			)
 			.then((res) => {
-				console.log(res)
+				// console.log(res)
 				if (res.data.isSuccess) {
 					//flatten data
-					if (res.data.totalAmountRecords > 0) {
+					// if (res.data.totalAmountRecords > 0) {
 						let flatData = [];
 						res.data.data.forEach((element) => {
 							flatData.push(flatten(element));
 						});
 						setData(flatData);
-					}
+					// }
 					setTotalRecords(res.data.totalAmountRecords);
 				} else {
 					alert(res.data.message);

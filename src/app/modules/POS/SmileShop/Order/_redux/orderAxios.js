@@ -12,14 +12,16 @@ export const getOrder = (id) => {
     return axios.get(`${SMILESHOP_URL}/Order/${id}`);
 };
 
-export const getOrderFilter = (orderingField, ascendingOrder, page, recordsPerPage, OrderNumber) => {
+export const getOrderFilter = (orderingField, ascendingOrder, page, recordsPerPage, OrderNumber, StartDate, EndDate) => {
 
     let payload = {
         page,
         recordsPerPage,
         orderingField,
         ascendingOrder,
-        OrderNumber
+        OrderNumber,
+        StartDate,
+        EndDate
     }
     return axios.get(encodeURLWithParams(`${SMILESHOP_URL}/Orders/filter`, payload));
     

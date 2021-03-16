@@ -6,11 +6,18 @@ import { TextField, Grid, Button } from "@material-ui/core";
 import SearchIcon from '@material-ui/icons/Search';
 import FormikDatePicker from "../../Order/components/FormikDatePicker";
 
-require("dayjs/locale/th");
-var dayjs = require("dayjs");
-dayjs.locale("th");
+// require("dayjs/locale/th");
+// var dayjs = require("dayjs");
+// dayjs.locale("th");
 
 function OrderSearch(props) {
+
+	const [today, setToday] = React.useState(new Date(
+		new Date().getFullYear(),
+		new Date().getMonth(),
+		new Date().getDate()
+	)
+	);
 
 	const formik = useFormik({
 		enableReinitialize: true,
@@ -21,11 +28,11 @@ function OrderSearch(props) {
 		},
 		initialValues: {
 			orderNumber: "",
-			startDate: "",
-			endDate: ""
+			startDate: today,
+			endDate: today
 		},
 		onSubmit: (values, { setSubmitting }) => {
-			// console.log("add stock", values);
+			// alert(JSON.stringify(values, null, 2));
 			props.submit(values);
 			setSubmitting(false);
 		},
@@ -53,11 +60,8 @@ function OrderSearch(props) {
 						formik={formik}
 						name="startDate"
 						label="Start"
-						value={formik.values.startDate}
-						onChange={(value) => {
-							// formik.setFieldValue(props.name, value);
-							alert(formik.setFieldValue(props.name, value))
-						}}
+						views={["year", "month", "date"]}
+						format="DD/MM/YYYY"
 					/>
 				</Grid>
 				<Grid item xs={12} lg={3}>
@@ -65,7 +69,8 @@ function OrderSearch(props) {
 						formik={formik}
 						name="endDate"
 						label="End"
-						value={formik.values.endDate}
+						views={["year", "month", "date"]}
+						format="DD/MM/YYYY"
 					/>
 				</Grid>
 				<Grid item xs={12} lg={3}>
@@ -79,7 +84,7 @@ function OrderSearch(props) {
 						startIcon={<SearchIcon color="action" />}
 					>
 						Search
-                </Button>
+		        </Button>
 				</Grid>
 
 			</Grid>
