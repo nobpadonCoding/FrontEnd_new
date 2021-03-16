@@ -62,14 +62,14 @@ function OrderDialog() {
 		let objOrderDetail =
 		{
 			productId: values.productId,
-			productQuantity: formik.values.quantity,
+			productQuantity: parseInt(formik.values.quantity),
 			productName: values.productName,
-			productPrice: values.productPrice
+			productPrice: parseInt(values.productPrice)
 		}
 
 		let objOrderSubtotal =
 		{
-			subtotal: orderReducer.orderSubtotal.subtotal + values.productPrice * formik.values.quantity
+			subtotal: orderReducer.orderSubtotal.subtotal + objOrderDetail.productPrice * objOrderDetail.productQuantity
 		}
 
 		if (formik.values.quantity > 0) {
@@ -89,12 +89,12 @@ function OrderDialog() {
 				dispatch(orderRedux.actions.addOrderDetail(orderDetailUpdate));
 
 			} else {
-
+				debugger
 				//sum total
 				dispatch(orderRedux.actions.sumOrderSubtotal(objOrderSubtotal));
 
 				// มี product ใน array + qty
-				hasOrder.productQuantity += formik.values.quantity;
+				hasOrder.productQuantity += objOrderDetail.productQuantity;
 				dispatch(orderRedux.actions.updateOrderDetail(orderDetailUpdate));
 				console.log(hasOrder);
 			}
@@ -123,7 +123,7 @@ function OrderDialog() {
 
 		//reset redux openDialog(false)
 		dispatch(orderRedux.actions.resetDialog());
-		formik.setFieldValue("quantity", formik.initialValues.quantity)
+		formik.setFieldValue("quantity", parseInt(formik.initialValues.quantity));
 	}
 
 	React.useEffect(() => {

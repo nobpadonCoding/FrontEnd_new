@@ -54,13 +54,13 @@ function OrderDetail() {
 		}
 
 		// ลด Subtotal เท่ากับ productPrice
-		orderSubtotal.subtotal -= obj.productPrice
+		orderSubtotal.subtotal -= parseInt(obj.productPrice);
 		dispatch(orderRedux.actions.sumOrderSubtotal(orderSubtotal));
 
 		if (obj) {
 
 			//edit qty -1
-			obj.productQuantity -= 1;
+			parseInt(obj.productQuantity -= 1);
 
 			//เช็ค qty = 0 ไหม
 			if (obj.productQuantity !== 0) {
@@ -91,13 +91,14 @@ function OrderDetail() {
 		}
 
 		// ลด Subtotal เท่ากับ productPrice
-		orderSubtotal.subtotal += obj.productPrice
+		orderSubtotal.subtotal += parseInt(obj.productPrice);
 		dispatch(orderRedux.actions.sumOrderSubtotal(orderSubtotal));
 
 		if (obj) {
 
 			//edit qty +1
-			obj.productQuantity += 1;
+			// obj.productQuantity += 1;
+			parseInt(obj.productQuantity += 1);
 
 			//qty != 0 edit qty +1 save redux
 			dispatch(orderRedux.actions.updateOrderDetail(orderList));

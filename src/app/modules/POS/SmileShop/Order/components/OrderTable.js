@@ -30,7 +30,9 @@ function OrderTable() {
 		orderingField: "",
 		ascendingOrder: true,
 		searchValues: {
-			orderNumber: ""
+			orderNumber: "",
+			startDate:"",
+			endDate:""
 		}
 	});
 

@@ -4,17 +4,13 @@ import React from 'react'
 import { useFormik } from "formik";
 import { TextField, Grid, Button } from "@material-ui/core";
 import SearchIcon from '@material-ui/icons/Search';
+import FormikDatePicker from "../../Order/components/FormikDatePicker";
+
+require("dayjs/locale/th");
+var dayjs = require("dayjs");
+dayjs.locale("th");
 
 function OrderSearch(props) {
-	const [dataFilter, setDataFilter] = React.useState({
-		page: 1,
-		recordsPerPage: 10,
-		orderingField: "",
-		ascendingOrder: true,
-		searchValues: {
-			StoreType: ""
-		}
-	});
 
 	const formik = useFormik({
 		enableReinitialize: true,
@@ -24,7 +20,9 @@ function OrderSearch(props) {
 			return errors;
 		},
 		initialValues: {
-			orderNumber: 0,
+			orderNumber: "",
+			startDate: "",
+			endDate: ""
 		},
 		onSubmit: (values, { setSubmitting }) => {
 			// console.log("add stock", values);
@@ -33,14 +31,10 @@ function OrderSearch(props) {
 		},
 	});
 
-	React.useEffect(() => {
-
-	}, [formik.values.storeTypeId]);
-
 	return (
 		<form onSubmit={formik.handleSubmit}>
 			<Grid container spacing={3}>
-				<Grid item xs={12} lg={6}>
+				<Grid item xs={12} lg={3}>
 					<TextField
 						name="orderNumber"
 						label="OrderNumber"
@@ -48,13 +42,33 @@ function OrderSearch(props) {
 						fullWidth
 						onBlur={formik.handleBlur}
 						onChange={formik.handleChange}
-						value={formik.values.quantity}
-						error={(formik.errors.quantity && formik.touched.quantity)}
-						helperText={(formik.errors.quantity && formik.touched.quantity) && formik.errors.quantity}
+						value={formik.values.orderNumber}
+						error={(formik.errors.orderNumber && formik.touched.orderNumber)}
+						helperText={(formik.errors.orderNumber && formik.touched.orderNumber) && formik.errors.orderNumber}
 					/>
 
 				</Grid>
-				<Grid item xs={12} lg={6}>
+				<Grid item xs={12} lg={3}>
+					<FormikDatePicker
+						formik={formik}
+						name="startDate"
+						label="Start"
+						value={formik.values.startDate}
+						onChange={(value) => {
+							// formik.setFieldValue(props.name, value);
+							alert(formik.setFieldValue(props.name, value))
+						}}
+					/>
+				</Grid>
+				<Grid item xs={12} lg={3}>
+					<FormikDatePicker
+						formik={formik}
+						name="endDate"
+						label="End"
+						value={formik.values.endDate}
+					/>
+				</Grid>
+				<Grid item xs={12} lg={3}>
 					<Button
 						fullWidth
 						style={{ marginTop: 6, marginRight: 100 }}
