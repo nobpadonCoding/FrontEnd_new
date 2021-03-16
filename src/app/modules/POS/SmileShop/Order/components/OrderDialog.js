@@ -55,9 +55,8 @@ function OrderDialog() {
 		}
 	}, [orderReducer.dialogOrder]);
 
-	const handleSave = ({ setSubmitting }, values) => {
 
-		setSubmitting(false);
+	const calculate = (values) => {
 
 		let objOrderDetail =
 		{
@@ -72,45 +71,46 @@ function OrderDialog() {
 			subtotal: orderReducer.orderSubtotal.subtotal + objOrderDetail.productPrice * objOrderDetail.productQuantity
 		}
 
-		if (formik.values.quantity > 0) {
+		let orderDetailUpdate = [...orderReducer.orderDetail];
 
-			let orderDetailUpdate = [...orderReducer.orderDetail];
+		let hasOrder = orderReducer.orderDetail.find(obj => obj.productId === objOrderDetail.productId);
 
-			let hasOrder = orderReducer.orderDetail.find(obj => obj.productId === objOrderDetail.productId);
+		//check product ว่ามีไหม ใน array ไหม
+		if (!hasOrder) {
 
-			//check product ว่ามีไหม ใน array ไหม
-			if (!hasOrder) {
+			//sum total
+			dispatch(orderRedux.actions.sumOrderSubtotal(objOrderSubtotal));
 
-				//sum total
-				dispatch(orderRedux.actions.sumOrderSubtotal(objOrderSubtotal));
+			//ไม่มี product ใน array add เข้าไป
+			orderDetailUpdate.push(objOrderDetail);
+			dispatch(orderRedux.actions.addOrderDetail(orderDetailUpdate));
 
-				//ไม่มี product ใน array add เข้าไป
-				orderDetailUpdate.push(objOrderDetail);
-				dispatch(orderRedux.actions.addOrderDetail(orderDetailUpdate));
-
-			} else {
-				debugger
-				//sum total
-				dispatch(orderRedux.actions.sumOrderSubtotal(objOrderSubtotal));
-
-				// มี product ใน array + qty
-				hasOrder.productQuantity += objOrderDetail.productQuantity;
-				dispatch(orderRedux.actions.updateOrderDetail(orderDetailUpdate));
-				console.log(hasOrder);
-			}
-
-			console.log("objOrderDetail", orderDetailUpdate);
-
-			//close dialog
-			handleClose();
 		} else {
 
-			//close dialog
-			handleClose();
+			debugger
+			if (objOrderDetail.productQuantity) {
 
-			swal.swalInfo("", "Quantity = 0");
+			}
+			//sum total
+			dispatch(orderRedux.actions.sumOrderSubtotal(objOrderSubtotal));
 
+			// มี product ใน array + qty
+			hasOrder.productQuantity += objOrderDetail.productQuantity;
+			dispatch(orderRedux.actions.updateOrderDetail(orderDetailUpdate));
+			console.log(hasOrder);
 		}
+
+		console.log("objOrderDetail", orderDetailUpdate);
+
+		//close dialog
+		handleClose();
+
+	}
+
+	const handleSave = ({ setSubmitting }, values) => {
+
+		setSubmitting(false);
+		calculate(values);
 
 	}
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-imports */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import { Button, Card, CardContent, Grid } from "@material-ui/core";
@@ -5,6 +6,11 @@ import { useSelector, useDispatch } from "react-redux";
 import * as orderRedux from "../../Order/_redux/orderRedux";
 import * as CONST from '../../../../../../Constants';
 import * as swal from "../../../../Common/components/SweetAlert";
+import LocalBarIcon from '@material-ui/icons/LocalBarSharp';
+import ChildCareIcon from '@material-ui/icons/ChildCareSharp';
+import FastfoodIcon from '@material-ui/icons/FastfoodSharp';
+import LineStyleIcon from '@material-ui/icons/LineStyleSharp';
+import { blue, grey } from '@material-ui/core/colors';
 import Axios from "axios";
 
 function OrderProductGroup() {
@@ -49,9 +55,13 @@ function OrderProductGroup() {
 					spacing={3}>
 					{productGroup.map((productGroup) => (
 						<Grid item xs={6} lg={3} key={`product_${productGroup.id}`}>
-							<Button variant="outlined" color="primary" onClick={() => {
+							<Button variant="outlined" style={{ backgroundColor: blue[500] }} onClick={() => {
 								handleGet(productGroup.id);
-							}} >
+							}}
+								startIcon={productGroup.id === 4 ? <FastfoodIcon style={{ color: grey[50] }} /> :
+									productGroup.id === 6 ? <ChildCareIcon style={{ color: grey[50] }} /> :
+										productGroup.id === 7 ? <LocalBarIcon style={{ color: grey[50] }} /> : <LineStyleIcon style={{ color: grey[50] }} />}
+							>
 								{productGroup.name}
 							</Button>
 						</Grid>
