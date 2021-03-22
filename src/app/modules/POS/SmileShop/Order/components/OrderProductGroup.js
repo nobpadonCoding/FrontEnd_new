@@ -55,7 +55,7 @@ function OrderProductGroup() {
 					spacing={3}>
 					{productGroup.map((productGroup) => (
 						<Grid item xs={6} lg={3} key={`product_${productGroup.id}`}>
-							<Button variant="outlined" style={{ backgroundColor: blue[500] }} onClick={() => {
+							<Button variant="outlined" style={{ backgroundColor: blue[400] }} onClick={() => {
 								handleGet(productGroup.id);
 							}}
 								startIcon={productGroup.id === 4 ? <FastfoodIcon style={{ color: grey[50] }} /> :

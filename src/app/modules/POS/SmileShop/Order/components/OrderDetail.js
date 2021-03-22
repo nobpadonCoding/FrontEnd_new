@@ -116,7 +116,7 @@ function OrderDetail() {
 								<TableHead>
 									<TableRow>
 										<TableCell>ProductName</TableCell>
-										<TableCell align="right">Quantity</TableCell>
+										<TableCell align="center">Quantity</TableCell>
 										<TableCell align="right">Price</TableCell>
 										<TableCell align="right"></TableCell>
 									</TableRow>
@@ -158,7 +158,7 @@ function OrderDetail() {
 														}
 													}}
 												>
-													<DeleteIcon />
+													<DeleteIcon titleAccess="remove" />
 												</IconButton>
 											</TableCell>
 										</TableRow>

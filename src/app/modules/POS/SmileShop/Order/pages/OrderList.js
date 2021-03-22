@@ -9,11 +9,11 @@ function OrderList() {
 	return (
 		<div>
 			<Grid container>
-				<Grid item xs={12} lg={8}>
+				<Grid item xs={12} lg={7}>
 					<OrderProductGroup></OrderProductGroup>
 					<OrderProduct></OrderProduct>
 				</Grid>
-				<Grid item xs={12} lg={4}>
+				<Grid item xs={12} lg={5}>
 					<OrderDetail></OrderDetail>
 				</Grid>
 				<OrderDialog></OrderDialog>
