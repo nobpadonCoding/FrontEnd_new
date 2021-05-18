@@ -199,12 +199,13 @@ function ProductGroupTable() {
             },
         },
         {
-            name: "CreatedBy",
+            name: "createdBy",
+            label: "CreatedBy",
             options: {
                 customBodyRenderLite: (dataIndex, rowIndex) => {
                     return (
                         <Grid>
-                            {data[dataIndex].createdBy}
+                            {data[dataIndex]["createdBy.username"]}
                         </Grid>
                     );
                 },
@@ -251,12 +252,12 @@ function ProductGroupTable() {
                                     color="primary"
                                 />
                             ) : (
-                                    <Chip
-                                        label="Delete"
-                                        variant="outlined"
-                                        color="default"
-                                    />
-                                )}
+                                <Chip
+                                    label="Delete"
+                                    variant="outlined"
+                                    color="default"
+                                />
+                            )}
                         </Grid>
                     );
                 },

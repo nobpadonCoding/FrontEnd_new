@@ -44,42 +44,37 @@ export function AsideMenuList({ layoutProps }) {
         </li>
         {/* end:: section */}
         {/* begin Smile shop */}
+
         <li className="menu-section ">
           <h4 className="menu-text">Smile Shop</h4>
           <i className="menu-icon flaticon-more-v2"></i>
         </li>
-
         <li
           className={`menu-item menu-item-submenu ${getMenuItemActive(
             "/google-material",
             true
           )}`}
-          // aria-haspopup="true"
-          // data-menu-toggle="hover"
+          aria-haspopup="true"
+          data-menu-toggle="hover"
         >
-          {/* <NavLink className="menu-link menu-toggle" to="/google-material">
-            <span className="svg-icon menu-icon">
-              <SVG src={toAbsoluteUrl("/media/svg/icons/Design/Cap-2.svg")} />
-            </span>
+
+          <NavLink
+            className="menu-link menu-toggle"
+            to="/google-material/inputs"
+          >
+            <i className="menu-bullet menu-bullet-dot">
+              <span />
+            </i>
             <span className="menu-text">Smile Shop</span>
             <i className="menu-arrow" />
-          </NavLink> */}
-          <NavLink
-                    className="menu-link menu-toggle"
-                    to="/google-material/inputs"
-                  >
-                    <i className="menu-bullet menu-bullet-dot">
-                      <span />
-                    </i>
-                    <span className="menu-text">Smile Shop</span>
-                    <i className="menu-arrow" />
-                  </NavLink>
+          </NavLink>
           <div className="menu-submenu ">
             <ul className="menu-subnav">
               <li
-                className={`menu-item ${getMenuItemActive("/product/", false)}`}
-                // aria-haspopup="true"
-                // data-menu-toggle="hover"
+                className={`menu-item  ${getMenuItemActive(
+                  "/google-material/inputs/autocomplete"
+                )}`}
+                aria-haspopup="false"
               >
                 <NavLink className="menu-link" to="/product/">
                   <span className="svg-icon menu-icon">
@@ -87,24 +82,52 @@ export function AsideMenuList({ layoutProps }) {
                   </span>
                   <span className="menu-text">Product</span>
                 </NavLink>
+              </li>
+              <li
+                className={`menu-item  ${getMenuItemActive(
+                  "/google-material/inputs/autocomplete"
+                )}`}
+                aria-haspopup="false"
+              >
                 <NavLink className="menu-link" to="/productgroup/">
                   <span className="svg-icon menu-icon">
                     <FreeBreakfastIcon></FreeBreakfastIcon>
                   </span>
                   <span className="menu-text">Product Group</span>
                 </NavLink>
+              </li>
+              <li
+                className={`menu-item  ${getMenuItemActive(
+                  "/google-material/inputs/autocomplete"
+                )}`}
+                aria-haspopup="false"
+              >
                 <NavLink className="menu-link" to="/editstock/">
                   <span className="svg-icon menu-icon">
                     <FreeBreakfastIcon></FreeBreakfastIcon>
                   </span>
                   <span className="menu-text">Edit Stock</span>
                 </NavLink>
+              </li>
+              <li
+                className={`menu-item  ${getMenuItemActive(
+                  "/google-material/inputs/autocomplete"
+                )}`}
+                aria-haspopup="false"
+              >
                 <NavLink className="menu-link" to="/neworder/">
                   <span className="svg-icon menu-icon">
                     <FreeBreakfastIcon></FreeBreakfastIcon>
                   </span>
                   <span className="menu-text">New Order</span>
                 </NavLink>
+              </li>
+              <li
+                className={`menu-item  ${getMenuItemActive(
+                  "/google-material/inputs/autocomplete"
+                )}`}
+                aria-haspopup="false"
+              >
                 <NavLink className="menu-link" to="/OrderTableList/">
                   <span className="svg-icon menu-icon">
                     <FreeBreakfastIcon></FreeBreakfastIcon>
