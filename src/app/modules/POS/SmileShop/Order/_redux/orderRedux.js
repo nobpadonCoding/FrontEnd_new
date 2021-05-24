@@ -27,6 +27,9 @@ export const actionTypes = {
 
 	GET_ORDER_DETAIL: '[GET_ORDER_DETAIL] Action',
 
+	//charts
+	SET_CHARTS: "[SET_CHARTS] action"
+
 };
 
 // state ค่าที่ถูกเก็บไว้
@@ -60,12 +63,18 @@ const initialState = {
 		discount: 0,
 		totalAmount: 0,
 		productQuantity: 0,
-		openDialogOrderDetail:false,
+		openDialogOrderDetail: false,
 		orderDetail: []
 	},
 
 	orderSubtotal: {
 		subtotal: 0
+	},
+	//charts
+	charts: {
+		name: 'NULL',
+		categoriesList: [],
+		attributeData: [],
 	}
 };
 
@@ -126,6 +135,10 @@ export const reducer = (state = initialState, action) => {
 		case actionTypes.GET_ORDER_DETAIL: {
 			return { ...state, orderHeader: action.payload };
 		}
+		case actionTypes.SET_CHARTS: {
+			debugger
+			return { ...state, charts: action.payload };
+		}
 
 		default:
 			return state;
@@ -150,4 +163,5 @@ export const actions = {
 	resetOrderDialogSummary: () => ({ type: actionTypes.RESET_DIALOG_ORDER_SUMMARY }),
 	resetOrderHeader: () => ({ type: actionTypes.RESET_ORDER_HEADER }),
 	getOrderDetail: (payload) => ({ type: actionTypes.GET_ORDER_DETAIL, payload }),
+	setCharts: (payload) => ({ type: actionTypes.SET_CHARTS, payload }),
 }

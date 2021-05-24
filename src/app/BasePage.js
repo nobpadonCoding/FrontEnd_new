@@ -22,6 +22,7 @@ import ProductGroupList from './modules/POS/SmileShop/ProductGroup/pages/Product
 import ProductStockList from './modules/POS/SmileShop/Product/pages/ProductStockList';
 import OrderList from './modules/POS/SmileShop/Order/pages/OrderList'
 import OrderTableList from './modules/POS/SmileShop/Order/pages/OrderTableList'
+import OrderCharts from './modules/POS/SmileShop/Order/pages/OrderCharts'
 
 export default function BasePage(props) {
   // useEffect(() => {
@@ -52,6 +53,7 @@ export default function BasePage(props) {
         <ContentRoute exact path="/editstock/" component={ProductStockList} />
         <ContentRoute exact path="/neworder/" component={OrderList} />
         <ContentRoute exact path="/OrderTableList/" component={OrderTableList} />
+        <ContentRoute exact path="/OrderCharts/" component={OrderCharts} />
         {/* End Demo part สามารถ comment ได้ */}
 
         <Route

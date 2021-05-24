@@ -72,7 +72,7 @@ export function AsideMenuList({ layoutProps }) {
             <ul className="menu-subnav">
               <li
                 className={`menu-item  ${getMenuItemActive(
-                  "/google-material/inputs/autocomplete"
+                  "/product/"
                 )}`}
                 aria-haspopup="false"
               >
@@ -85,7 +85,7 @@ export function AsideMenuList({ layoutProps }) {
               </li>
               <li
                 className={`menu-item  ${getMenuItemActive(
-                  "/google-material/inputs/autocomplete"
+                  "/productgroup/"
                 )}`}
                 aria-haspopup="false"
               >
@@ -98,7 +98,7 @@ export function AsideMenuList({ layoutProps }) {
               </li>
               <li
                 className={`menu-item  ${getMenuItemActive(
-                  "/google-material/inputs/autocomplete"
+                  "/editstock/"
                 )}`}
                 aria-haspopup="false"
               >
@@ -111,7 +111,7 @@ export function AsideMenuList({ layoutProps }) {
               </li>
               <li
                 className={`menu-item  ${getMenuItemActive(
-                  "/google-material/inputs/autocomplete"
+                  "/neworder/"
                 )}`}
                 aria-haspopup="false"
               >
@@ -124,7 +124,7 @@ export function AsideMenuList({ layoutProps }) {
               </li>
               <li
                 className={`menu-item  ${getMenuItemActive(
-                  "/google-material/inputs/autocomplete"
+                  "/OrderTableList/"
                 )}`}
                 aria-haspopup="false"
               >
@@ -133,6 +133,19 @@ export function AsideMenuList({ layoutProps }) {
                     <FreeBreakfastIcon></FreeBreakfastIcon>
                   </span>
                   <span className="menu-text">Order</span>
+                </NavLink>
+              </li>
+              <li
+                className={`menu-item  ${getMenuItemActive(
+                  "/OrderCharts/"
+                )}`}
+                aria-haspopup="false"
+              >
+                <NavLink className="menu-link" to="/OrderCharts/">
+                  <span className="svg-icon menu-icon">
+                    <FreeBreakfastIcon></FreeBreakfastIcon>
+                  </span>
+                  <span className="menu-text">Charts</span>
                 </NavLink>
               </li>
               {/*end::2 Level*/}
