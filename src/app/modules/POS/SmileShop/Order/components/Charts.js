@@ -68,7 +68,7 @@ function Charts() {
 				setIsLoading(false);
 			});
 	};
-
+	//test
 	React.useEffect(() => {
 		loadData();
 	}, [])
