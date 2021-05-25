@@ -75,6 +75,8 @@ const initialState = {
 		name: 'NULL',
 		categoriesList: [],
 		attributeData: [],
+		discount: [],
+		totalAmount: []
 	}
 };
 

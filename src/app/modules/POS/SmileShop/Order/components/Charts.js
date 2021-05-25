@@ -30,6 +30,8 @@ function Charts() {
 					debugger
 					let year = [];
 					let total = []
+					let discount = []
+					let totalAmt = []
 					console.log(res.data)
 
 					for (let index = 0; index < res.data.data.length; index++) {
@@ -37,16 +39,22 @@ function Charts() {
 
 						let data = res.data.data[index].createdDate;
 						let am = res.data.data[index].totalAmount;
+						let dis = res.data.data[index].discount;
+						let totalAmt1 = res.data.data[index].total;
 						let yy = dayjs(data).get('year');
 						year.push(yy);
 						total.push(am);
+						discount.push(dis);
+						totalAmt.push(totalAmt1);
 					}
 
 					let objCharts = {
 						...orderReducer.charts,
 						name: 'NULL',
 						categoriesList: year,
-						attributeData: total
+						attributeData: total,
+						discount: discount,
+						totalAmount: totalAmt
 					};
 					dispatch(orderRedux.actions.setCharts(objCharts));
 				} else {
@@ -68,7 +76,15 @@ function Charts() {
 	React.useEffect(() => {
 		setchartOption({
 			chart: {
-				id: "basic-bar",
+				height: 350,
+				type: 'line',
+				stacked: false,
+				dataLabels: {
+					enabled: false
+				},
+				stroke: {
+					width: [1, 1, 4]
+				},
 				toolbar: {
 					show: true,
 					tools: {
@@ -84,37 +100,60 @@ function Charts() {
 					autoSelected: 'zoom'
 				},
 			},
+			tooltip: {
+				fixed: {
+					enabled: true,
+					position: 'topRight', // topRight, topLeft, bottomRight, bottomLeft
+					offsetY: 0,
+					offsetX: 60
+				},
+			},
+			legend: {
+				horizontalAlign: 'left',
+				offsetX: 30
+			},
 			xaxis: {
 				categories: [...orderReducer.charts.categoriesList],
-			}
+			},
+			yaxis: [{
+				axisBorder: {
+					show: true,
+					color: '#008FFB'
+				},
+				tooltip: {
+					enabled: true
+				}
+			}],
 		});
 		setchartSeries([
+			// {
+			// 	name: 'Demo',
+			// 	data: [...orderReducer.charts.attributeData],
+			// },
 			{
-				name: 'Demo',
+				name: 'Total',
+				type: 'line',
 				data: [...orderReducer.charts.attributeData],
+			}, {
+				name: 'discount',
+				type: 'column',
+				data: [...orderReducer.charts.discount],
+			}, {
+				name: 'totalAmount',
+				type: 'line',
+				data: [...orderReducer.charts.totalAmount],
 			}
 		]);
 	}, [orderReducer.charts])
 	return (
 		<Grid spacing={3} container direction="row" alignItems="flex-start" style={{ padding: 10 }}>
-			<Grid item xs={4} md={4} lg={4}>
+			<Grid item xs={6} md={6} lg={6}>
 				<Paper elevation={3}>
 					Line
 					<Chart
 						options={chartOption}
 						series={chartSeries}
 						type="line"
-						width="100%"
-					/>
-				</Paper>
-			</Grid>
-			<Grid item xs={4} md={4} lg={4}>
-				<Paper elevation={3}>
-					BAR
-					<Chart
-						options={chartOption}
-						series={chartSeries}
-						type="bar"
 						width="100%"
 					/>
 				</Paper>
