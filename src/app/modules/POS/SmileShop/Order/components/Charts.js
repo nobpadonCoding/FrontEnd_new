@@ -122,6 +122,11 @@ function Charts() {
 				},
 				tooltip: {
 					enabled: true
+				},
+				labels: {
+					formatter: function (val, index) {
+						return val.toFixed(2);
+					}
 				}
 			}],
 		});
