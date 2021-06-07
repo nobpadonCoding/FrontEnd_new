@@ -37,13 +37,17 @@ export const addStockProduct = (payload) => {
     return axios.post(`${SMILESHOP_URL}/Stock`, payload);
 };
 
-export const getStockFilter = (orderingField, ascendingOrder, page, recordsPerPage, productName) => {
+export const getStockFilter = (orderingField, ascendingOrder, page, recordsPerPage, storeType) => {
+    debugger
+    if (storeType === 3 || storeType.StoreType === 3) {
+        storeType = ""
+    }
     let payload = {
         page,
         recordsPerPage,
         orderingField,
         ascendingOrder,
-        productName
+        storeType
     }
     return axios.get(encodeURLWithParams(`${SMILESHOP_URL}/Stock/filter`, payload))
 }

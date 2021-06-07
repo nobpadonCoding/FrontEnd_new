@@ -12,7 +12,7 @@ function ProductStockSearch(props) {
 		orderingField: "",
 		ascendingOrder: true,
 		searchValues: {
-			StoreType: ""
+			storeType: ""
 		}
 	});
 	const [storeType, setStoreType] = React.useState([
@@ -23,6 +23,10 @@ function ProductStockSearch(props) {
 		{
 			id: 2,
 			name: "Remove"
+		},
+		{
+			id: 3,
+			name: "All"
 		}
 	])
 	const formik = useFormik({
@@ -33,7 +37,7 @@ function ProductStockSearch(props) {
 			return errors;
 		},
 		initialValues: {
-			storeTypeId: 0,
+			storeType: 3,
 		},
 		onSubmit: (values, { setSubmitting }) => {
 			// console.log("add stock", values);
@@ -44,7 +48,7 @@ function ProductStockSearch(props) {
 
 	React.useEffect(() => {
 
-	}, [formik.values.storeTypeId]);
+	}, [formik.values.storeType]);
 
 	return (
 
@@ -52,7 +56,7 @@ function ProductStockSearch(props) {
 			<Grid item xs={12} lg={6}>
 				<FormikDropdown
 					formik={formik}
-					name="storeTypeId"
+					name="storeType"
 					label="Store Type"
 					data={storeType}
 					firstItemText="Select StoreType"

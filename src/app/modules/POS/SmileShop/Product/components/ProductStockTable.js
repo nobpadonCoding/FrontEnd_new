@@ -27,7 +27,7 @@ function ProductStockTable(props) {
 		orderingField: "",
 		ascendingOrder: true,
 		searchValues: {
-			StoreType:""
+			StoreType: 3
 		}
 	});
 
@@ -47,12 +47,12 @@ function ProductStockTable(props) {
 
 	const handleSearchProduct = (values) => {
 		alert(values.storeTypeId);
-        setDataFilter({
-            ...dataFilter,
-            page: 1,
-            searchValues: values.storeTypeId
-        });
-    }
+		setDataFilter({
+			...dataFilter,
+			page: 1,
+			searchValues: values.storeType
+		});
+	}
 
 	const handleOpen = (id) => {
 		debugger
@@ -83,7 +83,7 @@ function ProductStockTable(props) {
 				dataFilter.ascendingOrder,
 				dataFilter.page,
 				dataFilter.recordsPerPage,
-				dataFilter.searchValues.storeTypeId,
+				dataFilter.searchValues,
 			)
 			.then((res) => {
 				if (res.data.isSuccess) {
@@ -190,8 +190,8 @@ function ProductStockTable(props) {
 							{data[dataIndex].storeType === "2" ? (
 								<Grid>-{data[dataIndex].qty}</Grid>
 							) : (
-									<Grid>+{data[dataIndex].qty}</Grid>
-								)}
+								<Grid>+{data[dataIndex].qty}</Grid>
+							)}
 						</Grid>
 					);
 				},
