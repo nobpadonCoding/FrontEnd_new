@@ -104,8 +104,27 @@ export const reducer = (state = initialState, action) => {
 		}
 
 		case actionTypes.ADD_ORDER_DETAIL: {
+			let orderDetailUpdate = [...state.orderDetail];
+			let count = [...state.orderDetail].length;
+			if (count > 0) {
+				let hasOrder = state.orderDetail.find(obj => obj.productId === action.payload.productId);
+				if (!hasOrder) {
 
-			return { ...state, orderDetail: action.payload };
+					//ไม่มี product ใน array add เข้าไป
+					let orderDetail = [...state.orderDetail, action.payload];
+					return { ...state, orderDetail: orderDetail };
+
+				} else {
+
+					// มี product ใน array + qty
+					hasOrder.productQuantity += action.payload.productQuantity;
+					return { ...state, orderDetailUpdate };
+				}
+
+			} else {
+				let orderDetail = [...state.orderDetail, action.payload];
+				return { ...state, orderDetail: orderDetail };
+			}
 		}
 
 		case actionTypes.REMOVE_QUANTITY_ORDER_DETAIL: {

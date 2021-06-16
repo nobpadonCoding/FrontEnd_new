@@ -10,7 +10,6 @@ import { useFormik } from "formik";
 import { useSelector, useDispatch } from "react-redux";
 import * as commonValidators from '../../../../Common/functions/CommonValidators';
 import * as orderRedux from "../../Order/_redux/orderRedux";
-import * as swal from "../../../../Common/components/SweetAlert";
 
 function OrderDialog() {
 	const orderReducer = useSelector(({ order }) => order);
@@ -66,26 +65,7 @@ function OrderDialog() {
 			productPrice: parseInt(values.productPrice)
 		}
 
-		let orderDetailUpdate = [...orderReducer.orderDetail];
-
-		let hasOrder = orderReducer.orderDetail.find(obj => obj.productId === objOrderDetail.productId);
-
-		//check product ว่ามีไหม ใน array ไหม
-		if (!hasOrder) {
-
-			//ไม่มี product ใน array add เข้าไป
-			let newOrders = [...orderReducer.orderDetail, objOrderDetail];
-			dispatch(orderRedux.actions.addOrderDetail(newOrders));
-
-		} else {
-
-			// มี product ใน array + qty
-			hasOrder.productQuantity += objOrderDetail.productQuantity;
-			dispatch(orderRedux.actions.updateOrderDetail(orderDetailUpdate));
-			console.log(hasOrder);
-		}
-		console.log(orderReducer.orderSubtotal.subtotal, "55");
-		console.log("objOrderDetail", orderDetailUpdate);
+		dispatch(orderRedux.actions.addOrderDetail(objOrderDetail));
 
 		//close dialog
 		handleClose();
