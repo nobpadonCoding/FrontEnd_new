@@ -1,3 +1,5 @@
+import { put, takeLatest } from "redux-saga/effects";
+
 require("dayjs/locale/th");
 var dayjs = require("dayjs");
 dayjs.locale("th");
@@ -26,6 +28,8 @@ export const actionTypes = {
 	RESET_ORDER_HEADER: '[RESET_ORDER_HEADER] Action',
 
 	GET_ORDER_DETAIL: '[GET_ORDER_DETAIL] Action',
+
+	CALCULATE: "[Calculate] Action",
 
 	//charts
 	SET_CHARTS: "[SET_CHARTS] action"
@@ -142,6 +146,12 @@ export const reducer = (state = initialState, action) => {
 			return { ...state, charts: action.payload };
 		}
 
+		case actionTypes.CALCULATE: {
+
+			let subtotal = [...state.orderDetail].reduce((prev, curr) => prev + curr.productPrice * curr.productQuantity, 0);
+			return { ...state, orderSubtotal: { subtotal } };
+		}
+
 		default:
 			return state;
 	}
@@ -166,4 +176,16 @@ export const actions = {
 	resetOrderHeader: () => ({ type: actionTypes.RESET_ORDER_HEADER }),
 	getOrderDetail: (payload) => ({ type: actionTypes.GET_ORDER_DETAIL, payload }),
 	setCharts: (payload) => ({ type: actionTypes.SET_CHARTS, payload }),
+
+	calculate: () => ({ type: actionTypes.CALCULATE }),
+}
+
+export function* saga() {
+	// yield takeLatest(actionTypes.ACTIONTYPE, function* actionNameSaga() {
+	//   yield put(actions.actionToExecute());
+	// });
+
+	yield takeLatest(actionTypes.ADD_ORDER_DETAIL, function* updateOrderSaga() {
+		yield put(actions.calculate());
+	});
 }

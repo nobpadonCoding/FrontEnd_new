@@ -66,11 +66,6 @@ function OrderDialog() {
 			productPrice: parseInt(values.productPrice)
 		}
 
-		let objOrderSubtotal =
-		{
-			subtotal: orderReducer.orderSubtotal.subtotal + objOrderDetail.productPrice * objOrderDetail.productQuantity
-		}
-
 		let orderDetailUpdate = [...orderReducer.orderDetail];
 
 		let hasOrder = orderReducer.orderDetail.find(obj => obj.productId === objOrderDetail.productId);
@@ -78,28 +73,18 @@ function OrderDialog() {
 		//check product ว่ามีไหม ใน array ไหม
 		if (!hasOrder) {
 
-			//sum total
-			dispatch(orderRedux.actions.sumOrderSubtotal(objOrderSubtotal));
-
 			//ไม่มี product ใน array add เข้าไป
-			orderDetailUpdate.push(objOrderDetail);
-			dispatch(orderRedux.actions.addOrderDetail(orderDetailUpdate));
+			let newOrders = [...orderReducer.orderDetail, objOrderDetail];
+			dispatch(orderRedux.actions.addOrderDetail(newOrders));
 
 		} else {
-
-			debugger
-			if (objOrderDetail.productQuantity) {
-
-			}
-			//sum total
-			dispatch(orderRedux.actions.sumOrderSubtotal(objOrderSubtotal));
 
 			// มี product ใน array + qty
 			hasOrder.productQuantity += objOrderDetail.productQuantity;
 			dispatch(orderRedux.actions.updateOrderDetail(orderDetailUpdate));
 			console.log(hasOrder);
 		}
-
+		console.log(orderReducer.orderSubtotal.subtotal, "55");
 		console.log("objOrderDetail", orderDetailUpdate);
 
 		//close dialog
@@ -199,7 +184,7 @@ function OrderDialog() {
 						}}
 							color="secondary">
 							Cancel
-                                </Button>
+						</Button>
 						<Button variant="contained"
 							type="submit"
 							onClick={formik.handleSubmit}
@@ -208,7 +193,7 @@ function OrderDialog() {
 							startIcon={<AddShoppingCartIcon style={{ color: blue[50] }} />}
 						>
 							Add To Cart
-                    </Button>
+						</Button>
 					</DialogActions>
 				</Dialog>
 			</form>

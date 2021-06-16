@@ -46,7 +46,7 @@ function ProductStockTable(props) {
 	}
 
 	const handleSearchProduct = (values) => {
-		alert(values.storeTypeId);
+		// alert(values.storeType);
 		setDataFilter({
 			...dataFilter,
 			page: 1,
@@ -229,7 +229,8 @@ function ProductStockTable(props) {
 						<Grid container
 							direction="row"
 							justify="flex-start"
-							alignItems="stretch">
+							alignItems="stretch"
+							spacing={3}>
 							<Grid item xs={12} lg={6}>
 								<AddButton
 									fullWidth
@@ -240,10 +241,13 @@ function ProductStockTable(props) {
 									}}
 								>
 									New RECORD
-                    			</AddButton>
+								</AddButton>
 							</Grid>
 							<Grid item xs={12} lg={6}>
 								<ProductStockSearch submit={handleSearchProduct.bind(this)}></ProductStockSearch>
+							</Grid>
+							<Grid item xs={12} lg={6}>
+								<ProductStockAdd submit={handleAddStockProduct.bind(this)}></ProductStockAdd>
 							</Grid>
 						</Grid>
 					</CardContent>
@@ -253,7 +257,7 @@ function ProductStockTable(props) {
 					title={
 						<Typography variant="h6">
 							Stock
-                                {isLoading && (
+							{isLoading && (
 								<CircularProgress
 									size={24}
 									style={{ marginLeft: 15, position: "relative", top: 4 }}
@@ -266,7 +270,6 @@ function ProductStockTable(props) {
 					options={options}
 				/>
 			</Grid>
-			<ProductStockAdd submit={handleAddStockProduct.bind(this)}></ProductStockAdd>
 		</div>
 	)
 }

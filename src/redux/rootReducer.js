@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+import { all } from "redux-saga/effects";
 
 import * as auth from "../app/modules/Auth/_redux/authRedux";
 import * as demo from '../app/modules/_Demo/_redux/demoRedux';
@@ -12,7 +13,12 @@ export const rootReducer = combineReducers({
   demo: demo.reducer,
   employee: employee.reducer,
   product: product.reducer,
-  productGroup:productGroup.reducer,
-  order:order.reducer
+  productGroup: productGroup.reducer,
+  order: order.reducer
 });
+
+
+export function* rootSaga() {
+  yield all([order.saga()]);
+}
 

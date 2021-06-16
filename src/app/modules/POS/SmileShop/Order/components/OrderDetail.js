@@ -27,7 +27,7 @@ function OrderDetail() {
 	});
 
 	const handleCheckOut = ({ setSubmitting }) => {
-		debugger
+
 		setSubmitting(false);
 		let objPayload = {
 			...orderReducer.dialogOrderSummary,
@@ -180,7 +180,7 @@ function OrderDetail() {
 							color="primary"
 							startIcon={<ShoppingCart color="action" />}>
 							Check Out
-                    	</Button>
+						</Button>
 					</Grid>
 
 				</Grid>
